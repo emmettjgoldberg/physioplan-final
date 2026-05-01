@@ -167,6 +167,22 @@
     input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 
+    /* Mobile responsive fixes */
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-logo { font-size: 1rem; }
+      .hero { padding: 3.5rem 1.25rem 3rem; }
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .stats-bar { gap: 1.5rem; padding: 1.25rem 1rem; }
+      section { padding: 3rem 1.25rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .diff-grid { grid-template-columns: 1fr; }
+      .modal-box { border-radius: 12px; max-height: 95vh; }
+      .modal-body iframe { height: 80vh; }
+      .modal-body { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    }
+
     /* MODAL */
     .modal-overlay {
       display: none; position: fixed; inset: 0; z-index: 999;
@@ -191,7 +207,7 @@
       transition: background 0.15s; line-height: 1;
     }
     .modal-close:hover { background: rgba(255,255,255,0.28); }
-    .modal-body { flex: 1; overflow-y: auto; }
+    .modal-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     #calculator-root { min-height: 100%; }
   </style>
 </head>
@@ -630,12 +646,12 @@
               <div style="background:#312e81;color:#a5b4fc;font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.625rem;border-radius:6px;white-space:nowrap;">Step 5</div>
               <h4 style="color:white;font-size:1rem;font-weight:700;">How are calories split into protein, fat, and carbs?</h4>
             </div>
-            <p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Protein and fat are assigned first as minimums based on bodyweight — protein to preserve or build muscle, fat to support hormone production. Every remaining calorie goes to carbohydrates to fuel workouts. Protein needs are set higher on a cut because the body is more likely to break down muscle when calories are restricted.</p>
+            <p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Protein is set first based on lean mass (not total bodyweight) — a more accurate basis since only muscle tissue requires protein for maintenance and growth. Fat is set based on total bodyweight to support hormone production. Every remaining calorie goes to carbohydrates to fuel workouts. Protein needs per pound of lean mass are set higher on a cut because the body is more likely to break down muscle when calories are restricted.</p>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
               <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
                 <div style="color:#818cf8;font-size:0.75rem;font-weight:700;margin-bottom:0.75rem;">CUTTING / RECOMP</div>
                 <div style="color:#e2e8f0;font-size:0.875rem;line-height:2.1;">
-                  Protein: 1.2g per lb of bodyweight<br>
+                  Protein: 1.2g per lb of lean mass<br>
                   Fat: 0.4g per lb of bodyweight<br>
                   Carbs: whatever's left
                 </div>
@@ -643,7 +659,7 @@
               <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
                 <div style="color:#818cf8;font-size:0.75rem;font-weight:700;margin-bottom:0.75rem;">BULKING</div>
                 <div style="color:#e2e8f0;font-size:0.875rem;line-height:2.1;">
-                  Protein: 1.0g per lb of bodyweight<br>
+                  Protein: 1.0g per lb of lean mass<br>
                   Fat: 0.5g per lb of bodyweight<br>
                   Carbs: whatever's left
                 </div>
@@ -892,9 +908,9 @@
       const ebf = ew > 0 ? (efm / ew) * 100 : 0;
       let p, f, c;
       if (['cut','recomp'].includes(formData.goal)) {
-        p = w * 1.2; f = w * 0.4; c = Math.max(0, (ct - p*4 - f*9) / 4);
+        p = clm * 1.2; f = w * 0.4; c = Math.max(0, (ct - p*4 - f*9) / 4);
       } else {
-        p = w * 1.0; f = w * 0.5; c = Math.max(0, (ct - p*4 - f*9) / 4);
+        p = clm * 1.0; f = w * 0.5; c = Math.max(0, (ct - p*4 - f*9) / 4);
       }
 
       const tv = {
@@ -929,8 +945,8 @@
 
     // shared dark-theme inline styles
     const S = {
-      wrap:      { minHeight:'100vh', background:'#0f172a', padding:'1.5rem', fontFamily:'Inter,sans-serif' },
-      card:      { background:'#1e293b', border:'1px solid #334155', borderRadius:'16px', padding:'2rem', maxWidth:'860px', margin:'0 auto' },
+      wrap:      { minHeight:'100vh', background:'#0f172a', padding:'clamp(0.75rem, 4vw, 1.5rem)', fontFamily:'Inter,sans-serif', boxSizing:'border-box' },
+      card:      { background:'#1e293b', border:'1px solid #334155', borderRadius:'16px', padding:'clamp(1rem, 4vw, 2rem)', maxWidth:'860px', margin:'0 auto', width:'100%', boxSizing:'border-box' },
       label:     { display:'block', fontSize:'0.8125rem', fontWeight:'600', color:'#94a3b8', marginBottom:'0.5rem', textTransform:'uppercase', letterSpacing:'0.05em' },
       input:     { width:'100%', padding:'0.625rem 0.875rem', background:'#0f172a', border:'1px solid #334155', borderRadius:'8px', color:'#f1f5f9', fontSize:'0.9375rem', outline:'none', fontFamily:'inherit' },
       select:    { width:'100%', padding:'0.625rem 0.875rem', background:'#0f172a', border:'1px solid #334155', borderRadius:'8px', color:'#f1f5f9', fontSize:'0.9375rem', outline:'none', fontFamily:'inherit' },
@@ -948,7 +964,7 @@
             <h1 style={{fontSize:'1.75rem', fontWeight:'800', color:'#f1f5f9', marginBottom:'0.375rem', letterSpacing:'-0.02em'}}>Physio Plan</h1>
             <p style={{color:'#64748b', marginBottom:'2rem', fontSize:'0.9375rem'}}>Science-based fitness planning in 2 minutes.</p>
             <h2 style={{fontSize:'1.125rem', fontWeight:'700', color:'#cbd5e1', marginBottom:'1.25rem'}}>What's your goal?</h2>
-            <div style={{display:'flex', flexDirection:'column', gap:'0.875rem'}}>
+            <div style={{display:'flex', flexDirection:'column', gap:'0.875rem', width:'100%'}}>
               {[
                 { g:'cut',    bg:'linear-gradient(135deg,#dc2626,#db2777)', t:'Lose Fat (Cut)',      d:'Reduce body fat while preserving muscle' },
                 { g:'bulk',   bg:'linear-gradient(135deg,#16a34a,#059669)', t:'Build Muscle (Bulk)', d:'Gain muscle with minimal fat' },
@@ -987,7 +1003,7 @@
           </div>
 
           {/* Form grid */}
-          <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:'1.25rem', marginBottom:'1.25rem'}}>
+          <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(220px,100%),1fr))', gap:'1rem', marginBottom:'1.25rem'}}>
 
             <div>
               <label style={S.label}>Current Weight (lbs)</label>
@@ -1107,7 +1123,7 @@
               {/* Nutrition */}
               <div style={S.resultCard}>
                 <h2 style={{fontSize:'1.125rem', fontWeight:'700', color:'#818cf8', marginBottom:'1.25rem', textTransform:'uppercase', letterSpacing:'0.06em', fontSize:'0.8125rem'}}>Nutrition Targets</h2>
-                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.875rem', marginBottom:'0.875rem'}}>
+                <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(160px,100%),1fr))', gap:'0.875rem', marginBottom:'0.875rem'}}>
                   <div style={S.statBox}>
                     <p style={{fontSize:'0.75rem', color:'#64748b', fontWeight:'600', marginBottom:'0.375rem'}}>Daily Calories</p>
                     <p style={{fontSize:'2rem', fontWeight:'800', color:'#f1f5f9'}}>{results.cal}</p>
@@ -1118,7 +1134,7 @@
                     <p style={{fontSize:'0.75rem', color:'#64748b'}}>{formData.goal === 'recomp' ? 'recomp' : 'lbs/week'}</p>
                   </div>
                 </div>
-                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'0.75rem'}}>
+                <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100px,100%),1fr))', gap:'0.75rem'}}>
                   {[['Protein', results.p, 'g', '#f9a8d4'], ['Fat', results.f, 'g', '#86efac'], ['Carbs', results.c, 'g', '#93c5fd']].map(([n, v, u, clr]) => (
                     <div key={n} style={S.statBox}>
                       <p style={{fontSize:'0.75rem', color:clr, fontWeight:'700', marginBottom:'0.375rem'}}>{n}</p>
@@ -1131,7 +1147,7 @@
               {/* Body Composition */}
               <div style={S.resultCard}>
                 <h2 style={{fontSize:'0.8125rem', fontWeight:'700', color:'#818cf8', marginBottom:'1.25rem', textTransform:'uppercase', letterSpacing:'0.06em'}}>Body Composition</h2>
-                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.875rem', marginBottom:'0.875rem'}}>
+                <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(160px,100%),1fr))', gap:'0.875rem', marginBottom:'0.875rem'}}>
                   <div style={S.statBox}>
                     <p style={{fontSize:'0.75rem', color:'#64748b', fontWeight:'600', marginBottom:'0.5rem'}}>Current</p>
                     <p style={{fontSize:'1.125rem', fontWeight:'800', color:'#f1f5f9'}}>{results.cw} lbs</p>
