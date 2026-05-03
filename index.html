@@ -198,17 +198,35 @@
     .modal-header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 1rem 1.5rem; background: var(--indigo-600); flex-shrink: 0;
+      position: sticky; top: 0; z-index: 10;
     }
     .modal-title { font-size: 1rem; font-weight: 700; color: white; font-family: 'Inter', sans-serif; }
     .modal-close {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: rgba(255,255,255,0.15); border: none; cursor: pointer;
-      color: white; font-size: 1.125rem; display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s; line-height: 1;
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(255,255,255,0.2); border: none; cursor: pointer;
+      color: white; font-size: 1.25rem; display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s; line-height: 1; flex-shrink: 0;
     }
-    .modal-close:hover { background: rgba(255,255,255,0.28); }
+    .modal-close:hover { background: rgba(255,255,255,0.35); }
     .modal-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     #calculator-root { min-height: 100%; }
+
+    @media (max-width: 640px) {
+      .modal-overlay { padding: 0; align-items: flex-end; }
+      .modal-box {
+        border-radius: 20px 20px 0 0;
+        max-height: 96vh;
+        max-height: 96dvh;
+      }
+      .modal-header {
+        padding: 1.125rem 1.25rem;
+      }
+      .modal-title { font-size: 0.9375rem; }
+      .modal-close {
+        width: 48px; height: 48px; font-size: 1.375rem; border-radius: 10px;
+        background: rgba(255,255,255,0.25);
+      }
+    }
   </style>
 </head>
 <body>
@@ -763,6 +781,10 @@
     const [results, setResults] = useState(null);
     const [errorMsg, setErrorMsg] = useState('');
     const resultsRef = useRef(null);
+    const closeModalFromCalc = () => {
+      const overlay = document.getElementById('modal');
+      if (overlay) { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+    };
 
     useEffect(() => {
       if (results && resultsRef.current) {
@@ -1218,6 +1240,15 @@
                   All calculations are estimates based on current scientific literature and coaching consensus. Consult a healthcare professional before making significant changes to your diet or training.
                 </p>
               </div>
+
+              <button onClick={closeModalFromCalc} style={{
+                width:'100%', background:'transparent', color:'#64748b',
+                padding:'0.875rem', borderRadius:'10px', fontWeight:'600',
+                fontSize:'0.9rem', border:'1px solid #334155',
+                cursor:'pointer', fontFamily:'inherit', marginBottom:'-0.25rem'
+              }}>
+                Close
+              </button>
 
               <div style={{background:'#1e293b', border:'1px solid #334155', borderRadius:'12px', padding:'1.25rem'}}>
                 <p style={{fontSize:'0.8125rem', fontWeight:'700', color:'#818cf8', textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:'0.5rem'}}>Help Improve Physio Plan</p>
