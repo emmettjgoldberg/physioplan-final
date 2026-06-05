@@ -243,7 +243,7 @@
         </button>
         <button onclick="showPage('study')" id="nav-study"
           style="padding:0.375rem 1rem;border-radius:6px;border:none;cursor:pointer;font-size:0.875rem;font-weight:600;font-family:inherit;background:#4f46e5;color:white;transition:all 0.15s;">
-          The Study
+          Community
         </button>
         <button onclick="showPage('science')" id="nav-science"
           style="padding:0.375rem 1rem;border-radius:6px;border:none;cursor:pointer;font-size:0.875rem;font-weight:600;font-family:inherit;background:transparent;color:#94a3b8;transition:all 0.15s;">
@@ -824,21 +824,26 @@
   </footer>
   </div><!-- end page-science -->
 
-  <!-- PAGE: STUDY -->
+  <!-- PAGE: COMMUNITY -->
   <div id="page-study">
 
+  <!-- HERO -->
   <section style="background:#0f172a;padding:5rem 2rem 4rem;">
     <div style="max-width:760px;margin:0 auto;">
-      <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Ongoing Research</p>
-      <h1 style="font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#f8fafc;line-height:1.1;letter-spacing:-0.03em;margin-bottom:1.25rem;">PhysioPlan Validation Study</h1>
-      <p style="font-size:1.125rem;color:#64748b;line-height:1.7;max-width:580px;">A real-world study tracking whether people actually reach their goals when they follow a structured, science-based plan — and whether staying more consistent leads to better results.</p>
+      <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Community</p>
+      <h1 style="font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#f8fafc;line-height:1.1;letter-spacing:-0.03em;margin-bottom:1.5rem;">Fitness shouldn't require a PhD to figure out.</h1>
+      <div style="display:flex;flex-direction:column;gap:1rem;max-width:620px;">
+        <p style="font-size:1.0625rem;color:#64748b;line-height:1.75;">Getting in shape is simple in theory — eat right, train hard, be consistent. But in practice, it's overwhelming. What's your actual calorie target? How much protein do you need? How many sets per muscle group? What split should you run? Every question leads to five more, and most of the answers you find online are either oversimplified or contradict each other.</p>
+        <p style="font-size:1.0625rem;color:#64748b;line-height:1.75;">I've spent years figuring this out — training seriously, tracking nutrition through cuts and bulks, and digging into the research behind what actually works. Academically, I bring the same rigor: a 1540 SAT, extensive AP coursework, and a genuine obsession with getting the math right. PhysioPlan is what came out of that — a tool that does all the calculations correctly, backed by peer-reviewed research, so you don't have to.</p>
+        <p style="font-size:1.0625rem;color:#64748b;line-height:1.75;">Fill out the form below and I'll personally review your plan and check in with you throughout your journey. The goal is simple: get you to where you want to be without the guesswork.</p>
+      </div>
     </div>
   </section>
 
   <!-- ENROLL CTA - top of page -->
   <section style="background:#1e293b;border-top:1px solid #334155;border-bottom:1px solid #334155;padding:1.25rem 2rem;">
     <div style="max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-      <p style="color:#94a3b8;font-size:0.9rem;">Already planning a cut, bulk, or recomp? Join the study.</p>
+      <p style="color:#94a3b8;font-size:0.9rem;">Already planning a cut, bulk, or recomp? Join the community.</p>
       <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
         <button onclick="openModal()"
           style="background:#16a34a;color:white;padding:0.625rem 1.25rem;border-radius:8px;font-size:0.875rem;font-weight:700;border:none;cursor:pointer;white-space:nowrap;font-family:Inter,sans-serif;">
@@ -846,62 +851,42 @@
         </button>
         <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank"
           style="background:transparent;color:#818cf8;padding:0.625rem 1.25rem;border-radius:8px;font-size:0.875rem;font-weight:700;text-decoration:none;white-space:nowrap;border:1px solid #334155;font-family:Inter,sans-serif;">
-          Enroll in study
+          Share your goals
         </a>
       </div>
     </div>
   </section>
 
-  <!-- PARTICIPANT COUNTER -->
-  <section style="background:#080f1a;border-top:1px solid #1e293b;border-bottom:1px solid #1e293b;padding:2rem;">
-    <div style="max-width:760px;margin:0 auto;">
-      <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#475569;margin-bottom:1.25rem;">Currently enrolling</p>
-      <div style="display:flex;flex-wrap:wrap;gap:2.5rem;">
-        <div>
-          <p style="font-size:2.5rem;font-weight:800;color:#818cf8;letter-spacing:-0.03em;line-height:1;" id="counter-enrolled">—</p>
-          <p style="font-size:0.8125rem;color:#475569;margin-top:0.25rem;">Enrolled</p>
-        </div>
-        <div>
-          <p style="font-size:2.5rem;font-weight:800;color:#818cf8;letter-spacing:-0.03em;line-height:1;" id="counter-cutting">—</p>
-          <p style="font-size:0.8125rem;color:#475569;margin-top:0.25rem;">Cutting</p>
-        </div>
-        <div>
-          <p style="font-size:2.5rem;font-weight:800;color:#818cf8;letter-spacing:-0.03em;line-height:1;" id="counter-bulking">—</p>
-          <p style="font-size:0.8125rem;color:#475569;margin-top:0.25rem;">Bulking</p>
-        </div>
-        <div>
-          <p style="font-size:2.5rem;font-weight:800;color:#818cf8;letter-spacing:-0.03em;line-height:1;" id="counter-recomp">—</p>
-          <p style="font-size:0.8125rem;color:#475569;margin-top:0.25rem;">Recomp</p>
-        </div>
-        <div>
-          <p style="font-size:2.5rem;font-weight:800;color:#818cf8;letter-spacing:-0.03em;line-height:1;">8–12</p>
-          <p style="font-size:0.8125rem;color:#475569;margin-top:0.25rem;">Week duration</p>
-        </div>
-      </div>
-      <p style="font-size:0.75rem;color:#334155;margin-top:1.5rem;">Updated manually as participants enroll.</p>
-    </div>
-  </section>
-
-  <!-- RESEARCH QUESTIONS -->
+  <!-- HOW IT WORKS -->
   <section style="background:#0f172a;padding:4rem 2rem;">
     <div style="max-width:760px;margin:0 auto;">
-      <h2 style="font-size:1.5rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.02em;margin-bottom:0.75rem;">What we're trying to find out</h2>
-      <p style="color:#475569;font-size:0.9375rem;line-height:1.65;margin-bottom:2.5rem;">Two questions are driving this study. We track your progress over 8–12 weeks, with a short check-in every 2 weeks.</p>
-      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+      <h2 style="font-size:1.5rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.02em;margin-bottom:0.75rem;">How it works</h2>
+      <p style="color:#475569;font-size:0.9375rem;line-height:1.65;margin-bottom:2.5rem;">Three steps. Takes about 5 minutes total.</p>
+      <div style="display:flex;flex-direction:column;gap:0;">
 
-        <div style="background:#1e293b;border:1px solid #334155;border-radius:12px;padding:1.5rem;display:flex;gap:1.25rem;">
-          <div style="background:#312e81;color:#a5b4fc;font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:0.25rem 0.625rem;border-radius:6px;height:fit-content;white-space:nowrap;flex-shrink:0;">Question 1</div>
-          <div>
-            <h3 style="color:#f1f5f9;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Does it actually work?</h3>
-            <p style="color:#64748b;font-size:0.9rem;line-height:1.65;">The core question. At the start of the study, each participant sets a specific goal — a target weight, a body fat percentage, or a strength number they want to hit. At the end, we look at how many people reached it, partially reached it, or didn't get there. Simple, honest, and the only way to know if the tool actually delivers.</p>
+        <div style="display:flex;gap:2rem;padding-bottom:2rem;position:relative;">
+          <div style="position:absolute;left:15px;top:36px;bottom:0;width:1px;background:linear-gradient(#4f46e5,#1e293b);"></div>
+          <div style="width:32px;height:32px;border-radius:50%;background:#4f46e5;color:white;display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:800;flex-shrink:0;position:relative;z-index:1;">1</div>
+          <div style="padding-top:4px;">
+            <h3 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:0.375rem;">Get your plan</h3>
+            <p style="color:#475569;font-size:0.9375rem;line-height:1.6;">Use the calculator to generate your personalized calorie, macro, and training plan. Takes 2 minutes.</p>
           </div>
         </div>
 
-        <div style="background:#1e293b;border:1px solid #334155;border-radius:12px;padding:1.5rem;display:flex;gap:1.25rem;">
-          <div style="background:#1e3a5f;color:#93c5fd;font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:0.25rem 0.625rem;border-radius:6px;height:fit-content;white-space:nowrap;flex-shrink:0;">Question 2</div>
-          <div>
-            <h3 style="color:#f1f5f9;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">How much does consistency matter — and which kind?</h3>
-            <p style="color:#64748b;font-size:0.9rem;line-height:1.65;">Consistency is tracked two ways at every check-in. Nutritional: out of the past 14 days, how many did you hit within 10% of your calorie target? Training: out of your planned sessions in the past 14 days, how many did you actually complete? Keeping these separate is the interesting part — someone might nail training but struggle with nutrition, and that difference could predict very different outcomes. The question is whether one matters more than the other, or whether both together drive results.</p>
+        <div style="display:flex;gap:2rem;padding-bottom:2rem;position:relative;">
+          <div style="position:absolute;left:15px;top:36px;bottom:0;width:1px;background:linear-gradient(#4f46e5,#1e293b);"></div>
+          <div style="width:32px;height:32px;border-radius:50%;background:#4f46e5;color:white;display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:800;flex-shrink:0;position:relative;z-index:1;">2</div>
+          <div style="padding-top:4px;">
+            <h3 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:0.375rem;">Share your goals</h3>
+            <p style="color:#475569;font-size:0.9375rem;line-height:1.6;">Fill out the short form below with your starting stats and what you're working toward. I'll personally review it and follow up.</p>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:2rem;">
+          <div style="width:32px;height:32px;border-radius:50%;background:#4f46e5;color:white;display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:800;flex-shrink:0;">3</div>
+          <div style="padding-top:4px;">
+            <h3 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:0.375rem;">Check in every two weeks</h3>
+            <p style="color:#475569;font-size:0.9375rem;line-height:1.6;">I'll reach out every two weeks to see how you're tracking. Short check-in, under 5 minutes. Adjust your targets if needed based on real progress.</p>
           </div>
         </div>
 
@@ -909,14 +894,15 @@
     </div>
   </section>
 
-  <!-- DATA COLLECTED -->
+  <!-- WHAT YOU SHARE -->
   <section style="background:#080f1a;padding:4rem 2rem;border-top:1px solid #1e293b;">
     <div style="max-width:760px;margin:0 auto;">
-      <h2 style="font-size:1.5rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.02em;margin-bottom:0.75rem;">What you'll be asked</h2><p style="color:#475569;font-size:0.9375rem;line-height:1.65;margin-bottom:2.5rem;">Short check-ins every 2 weeks throughout the study. None of them take more than 5 minutes.</p>
+      <h2 style="font-size:1.5rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.02em;margin-bottom:0.75rem;">What you'll be asked</h2>
+      <p style="color:#475569;font-size:0.9375rem;line-height:1.65;margin-bottom:2.5rem;">Short check-ins every 2 weeks. None take more than 5 minutes.</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;">
 
         <div style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;">
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Day 1 Check-in</p>
+          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Day 1</p>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
             <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Name &amp; sex</li>
             <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Goal &amp; specific target</li>
@@ -930,21 +916,20 @@
         </div>
 
         <div style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;">
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Check-in (every 2 weeks)</p>
+          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Every 2 weeks</p>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Current weight (fasted, first thing in the morning)</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Working weight for each lift tracked at baseline</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Days in the past 14 you hit within 10% of your calorie target (0–14)</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Planned training sessions completed out of total planned</li>
-
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Open comments — what's working, what isn't (optional)</li>
+            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Current weight (fasted, morning)</li>
+            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Working weight for each tracked lift</li>
+            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Days out of 14 within 10% of calorie target</li>
+            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Training sessions completed out of planned</li>
+            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Open comments (optional)</li>
           </ul>
         </div>
 
         <div style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;">
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Final Check-in</p>
+          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Final check-in</p>
 
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#334155;margin-bottom:0.5rem;margin-top:0.75rem;">Physical outcomes</p>
+          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#334155;margin-bottom:0.5rem;margin-top:0.25rem;">Physical outcomes</p>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;">
             <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Final weight (fasted, morning)</li>
             <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Final working weight for each tracked lift</li>
@@ -952,8 +937,8 @@
 
           <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#334155;margin-bottom:0.5rem;">Overall adherence</p>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;">
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Calorie &amp; macro consistency across the full study (1–10)</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Training consistency across the full study (1–10)</li>
+            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Calorie &amp; macro consistency across the full period (1–10)</li>
+            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Training consistency across the full period (1–10)</li>
             <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Average days per week PhysioPlan was used</li>
           </ul>
 
@@ -976,16 +961,28 @@
     </div>
   </section>
 
-  <!-- PARTICIPATE CTA -->
+  <!-- RESULTS/STORIES - grows over time -->
   <section style="background:#0f172a;padding:4rem 2rem;border-top:1px solid #1e293b;">
+    <div style="max-width:760px;margin:0 auto;">
+      <h2 style="font-size:1.5rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.02em;margin-bottom:0.75rem;">Member results</h2>
+      <p style="color:#475569;font-size:0.9375rem;line-height:1.65;margin-bottom:2.5rem;">Real outcomes from people using PhysioPlan. Updated as members complete their journeys.</p>
+      <div style="background:#1e293b;border:1px solid #334155;border-radius:12px;padding:2rem;text-align:center;">
+        <p style="color:#334155;font-size:0.9375rem;">Results will appear here as members complete their plans.</p>
+        <p style="color:#1e293b;font-size:0.875rem;margin-top:0.5rem;">Check back soon.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN CTA -->
+  <section style="background:#080f1a;padding:4rem 2rem;border-top:1px solid #1e293b;">
     <div style="max-width:760px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:2rem;">
       <div>
-        <h2 style="font-size:1.375rem;font-weight:700;color:#f1f5f9;margin-bottom:0.625rem;">Ready to join?</h2>
-        <p style="color:#475569;font-size:0.9375rem;max-width:440px;line-height:1.65;">If you're already planning a cut, bulk, or recomp, your data is genuinely useful. Fill out the baseline form and you're in. Everyone who completes the study gets acknowledged by name in any paper we publish.</p>
+        <h2 style="font-size:1.375rem;font-weight:700;color:#f1f5f9;margin-bottom:0.625rem;">Ready to get started?</h2>
+        <p style="color:#475569;font-size:0.9375rem;max-width:440px;line-height:1.65;">Get your plan, share your goals, and I'll follow up personally. Your progress helps make PhysioPlan better for everyone.</p>
       </div>
       <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank"
         style="background:#4f46e5;color:white;padding:0.875rem 1.75rem;border-radius:8px;font-size:0.9375rem;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;font-family:Inter,sans-serif;">
-        Enroll now
+        Share your goals
       </a>
     </div>
   </section>
