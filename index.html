@@ -160,27 +160,34 @@
     .cite-link:hover { text-decoration: underline; }
 
     /* FORMULA */
-    .formula-card { border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; background: var(--bg-1); }
+    .formula-card {
+      border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;
+      margin-bottom: 1rem; background: var(--bg-1);
+      border-left: 3px solid var(--blue);
+    }
     .formula-step {
       display: inline-block; font-size: 0.6875rem; font-weight: 700;
       letter-spacing: 0.06em; text-transform: uppercase;
       padding: 0.2rem 0.5rem; border-radius: 4px;
-      background: var(--bg-3); color: var(--text-3); margin-bottom: 0.875rem;
+      background: rgba(79,142,255,0.12); color: var(--blue); margin-bottom: 0.875rem;
     }
     .formula-card h4 { font-size: 1rem; font-weight: 600; color: var(--text-1); margin-bottom: 0.625rem; }
     .formula-card p  { font-size: 0.9rem; color: var(--text-2); line-height: 1.65; margin-bottom: 0.875rem; }
     .code-block {
-      background: var(--bg); border: 1px solid var(--border);
+      background: var(--bg); border: 1px solid rgba(79,142,255,0.2);
       border-radius: 8px; padding: 1rem;
       font-family: 'SF Mono','Fira Code',monospace; font-size: 0.8125rem;
-      color: var(--text-1); line-height: 1.75;
+      color: #a5c8ff; line-height: 1.9;
     }
-    .code-comment { color: var(--text-3); }
+    .code-block strong { color: var(--text-1); }
+    .code-comment { color: var(--text-3); font-style: italic; }
     .example-block {
-      background: rgba(79,142,255,0.06); border: 1px solid rgba(79,142,255,0.15);
+      background: rgba(79,142,255,0.07); border: 1px solid rgba(79,142,255,0.18);
       border-radius: 8px; padding: 0.75rem 1rem;
       font-size: 0.8125rem; color: var(--text-2); margin-top: 0.75rem;
+      line-height: 1.6;
     }
+    .example-block strong { color: var(--blue); }
 
     /* CHECKIN */
     .checkin-card { border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; background: var(--bg-1); }
@@ -292,20 +299,6 @@
 
     <hr class="divider">
 
-    <!-- STATS -->
-    <section style="padding:2.5rem 0;background:var(--bg);">
-      <div class="wrap">
-        <div class="stat-row">
-          <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Goals supported</div></div>
-          <div class="stat-item"><div class="stat-num">2 min</div><div class="stat-label">To your plan</div></div>
-          <div class="stat-item"><div class="stat-num">7+</div><div class="stat-label">Peer-reviewed citations</div></div>
-          <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Free, no ads</div></div>
-        </div>
-      </div>
-    </section>
-
-    <hr class="divider">
-
     <!-- SAMPLE OUTPUT -->
     <section style="padding:5rem 0;background:var(--bg);">
       <div class="wrap">
@@ -353,29 +346,35 @@
 
     <hr class="divider">
 
-    <!-- WHAT MAKES IT DIFFERENT — horizontal strip -->
-    <section style="padding:0;background:var(--bg);">
-      <div class="wrap-wide">
-        <div style="display:flex;flex-wrap:wrap;border-left:1px solid var(--border);">
-          <div style="flex:1;min-width:200px;padding:1.75rem 1.5rem;border-right:1px solid var(--border);">
-            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.375rem;">Not BW &times; 15</p>
-            <p class="small-text">Katch-McArdle BMR from lean mass</p>
+    <!-- WHAT MAKES IT DIFFERENT — grid -->
+    <section style="padding:5rem 0;background:var(--bg);">
+      <div class="wrap">
+        <p class="eyebrow" style="margin-bottom:1rem;">What makes it different</p>
+        <h2 class="headline" style="margin-bottom:3rem;max-width:520px;">Most calculators leave these out.</h2>
+        <div class="feature-grid">
+          <div class="feature-cell">
+            <h3>Lean mass BMR</h3>
+            <p>Uses the Katch-McArdle formula — based on lean mass, not total bodyweight. Two people at the same weight with different body fat percentages have different metabolisms.</p>
           </div>
-          <div style="flex:1;min-width:200px;padding:1.75rem 1.5rem;border-right:1px solid var(--border);">
-            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.375rem;">TEF calculated</p>
-            <p class="small-text">Protein burns 25% to digest</p>
+          <div class="feature-cell">
+            <h3>Thermic effect of food</h3>
+            <p>Protein burns 25% of its calories just to digest. Carbs 7.5%, fat 1.5%. This is solved iteratively alongside your macros. Most TDEE calculators skip it entirely.</p>
           </div>
-          <div style="flex:1;min-width:200px;padding:1.75rem 1.5rem;border-right:1px solid var(--border);">
-            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.375rem;">Goal BF%, not weight</p>
-            <p class="small-text">Accounts for LBM loss on a cut</p>
+          <div class="feature-cell">
+            <h3>Goal body fat %, not weight</h3>
+            <p>Set a target body fat percentage instead of a scale number. The calculator accounts for lean mass loss during the cut and reverse-engineers the correct goal weight.</p>
           </div>
-          <div style="flex:1;min-width:200px;padding:1.75rem 1.5rem;border-right:1px solid var(--border);">
-            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.375rem;">Scaled surplus</p>
-            <p class="small-text">Beginner +400 / Advanced +200</p>
+          <div class="feature-cell">
+            <h3>Experience-scaled surplus</h3>
+            <p>Beginners bulk at +400 cal, intermediates +300, advanced +200. Matched to realistic muscle gain rates so extra calories don't just become fat.</p>
           </div>
-          <div style="flex:1;min-width:200px;padding:1.75rem 1.5rem;border-right:1px solid var(--border);">
-            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.375rem;">Training unified</p>
-            <p class="small-text">Volume, intensity, splits, macros</p>
+          <div class="feature-cell">
+            <h3>Deficit-adjusted LBM model</h3>
+            <p>On a cut, expected muscle loss scales with both your experience level and how aggressive your deficit is — not a fixed assumption across all users.</p>
+          </div>
+          <div class="feature-cell">
+            <h3>Training + nutrition unified</h3>
+            <p>Volume, intensity, progression strategy, recommended split, and macros all in one place. No switching between separate calculators.</p>
           </div>
         </div>
       </div>
@@ -650,7 +649,7 @@
         </div>
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:2.5rem;">
           <button class="btn btn-green" onclick="openModal()">Get Your Plan</button>
-          <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank" class="btn btn-ghost">Share your goals</a>
+          <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank" class="btn btn-blue">Share your goals</a>
         </div>
       </div>
     </section>
