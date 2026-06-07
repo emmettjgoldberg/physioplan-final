@@ -11,205 +11,236 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --indigo-50: #eef2ff; --indigo-100: #e0e7ff; --indigo-200: #c7d2fe;
-      --indigo-300: #a5b4fc; --indigo-400: #818cf8; --indigo-500: #6366f1;
-      --indigo-600: #4f46e5; --indigo-700: #4338ca; --indigo-800: #3730a3; --indigo-900: #312e81;
-      --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
-      --slate-500: #64748b; --slate-700: #334155; --slate-800: #1e293b; --slate-900: #0f172a;
-      --purple-600: #9333ea;
+      --bg:      #0a0a0a;
+      --bg-1:    #111111;
+      --bg-2:    #1a1a1a;
+      --bg-3:    #252525;
+      --border:  rgba(255,255,255,0.08);
+      --border-2:rgba(255,255,255,0.12);
+      --text-1:  #f5f5f5;
+      --text-2:  #a0a0a0;
+      --text-3:  #5a5a5a;
+      --blue:    #4f8eff;
+      --blue-dk: #3a72e8;
+      --green:   #34c759;
+      --green-dk:#28a046;
+      --indigo:  #7c6ff7;
     }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: #0f172a; color: var(--slate-800); line-height: 1.6; }
+
+    html  { scroll-behavior: smooth; }
+    body  {
+      font-family: -apple-system, 'Inter', sans-serif;
+      background: var(--bg); color: var(--text-1); line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
 
     /* NAV */
     nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(15,23,42,0.95); backdrop-filter: blur(12px);
-      border-bottom: 1px solid #1e293b;
-      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px;
+      position: sticky; top: 0; z-index: 200; height: 56px;
+      background: rgba(10,10,10,0.85); backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .nav-logo { font-size: 1.25rem; font-weight: 800; color: #818cf8; letter-spacing: -0.02em; }
+    .nav-logo { font-size: 1rem; font-weight: 700; color: var(--text-1); letter-spacing: -0.02em; }
+    .nav-tabs { display: flex; gap: 2px; background: var(--bg-2); border-radius: 10px; padding: 3px; }
+    .nav-tab {
+      padding: 0.3125rem 0.875rem; border-radius: 8px; border: none;
+      cursor: pointer; font-size: 0.8125rem; font-weight: 500;
+      font-family: inherit; background: transparent; color: var(--text-3);
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-tab.active { background: var(--bg-3); color: var(--text-1); }
+    .nav-tab:hover:not(.active) { color: var(--text-2); }
     .nav-cta {
-      background: #16a34a; color: white; padding: 0.625rem 1.375rem;
-      border-radius: 8px; font-size: 0.9375rem; font-weight: 700;
-      border: none; cursor: pointer; transition: background 0.2s, box-shadow 0.2s;
-      text-decoration: none; box-shadow: 0 0 0 0 #16a34a; letter-spacing: -0.01em;
+      background: var(--green); color: #000;
+      padding: 0.4375rem 1.125rem; border-radius: 980px;
+      font-size: 0.875rem; font-weight: 600; font-family: inherit;
+      border: none; cursor: pointer; transition: background 0.15s;
+      letter-spacing: -0.01em;
     }
-    .nav-cta:hover { background: #15803d; box-shadow: 0 0 0 3px rgba(22,163,74,0.3); }
+    .nav-cta:hover { background: var(--green-dk); }
 
-    /* HERO */
-    .hero {
-      background: linear-gradient(135deg, var(--indigo-900) 0%, var(--indigo-700) 50%, var(--purple-600) 100%);
-      padding: 6rem 2rem 5rem; text-align: center; position: relative; overflow: hidden;
-    }
-    .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 30% 50%, rgba(99,102,241,0.3) 0%, transparent 60%),
-                  radial-gradient(ellipse at 70% 30%, rgba(168,85,247,0.2) 0%, transparent 50%);
-      pointer-events: none;
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,0.12); color: #e0e7ff;
-      border: 1px solid rgba(255,255,255,0.2); padding: 0.375rem 1rem;
-      border-radius: 100px; font-size: 0.8125rem; font-weight: 500; margin-bottom: 1.75rem;
-      backdrop-filter: blur(8px);
-    }
-    .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: #a5f3fc; display: inline-block; }
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; color: white;
-      line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.25rem; position: relative;
-    }
-    .hero h1 em { font-style: normal; color: var(--indigo-200); }
-    .hero p { font-size: 1.125rem; color: rgba(255,255,255,0.75); max-width: 540px; margin: 0 auto 2.5rem; }
-    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
-    .btn-primary {
-      background: white; color: var(--indigo-700); padding: 0.875rem 2rem; border-radius: 10px;
-      font-size: 1rem; font-weight: 700; border: none; cursor: pointer;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.2); transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+    /* LAYOUT */
+    .wrap        { max-width: 960px;  margin: 0 auto; padding: 0 1.5rem; }
+    .wrap-wide   { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    .wrap-narrow { max-width: 680px;  margin: 0 auto; padding: 0 1.5rem; }
 
-    /* STATS */
-    .stats-bar {
-      background: #0f172a; border-bottom: 1px solid #1e293b;
-      padding: 1.5rem 2rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+    /* TYPOGRAPHY */
+    .eyebrow {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase; color: var(--text-3);
     }
-    .stat { text-align: center; }
-    .stat-num { font-size: 1.5rem; font-weight: 800; color: #818cf8; }
-    .stat-label { font-size: 0.8125rem; color: #64748b; font-weight: 500; margin-top: 2px; }
+    .display {
+      font-size: clamp(2.75rem, 7vw, 5rem); font-weight: 700;
+      letter-spacing: -0.04em; line-height: 1.05; color: var(--text-1);
+    }
+    .headline {
+      font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700;
+      letter-spacing: -0.03em; line-height: 1.1; color: var(--text-1);
+    }
+    .body-text { font-size: 1.0625rem; line-height: 1.75; color: var(--text-2); }
+    .small-text { font-size: 0.875rem; color: var(--text-3); line-height: 1.5; }
 
-    /* SECTIONS */
-    section { padding: 5rem 2rem; }
-    .container { max-width: 1100px; margin: 0 auto; }
-    .section-label {
-      font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em;
-      color: #818cf8; text-transform: uppercase; margin-bottom: 0.75rem;
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.5625rem 1.25rem; border-radius: 980px;
+      font-size: 0.9375rem; font-weight: 600; font-family: inherit;
+      border: none; cursor: pointer; transition: opacity 0.15s;
+      text-decoration: none; letter-spacing: -0.01em;
     }
-    .section-title {
-      font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800;
-      color: #f1f5f9; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1rem;
-    }
-    .section-sub { font-size: 1.0625rem; color: #94a3b8; max-width: 520px; }
+    .btn:hover { opacity: 0.82; }
+    .btn-blue  { background: var(--blue);  color: var(--text-1); }
+    .btn-green { background: var(--green); color: #000; }
+    .btn-ghost { background: var(--bg-2);  color: var(--text-1); border: 1px solid var(--border-2); }
+    .btn-outline { background: transparent; color: var(--blue); border: 1px solid rgba(79,142,255,0.3); }
 
-    /* FEATURES */
-    .features-bg { background: #0f172a; }
-    .features-header { margin-bottom: 3.5rem; }
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-    .feature-card {
-      background: #1e293b; border: 1px solid #334155;
-      border-radius: 16px; padding: 1.75rem;
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-    }
-    .feature-card:hover { border-color: var(--indigo-300); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(79,70,229,0.1); }
-    .feature-icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      background: #312e81; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
-    }
-    .feature-icon svg { width: 22px; height: 22px; stroke: var(--indigo-600); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .feature-card h3 { font-size: 1rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.5rem; }
-    .feature-card p { font-size: 0.9375rem; color: #94a3b8; line-height: 1.6; }
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
 
-    /* HOW IT WORKS */
-    .how-bg { background: #0f172a; }
-    .steps { display: flex; flex-direction: column; margin-top: 3rem; max-width: 640px; }
-    .step { display: flex; gap: 1.5rem; padding-bottom: 2.5rem; position: relative; }
-    .step:not(:last-child)::after {
-      content: ''; position: absolute; left: 19px; top: 44px; width: 2px; bottom: 0;
-      background: linear-gradient(to bottom, #4f46e5, #1e293b);
+    /* FEATURE GRID — hairline border grid, no individual card shadows */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0; background: var(--border); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+    }
+    .feature-cell { background: var(--bg); padding: 1.75rem 1.5rem; }
+    .feature-cell:hover { background: var(--bg-1); }
+    .feature-cell h3 { font-size: 0.9375rem; font-weight: 600; color: var(--text-1); margin-bottom: 0.5rem; }
+    .feature-cell p  { font-size: 0.875rem; color: var(--text-2); line-height: 1.65; }
+
+    /* STAT ROW */
+    .stat-row { display: flex; flex-wrap: wrap; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .stat-item { flex: 1; min-width: 130px; padding: 1.75rem 1.5rem; border-right: 1px solid var(--border); }
+    .stat-item:last-child { border-right: none; }
+    .stat-num  { font-size: 2rem; font-weight: 700; letter-spacing: -0.04em; color: var(--text-1); }
+    .stat-label { font-size: 0.8125rem; color: var(--text-3); margin-top: 0.2rem; }
+
+    /* STEP */
+    .step-row { display: flex; gap: 1.5rem; padding-bottom: 2rem; position: relative; }
+    .step-row:not(:last-child)::after {
+      content: ''; position: absolute; left: 14px; top: 30px; bottom: 0; width: 1px;
+      background: var(--border);
     }
     .step-num {
-      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
-      background: #4f46e5; color: white;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.875rem; font-weight: 800; position: relative; z-index: 1;
-    }
-    .step-content h3 { font-size: 1.0625rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.375rem; }
-    .step-content p { font-size: 0.9375rem; color: #94a3b8; }
-
-    /* WHAT'S DIFFERENT */
-    .diff-bg { background: #0f172a; }
-    .diff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
-    .diff-item {
-      display: flex; gap: 1rem; align-items: flex-start;
-      padding: 1.25rem; border-radius: 12px; background: #1e293b; border: 1px solid #334155;
-    }
-    .diff-check {
       width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-      background: #312e81; display: flex; align-items: center; justify-content: center;
+      background: var(--bg-3); color: var(--text-2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; position: relative; z-index: 1;
+      border: 1px solid var(--border-2);
     }
-    .diff-check svg { width: 14px; height: 14px; stroke: var(--indigo-600); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-    .diff-item h4 { font-size: 0.9375rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.25rem; }
-    .diff-item p { font-size: 0.875rem; color: #94a3b8; }
+    .step-content h3 { font-size: 1rem; font-weight: 600; color: var(--text-1); margin-bottom: 0.25rem; }
+    .step-content p  { font-size: 0.9375rem; color: var(--text-2); line-height: 1.65; }
 
-    /* CTA */
-    .cta-section {
-      background: linear-gradient(135deg, var(--indigo-700) 0%, var(--purple-600) 100%);
-      text-align: center; padding: 5rem 2rem;
+    /* CITE CARD */
+    .cite-card {
+      border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;
+      background: var(--bg-1);
+      transition: border-color 0.15s;
     }
-    .cta-section h2 { font-size: 2.25rem; font-weight: 800; color: white; margin-bottom: 1rem; letter-spacing: -0.02em; }
-    .cta-section p { color: rgba(255,255,255,0.75); font-size: 1.0625rem; margin-bottom: 2.5rem; }
-    .btn-cta-white {
-      display: inline-block; background: white; color: var(--indigo-700);
-      padding: 0.875rem 2.5rem; border-radius: 10px; font-size: 1rem; font-weight: 700;
-      border: none; cursor: pointer; box-shadow: 0 4px 24px rgba(0,0,0,0.2);
-      transition: transform 0.15s, box-shadow 0.15s;
+    .cite-card:hover { border-color: var(--border-2); }
+    .cite-tag {
+      display: inline-block; font-size: 0.6875rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 0.2rem 0.5rem; border-radius: 4px;
+      background: rgba(79,142,255,0.12); color: var(--blue);
+      margin-bottom: 0.875rem;
     }
-    .btn-cta-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
-
-    /* FOOTER */
-    footer { background: #020617; color: #94a3b8; padding: 2.5rem 2rem; text-align: center; }
-    footer .footer-logo { font-size: 1.125rem; font-weight: 800; color: white; margin-bottom: 0.5rem; }
-    footer p { font-size: 0.875rem; }
-
-    /* Remove number input spinners */
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-    input[type=number] { -moz-appearance: textfield; appearance: textfield; }
-
-    /* Mobile responsive fixes */
-    @media (max-width: 640px) {
-      nav { padding: 0 1rem; }
-      .nav-logo { font-size: 1rem; }
-      .hero { padding: 3.5rem 1.25rem 3rem; }
-      .hero h1 { font-size: 2rem; }
-      .hero p { font-size: 1rem; }
-      .stats-bar { gap: 1.5rem; padding: 1.25rem 1rem; }
-      section { padding: 3rem 1.25rem; }
-      .features-grid { grid-template-columns: 1fr; }
-      .diff-grid { grid-template-columns: 1fr; }
-      .modal-box { border-radius: 12px; max-height: 95vh; }
-      .modal-body iframe { height: 80vh; }
-      .modal-body { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    .cite-card h3 { font-size: 0.9375rem; font-weight: 600; color: var(--text-1); margin-bottom: 0.5rem; }
+    .cite-card p  { font-size: 0.875rem; color: var(--text-2); line-height: 1.65; margin-bottom: 1rem; }
+    .cite-link {
+      font-size: 0.8125rem; color: var(--blue); text-decoration: none;
+      display: flex; align-items: start; gap: 0.375rem; margin-top: 0.375rem;
     }
+    .cite-link:hover { text-decoration: underline; }
+
+    /* FORMULA */
+    .formula-card { border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; background: var(--bg-1); }
+    .formula-step {
+      display: inline-block; font-size: 0.6875rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 0.2rem 0.5rem; border-radius: 4px;
+      background: var(--bg-3); color: var(--text-3); margin-bottom: 0.875rem;
+    }
+    .formula-card h4 { font-size: 1rem; font-weight: 600; color: var(--text-1); margin-bottom: 0.625rem; }
+    .formula-card p  { font-size: 0.9rem; color: var(--text-2); line-height: 1.65; margin-bottom: 0.875rem; }
+    .code-block {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem;
+      font-family: 'SF Mono','Fira Code',monospace; font-size: 0.8125rem;
+      color: var(--text-1); line-height: 1.75;
+    }
+    .code-comment { color: var(--text-3); }
+    .example-block {
+      background: rgba(79,142,255,0.06); border: 1px solid rgba(79,142,255,0.15);
+      border-radius: 8px; padding: 0.75rem 1rem;
+      font-size: 0.8125rem; color: var(--text-2); margin-top: 0.75rem;
+    }
+
+    /* CHECKIN */
+    .checkin-card { border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; background: var(--bg-1); }
+    .checkin-card h3 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--blue); margin-bottom: 1rem; }
+    .checkin-sub { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); margin: 1rem 0 0.5rem; }
+    .checkin-item { font-size: 0.875rem; color: var(--text-2); padding: 0.25rem 0; display: flex; gap: 0.625rem; align-items: baseline; }
+    .checkin-item::before { content: '—'; color: var(--text-3); flex-shrink: 0; }
+
+    /* SAMPLE CARD */
+    .sample-card { background: var(--bg-1); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; }
+    .sample-label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); margin-bottom: 1.25rem; }
+    .sample-row { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+    .sample-macro { background: var(--bg-2); border-radius: 8px; padding: 0.75rem; text-align: center; }
 
     /* MODAL */
     .modal-overlay {
       display: none; position: fixed; inset: 0; z-index: 999;
-      background: rgba(15,23,42,0.75); backdrop-filter: blur(6px);
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(12px);
       align-items: center; justify-content: center; padding: 1rem;
     }
     .modal-overlay.open { display: flex; }
     .modal-box {
-      background: white; border-radius: 20px; width: 100%; max-width: 860px;
+      background: var(--bg-1); border: 1px solid var(--border-2);
+      border-radius: 20px; width: 100%; max-width: 860px;
       max-height: 92vh; overflow: hidden;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.4); display: flex; flex-direction: column;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6); display: flex; flex-direction: column;
     }
     .modal-header {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 1.5rem; background: var(--indigo-600); flex-shrink: 0;
-      position: sticky; top: 0; z-index: 10;
+      padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+      flex-shrink: 0; position: sticky; top: 0; z-index: 10;
+      background: var(--bg-1);
     }
-    .modal-title { font-size: 1rem; font-weight: 700; color: white; font-family: 'Inter', sans-serif; }
+    .modal-title { font-size: 0.9375rem; font-weight: 600; color: var(--text-1); font-family: inherit; }
     .modal-close {
-      width: 44px; height: 44px; border-radius: 10px;
-      background: rgba(255,255,255,0.2); border: none; cursor: pointer;
-      color: white; font-size: 1.25rem; display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s; line-height: 1; flex-shrink: 0;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--bg-3); border: none; cursor: pointer;
+      color: var(--text-2); font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
     }
-    .modal-close:hover { background: rgba(255,255,255,0.35); }
+    .modal-close:hover { background: var(--bg-2); color: var(--text-1); }
     .modal-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    #calculator-root { min-height: 100%; }
+
+    @media (max-width: 640px) {
+      .modal-overlay { padding: 0; align-items: flex-end; }
+      .modal-box { border-radius: 20px 20px 0 0; max-height: 96dvh; border-bottom: none; }
+      .modal-close { width: 36px; height: 36px; }
+      nav { padding: 0 1rem; }
+      .nav-tabs { display: none; }
+      .display { font-size: 2.5rem; }
+      .stat-item { min-width: 110px; padding: 1.25rem 1rem; }
+      .feature-cell { padding: 1.25rem; }
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+
     #calculator-root { min-height: 100%; }
 
     @media (max-width: 640px) {
@@ -234,766 +265,514 @@
 
 <!-- LANDING PAGE -->
   <nav>
-    <div class="nav-logo">Physio Plan</div>
-    <div style="display:flex;align-items:center;gap:0.75rem;">
-      <div style="display:flex;background:#1e293b;border-radius:8px;padding:3px;gap:2px;">
-        <button onclick="showPage('home')" id="nav-home"
-          style="padding:0.375rem 1rem;border-radius:6px;border:none;cursor:pointer;font-size:0.875rem;font-weight:600;font-family:inherit;background:transparent;color:#94a3b8;transition:all 0.15s;">
-          Home
-        </button>
-        <button onclick="showPage('study')" id="nav-study"
-          style="padding:0.375rem 1rem;border-radius:6px;border:none;cursor:pointer;font-size:0.875rem;font-weight:600;font-family:inherit;background:#4f46e5;color:white;transition:all 0.15s;">
-          Community
-        </button>
-        <button onclick="showPage('science')" id="nav-science"
-          style="padding:0.375rem 1rem;border-radius:6px;border:none;cursor:pointer;font-size:0.875rem;font-weight:600;font-family:inherit;background:transparent;color:#94a3b8;transition:all 0.15s;">
-          The Science
-        </button>
-      </div>
-      <button class="nav-cta" onclick="openModal()">Get Your Plan</button>
-    </div>
-  </nav>
+  <div class="nav-logo">Physio Plan</div>
+  <div class="nav-tabs">
+    <button class="nav-tab" id="nav-home" onclick="showPage('home')">Home</button>
+    <button class="nav-tab active" id="nav-study" onclick="showPage('study')">Community</button>
+    <button class="nav-tab" id="nav-science" onclick="showPage('science')">The Science</button>
+  </div>
+  <button class="nav-cta" onclick="openModal()">Get Your Plan</button>
+</nav>
 
   <!-- PAGE: HOME -->
   <div id="page-home" style="display:none;">
 
-  <!-- HERO -->
-  <section style="background:#0f172a;padding:5rem 2rem 4rem;position:relative;overflow:hidden;">
-    <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
-      <div>
-        <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4f46e5;margin-bottom:1.25rem;">Free &mdash; No Account Required</p>
-        <h1 style="font-size:clamp(2.75rem,5vw,4.25rem);font-weight:800;color:#f8fafc;line-height:1.05;letter-spacing:-0.03em;margin-bottom:1.5rem;">Stop guessing.<br>Start knowing.</h1>
-        <p style="font-size:1.125rem;color:#64748b;line-height:1.7;margin-bottom:2rem;max-width:420px;">Most fitness calculators multiply your weight by 15 and call it science. Physio Plan uses lean mass, thermic effect of food, and experience-based training parameters — then shows you the math.</p>
-        <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
-          <button onclick="openModal()" style="background:#4f46e5;color:white;padding:0.875rem 2rem;border-radius:8px;font-size:1rem;font-weight:700;border:none;cursor:pointer;font-family:inherit;box-shadow:0 0 0 0 #4f46e5;transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 0 0 4px rgba(79,70,229,0.3)'" onmouseout="this.style.boxShadow='0 0 0 0 #4f46e5'">Build my plan</button>
-          <span style="font-size:0.875rem;color:#334155;">Takes 2 minutes</span>
+    <!-- HERO -->
+    <section style="padding:7rem 0 5rem;text-align:center;background:var(--bg);">
+      <div class="wrap-narrow">
+        <p class="eyebrow" style="margin-bottom:1.25rem;">Free &nbsp;&middot;&nbsp; No account required</p>
+        <h1 class="display" style="margin-bottom:1.5rem;">Stop guessing.<br>Start knowing.</h1>
+        <p class="body-text" style="max-width:460px;margin:0 auto 2.5rem;">Most fitness calculators multiply your weight by 15 and call it science. PhysioPlan uses lean mass, thermic effect of food, and evidence-based training parameters — then shows you the math.</p>
+        <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;align-items:center;">
+          <button class="btn btn-blue" onclick="openModal()">Build my plan</button>
+          <span class="small-text">Takes 2 minutes</span>
         </div>
       </div>
-      <div style="background:#1e293b;border:1px solid #334155;border-radius:16px;padding:1.75rem;position:relative;">
-        <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#475569;margin-bottom:1.25rem;">Sample output &mdash; 180 lbs, 18% BF, cutting to 165 lbs</p>
-        <div style="display:flex;flex-direction:column;gap:0.75rem;">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:0.75rem;border-bottom:1px solid #334155;">
-            <span style="color:#64748b;font-size:0.875rem;">Daily calories</span>
-            <span style="color:#f1f5f9;font-size:1.5rem;font-weight:800;">2,140</span>
+    </section>
+
+    <hr class="divider">
+
+    <!-- STATS -->
+    <section style="padding:2.5rem 0;background:var(--bg);">
+      <div class="wrap">
+        <div class="stat-row">
+          <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Goals supported</div></div>
+          <div class="stat-item"><div class="stat-num">2 min</div><div class="stat-label">To your plan</div></div>
+          <div class="stat-item"><div class="stat-num">7+</div><div class="stat-label">Peer-reviewed citations</div></div>
+          <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Free, no ads</div></div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- SAMPLE OUTPUT -->
+    <section style="padding:5rem 0;background:var(--bg);">
+      <div class="wrap">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;">
+          <div>
+            <p class="eyebrow" style="margin-bottom:1rem;">Example output</p>
+            <h2 class="headline" style="margin-bottom:1rem;">Everything you need.<br>One view.</h2>
+            <p class="body-text" style="margin-bottom:2rem;">Calories, macros, training volume, intensity, split, body composition projections, and timeline — from one short form.</p>
+            <button class="btn btn-blue" onclick="openModal()">Try it now</button>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
-            <div style="background:#0f172a;border-radius:8px;padding:0.75rem;text-align:center;">
-              <p style="font-size:0.7rem;color:#f9a8d4;font-weight:700;margin-bottom:0.25rem;">PROTEIN</p>
-              <p style="color:#f1f5f9;font-weight:800;font-size:1.125rem;">175g</p>
+          <div class="sample-card">
+            <div class="sample-label">180 lbs &nbsp;&middot;&nbsp; 18% BF &nbsp;&middot;&nbsp; Cutting to 165 lbs</div>
+            <div class="sample-row">
+              <span style="font-size:0.875rem;color:var(--text-3);">Daily calories</span>
+              <span style="font-size:2.25rem;font-weight:700;letter-spacing:-0.04em;color:var(--text-1);">2,140</span>
             </div>
-            <div style="background:#0f172a;border-radius:8px;padding:0.75rem;text-align:center;">
-              <p style="font-size:0.7rem;color:#86efac;font-weight:700;margin-bottom:0.25rem;">FAT</p>
-              <p style="color:#f1f5f9;font-weight:800;font-size:1.125rem;">72g</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:1rem;">
+              <div class="sample-macro">
+                <p style="font-size:0.6875rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--text-3);margin-bottom:0.25rem;">Protein</p>
+                <p style="font-size:1.125rem;font-weight:700;color:var(--text-1);">175g</p>
+              </div>
+              <div class="sample-macro">
+                <p style="font-size:0.6875rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--text-3);margin-bottom:0.25rem;">Fat</p>
+                <p style="font-size:1.125rem;font-weight:700;color:var(--text-1);">72g</p>
+              </div>
+              <div class="sample-macro">
+                <p style="font-size:0.6875rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--text-3);margin-bottom:0.25rem;">Carbs</p>
+                <p style="font-size:1.125rem;font-weight:700;color:var(--text-1);">189g</p>
+              </div>
             </div>
-            <div style="background:#0f172a;border-radius:8px;padding:0.75rem;text-align:center;">
-              <p style="font-size:0.7rem;color:#93c5fd;font-weight:700;margin-bottom:0.25rem;">CARBS</p>
-              <p style="color:#f1f5f9;font-weight:800;font-size:1.125rem;">189g</p>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding-top:0.75rem;border-top:1px solid #334155;">
-            <div>
-              <p style="font-size:0.7rem;color:#64748b;margin-bottom:0.2rem;">Training volume</p>
-              <p style="color:#a5b4fc;font-size:0.9rem;font-weight:600;">8–12 sets / muscle</p>
-            </div>
-            <div style="text-align:right;">
-              <p style="font-size:0.7rem;color:#64748b;margin-bottom:0.2rem;">Timeline</p>
-              <p style="color:#a5b4fc;font-size:0.9rem;font-weight:600;">14 weeks</p>
+            <div style="display:flex;justify-content:space-between;padding-top:1rem;border-top:1px solid var(--border);">
+              <div>
+                <p style="font-size:0.6875rem;color:var(--text-3);margin-bottom:0.2rem;">Training volume</p>
+                <p style="font-size:0.875rem;font-weight:600;color:var(--text-1);">8–12 sets / muscle</p>
+              </div>
+              <div style="text-align:right;">
+                <p style="font-size:0.6875rem;color:var(--text-3);margin-bottom:0.2rem;">Timeline</p>
+                <p style="font-size:0.875rem;font-weight:600;color:var(--text-1);">14 weeks</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- WHAT'S DIFFERENT - horizontal scrolling pills on mobile, table-like on desktop -->
-  <section style="background:#080f1a;padding:0;border-top:1px solid #1e293b;border-bottom:1px solid #1e293b;">
-    <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;">
-      <div style="flex:1;min-width:200px;padding:1.5rem 2rem;border-right:1px solid #1e293b;">
-        <p style="font-size:0.75rem;color:#4f46e5;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.375rem;">Not bodyweight &times; 15</p>
-        <p style="font-size:0.875rem;color:#475569;">Katch-McArdle BMR from lean mass</p>
-      </div>
-      <div style="flex:1;min-width:200px;padding:1.5rem 2rem;border-right:1px solid #1e293b;">
-        <p style="font-size:0.75rem;color:#4f46e5;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.375rem;">TEF calculated, not ignored</p>
-        <p style="font-size:0.875rem;color:#475569;">Protein burns 25% to digest</p>
-      </div>
-      <div style="flex:1;min-width:200px;padding:1.5rem 2rem;border-right:1px solid #1e293b;">
-        <p style="font-size:0.75rem;color:#4f46e5;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.375rem;">Goal BF%, not just weight</p>
-        <p style="font-size:0.875rem;color:#475569;">Accounts for lean mass loss on a cut</p>
-      </div>
-      <div style="flex:1;min-width:200px;padding:1.5rem 2rem;">
-        <p style="font-size:0.75rem;color:#4f46e5;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.375rem;">Training + nutrition unified</p>
-        <p style="font-size:0.875rem;color:#475569;">Volume, intensity, splits, macros</p>
-      </div>
-    </div>
-  </section>
+    <hr class="divider">
 
-  <!-- FEATURES - asymmetric layout -->
-  <section style="background:#0f172a;padding:5rem 2rem;">
-    <div style="max-width:1100px;margin:0 auto;">
-      <div style="margin-bottom:4rem;">
-        <h2 style="font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:800;color:#f1f5f9;letter-spacing:-0.02em;margin-bottom:0.75rem;">What you actually get</h2>
-        <p style="color:#475569;font-size:1.0625rem;max-width:460px;">A complete plan from one form. No spreadsheets, no guessing, no generic advice.</p>
+    <!-- WHAT MAKES IT DIFFERENT — horizontal strip -->
+    <section style="padding:0;background:var(--bg);">
+      <div class="wrap-wide">
+        <div style="display:flex;flex-wrap:wrap;border-left:1px solid var(--border);">
+          <div style="flex:1;min-width:200px;padding:1.75rem 1.5rem;border-right:1px solid var(--border);">
+            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.375rem;">Not BW &times; 15</p>
+            <p class="small-text">Katch-McArdle BMR from lean mass</p>
+          </div>
+          <div style="flex:1;min-width:200px;padding:1.75rem 1.5rem;border-right:1px solid var(--border);">
+            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.375rem;">TEF calculated</p>
+            <p class="small-text">Protein burns 25% to digest</p>
+          </div>
+          <div style="flex:1;min-width:200px;padding:1.75rem 1.5rem;border-right:1px solid var(--border);">
+            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.375rem;">Goal BF%, not weight</p>
+            <p class="small-text">Accounts for LBM loss on a cut</p>
+          </div>
+          <div style="flex:1;min-width:200px;padding:1.75rem 1.5rem;border-right:1px solid var(--border);">
+            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.375rem;">Scaled surplus</p>
+            <p class="small-text">Beginner +400 / Advanced +200</p>
+          </div>
+          <div style="flex:1;min-width:200px;padding:1.75rem 1.5rem;border-right:1px solid var(--border);">
+            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.375rem;">Training unified</p>
+            <p class="small-text">Volume, intensity, splits, macros</p>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <!-- Two column: big feature left, list right -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
-        <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:2rem;grid-row:span 2;">
-          <div style="width:40px;height:40px;background:#312e81;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          </div>
-          <h3 style="font-size:1.25rem;font-weight:700;color:#f1f5f9;margin-bottom:0.75rem;">Calorie targets that actually account for your body</h3>
-          <p style="color:#64748b;font-size:0.9375rem;line-height:1.7;margin-bottom:1.5rem;">Two people at 180 lbs with different body fat percentages have meaningfully different metabolisms. Most calculators ignore this. The Katch-McArdle formula — based on lean mass only — corrects for it.</p>
-          <div style="background:#0f172a;border-radius:8px;padding:1rem;">
-            <p style="font-size:0.75rem;color:#334155;font-weight:600;margin-bottom:0.5rem;">FORMULA</p>
-            <p style="font-family:monospace;font-size:0.875rem;color:#818cf8;">BMR = 370 + (21.6 &times; lean mass in kg)</p>
-          </div>
-        </div>
-        <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-          <div style="width:36px;height:36px;background:#312e81;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          </div>
-          <h3 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:0.5rem;">Training volume by experience</h3>
-          <p style="color:#64748b;font-size:0.875rem;line-height:1.6;">6–22 sets per muscle per week, scaled to beginner / intermediate / advanced and adjusted for your goal phase.</p>
-        </div>
-        <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-          <div style="width:36px;height:36px;background:#312e81;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
-          </div>
-          <h3 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:0.5rem;">Macros based on lean mass</h3>
-          <p style="color:#64748b;font-size:0.875rem;line-height:1.6;">Protein targets use lean mass — not total bodyweight — because only muscle tissue actually requires it.</p>
-        </div>
-      </div>
+    <hr class="divider">
 
-      <!-- Bottom row of smaller cards -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;">
-        <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-          <h3 style="font-size:0.9375rem;font-weight:700;color:#f1f5f9;margin-bottom:0.5rem;">Body composition projections</h3>
-          <p style="color:#64748b;font-size:0.875rem;line-height:1.6;">See lean mass, fat mass, and body fat % at your goal — not just a number on the scale.</p>
-        </div>
-        <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-          <h3 style="font-size:0.9375rem;font-weight:700;color:#f1f5f9;margin-bottom:0.5rem;">Recommended splits</h3>
-          <p style="color:#64748b;font-size:0.875rem;line-height:1.6;">Full Body, Upper/Lower, or PPL — based on how many days you can train.</p>
-        </div>
-        <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-          <h3 style="font-size:0.9375rem;font-weight:700;color:#f1f5f9;margin-bottom:0.5rem;">Timeline to goal</h3>
-          <p style="color:#64748b;font-size:0.875rem;line-height:1.6;">Calculated from your deficit size and weight to lose — with the math shown.</p>
-        </div>
-        <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-          <h3 style="font-size:0.9375rem;font-weight:700;color:#f1f5f9;margin-bottom:0.5rem;">Cut / bulk / recomp</h3>
-          <p style="color:#64748b;font-size:0.875rem;line-height:1.6;">All three phases supported with phase-appropriate recommendations throughout.</p>
+    <!-- WHAT YOU GET -->
+    <section style="padding:5rem 0;background:var(--bg);">
+      <div class="wrap">
+        <p class="eyebrow" style="margin-bottom:1rem;">What you get</p>
+        <h2 class="headline" style="margin-bottom:3rem;max-width:520px;">Everything in one place.</h2>
+        <div class="feature-grid">
+          <div class="feature-cell">
+            <h3>Smart calorie targets</h3>
+            <p>Uses lean mass — not total bodyweight — to calculate your true maintenance. Accounts for BMR, NEAT, exercise expenditure, and thermic effect of food.</p>
+          </div>
+          <div class="feature-cell">
+            <h3>Macros in grams</h3>
+            <p>Exact daily targets for protein, fat, and carbs — set based on lean mass and adjusted for your goal phase.</p>
+          </div>
+          <div class="feature-cell">
+            <h3>Training volume</h3>
+            <p>Sets per muscle group per week, RPE targets, and progression — scaled to beginner, intermediate, or advanced.</p>
+          </div>
+          <div class="feature-cell">
+            <h3>Split recommendations</h3>
+            <p>Full Body, Upper/Lower, or PPL — automatically matched to how many days per week you can train.</p>
+          </div>
+          <div class="feature-cell">
+            <h3>Body composition projections</h3>
+            <p>Projected lean mass, fat mass, and body fat % at your goal — with realistic muscle retention estimates.</p>
+          </div>
+          <div class="feature-cell">
+            <h3>Timeline to goal</h3>
+            <p>Calculated from your deficit size and weight to lose — with the math shown, not hidden.</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- HOW IT WORKS - minimal, left-aligned -->
-  <section style="background:#080f1a;padding:5rem 2rem;border-top:1px solid #1e293b;">
-    <div style="max-width:640px;margin:0 auto;">
-      <h2 style="font-size:clamp(1.5rem,3vw,2rem);font-weight:800;color:#f1f5f9;letter-spacing:-0.02em;margin-bottom:3rem;">How it works</h2>
-      <div style="display:flex;flex-direction:column;gap:0;">
-        <div style="display:flex;gap:2rem;padding-bottom:2.5rem;position:relative;">
-          <div style="position:absolute;left:15px;top:36px;bottom:0;width:1px;background:linear-gradient(#4f46e5,#1e293b);"></div>
-          <div style="width:32px;height:32px;border-radius:50%;background:#4f46e5;color:white;display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:800;flex-shrink:0;position:relative;z-index:1;">1</div>
-          <div style="padding-top:4px;">
-            <h3 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:0.375rem;">Pick your goal</h3>
-            <p style="color:#475569;font-size:0.9375rem;line-height:1.6;">Cut, bulk, or recomp. Everything downstream changes based on this.</p>
-          </div>
-        </div>
-        <div style="display:flex;gap:2rem;padding-bottom:2.5rem;position:relative;">
-          <div style="position:absolute;left:15px;top:36px;bottom:0;width:1px;background:linear-gradient(#4f46e5,#1e293b);"></div>
-          <div style="width:32px;height:32px;border-radius:50%;background:#4f46e5;color:white;display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:800;flex-shrink:0;position:relative;z-index:1;">2</div>
-          <div style="padding-top:4px;">
-            <h3 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:0.375rem;">Enter your stats</h3>
-            <p style="color:#475569;font-size:0.9375rem;line-height:1.6;">Weight, body fat %, experience level, training days. Takes about 90 seconds.</p>
-          </div>
-        </div>
-        <div style="display:flex;gap:2rem;">
-          <div style="width:32px;height:32px;border-radius:50%;background:#4f46e5;color:white;display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:800;flex-shrink:0;">3</div>
-          <div style="padding-top:4px;">
-            <h3 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:0.375rem;">Get your plan</h3>
-            <p style="color:#475569;font-size:0.9375rem;line-height:1.6;">Calories, macros, training volume, recommended split, body composition projections, and a timeline — all from one form.</p>
-          </div>
-        </div>
-      </div>
-      <div style="margin-top:3rem;">
-        <button onclick="openModal()" style="background:#4f46e5;color:white;padding:0.875rem 2rem;border-radius:8px;font-size:1rem;font-weight:700;border:none;cursor:pointer;font-family:inherit;">Build my plan</button>
-      </div>
-    </div>
-  </section>
+    <hr class="divider">
 
-  <footer style="background:#020617;padding:2rem 2rem;border-top:1px solid #0f172a;">
-    <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
-      <span style="font-size:1rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.01em;">Physio Plan</span>
-      <span style="font-size:0.8125rem;color:#1e293b;">&copy; 2025 Physio Plan. All rights reserved.</span>
-    </div>
-  </footer>
+    <!-- HOW IT WORKS -->
+    <section style="padding:5rem 0;background:var(--bg);">
+      <div class="wrap-narrow">
+        <p class="eyebrow" style="margin-bottom:1rem;">How it works</p>
+        <h2 class="headline" style="margin-bottom:3rem;">Three steps.</h2>
+        <div>
+          <div class="step-row">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h3>Pick your goal</h3>
+              <p>Cut, bulk, or recomp. Everything downstream adjusts based on this.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h3>Enter your stats</h3>
+              <p>Weight, body fat %, experience level, training days. About 90 seconds.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h3>Get your complete plan</h3>
+              <p>Calories, macros, volume, split, body composition projections, and timeline — all from one form.</p>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-blue" style="margin-top:2rem;" onclick="openModal()">Build my plan</button>
+      </div>
+    </section>
+
+    <footer style="border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;background:var(--bg);">
+      <span style="font-size:0.9375rem;font-weight:700;color:var(--text-1);">Physio Plan</span>
+      <span class="small-text">&copy; 2025 Physio Plan. All rights reserved.</span>
+    </footer>
 
   </div><!-- end page-home -->
 
   <!-- PAGE: SCIENCE -->
   <div id="page-science" style="display:none;">
-  <section id="science" style="background:#0f172a; padding:5rem 2rem;">
-    <div class="container">
-      <div class="section-label" style="color:#818cf8;">Research &amp; Methodology</div>
-      <div class="section-title" style="color:white; margin-bottom:0.75rem;">The science behind every output</div>
-      <p style="color:#94a3b8;font-size:1.0625rem;max-width:560px;margin-bottom:3.5rem;">Every formula and recommendation in Physio Plan is grounded in peer-reviewed research. Scroll to explore the methodology — from nutrition targets to training volume to the exact formulas behind every calculation.</p>
 
+    <section style="padding:5rem 0 3rem;background:var(--bg);">
+      <div class="wrap-narrow">
+        <p class="eyebrow" style="margin-bottom:1rem;">Research &amp; Methodology</p>
+        <h1 class="headline" style="margin-bottom:1rem;">The science behind every output.</h1>
+        <p class="body-text">Every formula and recommendation is grounded in peer-reviewed research. This page walks through the methodology — from nutrition targets to training volume to the exact calculations behind each output.</p>
+      </div>
+    </section>
 
-      <!-- NUTRITION TAB -->
-      <div id="panel-nutrition"><h3 style="color:white;font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:1.75rem;">Nutrition</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;">
+    <hr class="divider">
 
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#818cf8;margin-bottom:0.5rem;">Protein — Cut: 1.2g/lb &nbsp;|&nbsp; Bulk: 1.0g/lb</div>
-            <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.65;margin-bottom:1rem;">During a caloric deficit, protein needs rise to prevent lean mass loss. Research shows elevated intakes of 1.8–2.7 g/kg body weight during restriction preserve significantly more muscle than standard recommendations. Higher protein specifically during a cut blunts lean mass loss in trained individuals even under aggressive energy restriction.</p>
-            <div style="border-top:1px solid #334155;padding-top:0.875rem;display:flex;flex-direction:column;gap:0.5rem;">
-              <a href="https://pubmed.ncbi.nlm.nih.gov/24092765/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Helms et al. (2014) — <em>Int J Sport Nutr Exerc Metab.</em> Protein needs during caloric restriction in resistance-trained athletes: 1.8–2.7 g/kg recommended.</span>
-              </a>
-              <a href="https://pubmed.ncbi.nlm.nih.gov/26817506/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Longland et al. (2016) — <em>Am J Clin Nutr.</em> Higher protein in an energy deficit promotes greater lean mass gain and fat mass loss.</span>
-              </a>
-              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9012799/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Rondanelli et al. (2022) — <em>PMC.</em> Lean mass sparing in resistance-trained athletes during caloric restriction: role of training volume and protein intake.</span>
-              </a>
-            </div>
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap">
+        <p class="eyebrow" style="margin-bottom:0.75rem;">Nutrition</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:2.5rem;">Macronutrient targets</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+
+          <div class="cite-card">
+            <div class="cite-tag">Protein — Cut: 1.2g/lb LM &nbsp;|&nbsp; Bulk: 1.0g/lb LM</div>
+            <h3>Elevated protein during restriction</h3>
+            <p>During a caloric deficit, protein needs rise to prevent lean mass loss. Research shows intakes of 1.8–2.7 g/kg during restriction preserve significantly more muscle. Protein is set from lean mass — not total bodyweight — because only muscle tissue requires it.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/24092765/" target="_blank" class="cite-link">↗ Helms et al. (2014) — Int J Sport Nutr Exerc Metab</a>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/26817506/" target="_blank" class="cite-link">↗ Longland et al. (2016) — Am J Clin Nutr</a>
           </div>
 
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#818cf8;margin-bottom:0.5rem;">Dietary Fat — 0.4–0.5g/lb for Hormone Support</div>
-            <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.65;margin-bottom:1rem;">Low-fat diets significantly reduce total and free testosterone. A meta-analysis of 6 intervention studies found meaningful decreases in total testosterone, free testosterone, and DHT on low-fat vs high-fat diets. Cholesterol — supplied by dietary fat — is the direct precursor for steroid hormone synthesis.</p>
-            <div style="border-top:1px solid #334155;padding-top:0.875rem;display:flex;flex-direction:column;gap:0.5rem;">
-              <a href="https://pubmed.ncbi.nlm.nih.gov/33741447/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Whittaker &amp; Wu (2021) — <em>J Steroid Biochem Mol Biol.</em> Low-fat diets and testosterone in men: systematic review and meta-analysis of 6 intervention studies.</span>
-              </a>
-            </div>
+          <div class="cite-card">
+            <div class="cite-tag">Fat — 0.4–0.5g/lb bodyweight</div>
+            <h3>Dietary fat &amp; hormone support</h3>
+            <p>Low-fat diets significantly reduce testosterone. A meta-analysis of 6 intervention studies found meaningful decreases in androgens on low-fat vs high-fat diets. Cholesterol — supplied by dietary fat — is the direct precursor for steroid hormone synthesis.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/33741447/" target="_blank" class="cite-link">↗ Whittaker &amp; Wu (2021) — J Steroid Biochem Mol Biol</a>
           </div>
 
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#818cf8;margin-bottom:0.5rem;">Thermic Effect of Food — 25% / 7.5% / 1.5%</div>
-            <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.65;margin-bottom:1rem;">Digesting food costs calories — and the cost varies dramatically by macronutrient. Protein is the most metabolically expensive at 20–30% of its caloric content, followed by carbohydrates at 5–10%, and fat at just 0–3%. This is why high-protein diets have a meaningful metabolic advantage beyond their muscle-sparing effects.</p>
-            <div style="border-top:1px solid #334155;padding-top:0.875rem;display:flex;flex-direction:column;gap:0.5rem;">
-              <a href="https://link.springer.com/article/10.1186/1743-7075-1-5" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Westerterp (2004) — <em>Nutrition &amp; Metabolism.</em> Diet-induced thermogenesis: protein 20–30%, carbohydrate 5–10%, fat 0–3% of caloric content.</span>
-              </a>
-              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3873760/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Gibbons et al. (2014) — <em>PMC / Front. Physiol.</em> Thermic effect of food and appetite: individual participant data meta-analysis confirming protein-TEF relationship.</span>
-              </a>
-            </div>
+          <div class="cite-card">
+            <div class="cite-tag">TEF — 25% / 7.5% / 1.5%</div>
+            <h3>Thermic effect of food</h3>
+            <p>Digesting food burns calories — protein at 20–30% of its caloric content, carbs 5–10%, fat 0–3%. Most TDEE calculators skip this. The TEF is solved iteratively alongside macros since each depends on the other.</p>
+            <a href="https://link.springer.com/article/10.1186/1743-7075-1-5" target="_blank" class="cite-link">↗ Westerterp (2004) — Nutrition &amp; Metabolism</a>
           </div>
 
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#818cf8;margin-bottom:0.5rem;">Calorie Surplus — Scaled by Experience (200–400 cal)</div>
-            <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.65;margin-bottom:1rem;">Research establishes two clear principles: (1) a surplus above maintenance is necessary to maximize muscle gain — eating at maintenance in trained individuals produces less lean mass than a surplus, and (2) larger surpluses beyond a moderate threshold increase fat gain without producing proportionally more muscle. Together, these constrain the optimal surplus to a moderate range. The specific values of 200/300/400 cal by experience level are derived from these principles combined with the well-documented decline in muscle gain rates with training age — not from a single RCT testing those exact numbers.</p>
-            <div style="border-top:1px solid #334155;padding-top:0.875rem;margin-bottom:0.625rem;">
-              <p style="color:#475569;font-size:0.75rem;font-style:italic;">What the research directly supports:</p>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:0.5rem;">
-              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6942464/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Ribeiro et al. (2019) — <em>PMC.</em> Caloric surplus produced greater lean mass gain than maintenance in trained bodybuilders, but also significantly more fat deposition.</span>
-              </a>
-              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10620361/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Barakat et al. (2023) — <em>PMC.</em> Larger surpluses (15% vs 5% above maintenance) primarily increased fat gain, not muscle or strength, in resistance-trained individuals.</span>
-              </a>
-              <a href="https://pubmed.ncbi.nlm.nih.gov/28834797/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Schoenfeld et al. (2017) — <em>J Sports Sci.</em> Dose-response relationship confirms diminishing returns in muscle gain with training age, supporting smaller surpluses for advanced lifters.</span>
-              </a>
-            </div>
+          <div class="cite-card">
+            <div class="cite-tag">Surplus — 200–400 cal by experience</div>
+            <h3>Experience-scaled calorie surplus</h3>
+            <p>A surplus maximizes muscle gain, but larger surpluses increase fat without proportionally more muscle. The 200/300/400 values are derived from these principles combined with documented diminishing returns in muscle gain with training age.</p>
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6942464/" target="_blank" class="cite-link">↗ Ribeiro et al. (2019) — PMC</a>
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10620361/" target="_blank" class="cite-link">↗ Barakat et al. (2023) — PMC</a>
           </div>
 
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#818cf8;margin-bottom:0.5rem;">Bulk Partitioning — 70% Lean / 30% Fat</div>
-            <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.65;margin-bottom:1rem;">During a caloric surplus with resistance training, weight gained is split between lean mass and fat. A pilot study in trained bodybuilders found a caloric surplus produced significantly more lean mass gain than maintenance, but also more fat deposition — with lean mass comprising roughly 30% of total mass gained (0.5 kg lean vs 1.1 kg fat). This aligns with the broader literature: larger surpluses increase fat gain proportionally more than muscle gain, and a moderate surplus of ~200–400 cal/day optimizes the lean-to-fat ratio.</p>
-            <div style="border-top:1px solid #334155;padding-top:0.875rem;display:flex;flex-direction:column;gap:0.5rem;">
-              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6942464/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Ribeiro et al. (2019) — <em>PMC.</em> Caloric surplus vs. maintenance in trained bodybuilders: greater lean mass but also greater fat deposition with surplus.</span>
-              </a>
-              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10620361/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Barakat et al. (2023) — <em>PMC.</em> Larger energy surpluses primarily increase fat gain rather than augmenting strength or muscle thickness in resistance-trained individuals.</span>
-              </a>
-            </div>
+          <div class="cite-card">
+            <div class="cite-tag">Bulk partitioning — 70% lean / 30% fat</div>
+            <h3>Lean mass gain ratio</h3>
+            <p>During a caloric surplus with resistance training, weight gained splits between lean mass and fat. A pilot study found surplus produced more lean mass than maintenance, but also more fat — lean mass comprising roughly 30% of total mass gained.</p>
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6942464/" target="_blank" class="cite-link">↗ Ribeiro et al. (2019) — PMC</a>
           </div>
 
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#818cf8;margin-bottom:0.5rem;">Deficit Size — 300 / 500 / 750 cal &amp; LBM Retention</div>
-            <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.65;margin-bottom:1rem;">A meta-analysis and meta-regression found that a deficit of ~500 kcal/day was sufficient to fully blunt lean mass gains during resistance training. Larger deficits proportionally increase lean mass losses — the basis for scaling expected muscle loss by deficit size and experience level.</p>
-            <div style="border-top:1px solid #334155;padding-top:0.875rem;display:flex;flex-direction:column;gap:0.5rem;">
-              <a href="https://pubmed.ncbi.nlm.nih.gov/34623696/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Murphy et al. (2021) — <em>PubMed.</em> Energy deficiency impairs resistance training gains in lean mass: meta-analysis showing ~500 kcal/day deficit blunts LBM gains.</span>
-              </a>
-            </div>
-          </div>
-
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#818cf8;margin-bottom:0.5rem;">Carbohydrates — Remaining Calories for Performance</div>
-            <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.65;margin-bottom:1rem;">After protein and fat minimums are met, remaining calories fill carbohydrates. Carbs are the primary fuel for glycolytic exercise and help maintain anabolic hormone levels — low carbohydrate availability during training has been associated with reduced testosterone and impaired workout performance.</p>
-            <div style="border-top:1px solid #334155;padding-top:0.875rem;display:flex;flex-direction:column;gap:0.5rem;">
-              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8978023/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Nunes et al. (2022) — <em>J Int Soc Sports Nutr.</em> Protein intake to support muscle mass and function in resistance-trained adults: systematic review and meta-analysis.</span>
-              </a>
-            </div>
+          <div class="cite-card">
+            <div class="cite-tag">Deficit — 300 / 500 / 750 cal</div>
+            <h3>Deficit size &amp; LBM retention</h3>
+            <p>A meta-analysis found a ~500 kcal/day deficit fully blunts lean mass gains during resistance training. Larger deficits proportionally increase lean mass losses — the basis for scaling expected muscle loss by deficit size and experience level.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/34623696/" target="_blank" class="cite-link">↗ Murphy et al. (2021) — PubMed</a>
           </div>
 
         </div>
       </div>
+    </section>
 
-      <!-- TRAINING TAB -->
-      <div id="panel-training" style="margin-top:4rem;"><div style="border-top:1px solid #1e293b;padding-top:4rem;"><h3 style="color:white;font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:1.75rem;">Training</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;">
+    <hr class="divider">
 
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#818cf8;margin-bottom:0.5rem;">Frequency — 2x/week Per Muscle Group</div>
-            <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.65;margin-bottom:1rem;">A landmark meta-analysis established that training each muscle group at least twice per week produces superior hypertrophic outcomes compared to once per week. Training each muscle group at least twice per week is the standard recommendation.</p>
-            <div style="border-top:1px solid #334155;padding-top:0.875rem;display:flex;flex-direction:column;gap:0.5rem;">
-              <a href="https://link.springer.com/article/10.1007/s40279-016-0543-8" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Schoenfeld, Ogborn &amp; Krieger (2016) — <em>Sports Medicine.</em> Effects of resistance training frequency on measures of muscle hypertrophy: a systematic review and meta-analysis.</span>
-              </a>
-            </div>
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap">
+        <p class="eyebrow" style="margin-bottom:0.75rem;">Training</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:2.5rem;">Training recommendations</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+
+          <div class="cite-card">
+            <div class="cite-tag">Frequency — 2–3x per muscle</div>
+            <h3>Training frequency &amp; hypertrophy</h3>
+            <p>A landmark meta-analysis established that training each muscle group at least twice per week produces superior hypertrophic outcomes compared to once per week.</p>
+            <a href="https://link.springer.com/article/10.1007/s40279-016-0543-8" target="_blank" class="cite-link">↗ Schoenfeld, Ogborn &amp; Krieger (2016) — Sports Medicine</a>
           </div>
 
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#818cf8;margin-bottom:0.5rem;">Volume — 6–22 Sets/Muscle/Week by Level</div>
-            <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.65;margin-bottom:1rem;">Hypertrophy follows a dose-response relationship with volume up to a recoverable ceiling. Israetel's volume landmark framework (MEV, MAV, MRV) and Schoenfeld's dose-response meta-analysis form the basis for the experience-differentiated volume ranges.</p>
-            <div style="border-top:1px solid #334155;padding-top:0.875rem;display:flex;flex-direction:column;gap:0.5rem;">
-              <a href="https://www.strongerbyscience.com/hypertrophy-range-fact-fiction/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Israetel &amp; Krieger — <em>Renaissance Periodization.</em> Volume landmarks for hypertrophy: MEV, MAV, and MRV by muscle group and experience level.</span>
-              </a>
-              <a href="https://pubmed.ncbi.nlm.nih.gov/28834797/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Schoenfeld et al. (2017) — <em>J Sports Sci.</em> Dose-response relationship between weekly resistance training volume and increases in muscle mass.</span>
-              </a>
-            </div>
+          <div class="cite-card">
+            <div class="cite-tag">Volume — 6–22 sets/muscle/week</div>
+            <h3>Volume dose-response</h3>
+            <p>Hypertrophy follows a dose-response relationship with volume up to a recoverable ceiling. Israetel's volume landmark framework (MEV, MAV, MRV) and Schoenfeld's meta-analysis form the basis for the experience-differentiated ranges.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/28834797/" target="_blank" class="cite-link">↗ Schoenfeld et al. (2017) — J Sports Sci</a>
           </div>
 
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#818cf8;margin-bottom:0.5rem;">Intensity — RPE 7–9.5 by Experience</div>
-            <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.65;margin-bottom:1rem;">RPE (Rate of Perceived Exertion) provides a practical, individualized intensity metric. Beginners train further from failure to build motor patterns; advanced lifters train closer to failure to maintain the hypertrophic stimulus as the adaptive ceiling rises.</p>
-            <div style="border-top:1px solid #334155;padding-top:0.875rem;display:flex;flex-direction:column;gap:0.5rem;">
-              <a href="https://pubmed.ncbi.nlm.nih.gov/30860564/" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Schoenfeld &amp; Grgic (2019) — <em>Strength &amp; Cond J.</em> Does training to failure maximize muscle hypertrophy? Review of the evidence.</span>
-              </a>
-            </div>
+          <div class="cite-card">
+            <div class="cite-tag">Intensity — RPE 7–9.5</div>
+            <h3>Proximity to failure</h3>
+            <p>RPE provides a practical intensity metric. Beginners train further from failure to build motor patterns; advanced lifters train closer to maintain the hypertrophic stimulus as the adaptive ceiling rises.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/30860564/" target="_blank" class="cite-link">↗ Schoenfeld &amp; Grgic (2019) — Strength &amp; Cond J</a>
           </div>
 
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.5rem;">
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#818cf8;margin-bottom:0.5rem;">Body Recomposition — Simultaneous Muscle &amp; Fat Change</div>
-            <p style="color:#cbd5e1;font-size:0.9rem;line-height:1.65;margin-bottom:1rem;">Despite conventional wisdom that muscle gain and fat loss can't happen simultaneously, a systematic review confirmed recomposition in resistance-trained individuals across multiple randomized controlled trials. Rate is highest in beginners and declines sharply with experience — the basis for the experience-differentiated monthly rates used here.</p>
-            <div style="border-top:1px solid #334155;padding-top:0.875rem;display:flex;flex-direction:column;gap:0.5rem;">
-              <a href="https://journals.lww.com/nsca-scj/fulltext/2020/10000/body_recomposition__can_trained_individuals_build.3.aspx" target="_blank" style="color:#a5b4fc;font-size:0.8125rem;text-decoration:none;display:flex;align-items:start;gap:0.5rem;">
-                <span style="flex-shrink:0;margin-top:2px;">↗</span>
-                <span>Barakat et al. (2020) — <em>Strength &amp; Conditioning Journal.</em> Body recomposition: can trained individuals build muscle and lose fat at the same time? Review of RCTs demonstrating recomposition across populations.</span>
-              </a>
-            </div>
+          <div class="cite-card">
+            <div class="cite-tag">Recomposition</div>
+            <h3>Simultaneous muscle gain &amp; fat loss</h3>
+            <p>A systematic review confirmed recomposition in resistance-trained individuals across multiple RCTs. Rate is highest in beginners and declines sharply with experience.</p>
+            <a href="https://journals.lww.com/nsca-scj/fulltext/2020/10000/body_recomposition__can_trained_individuals_build.3.aspx" target="_blank" class="cite-link">↗ Barakat et al. (2020) — Strength &amp; Conditioning Journal</a>
           </div>
 
         </div>
       </div>
+    </section>
 
-      </div><!-- close panel-training -->
+    <hr class="divider">
 
-      <!-- FORMULAS TAB -->
-      </div><div id="panel-formulas" style="margin-top:4rem;"><div style="border-top:1px solid #1e293b;padding-top:4rem;"><h3 style="color:white;font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem;">How It's Calculated</h3><p style="color:#94a3b8;font-size:1rem;margin-bottom:2rem;max-width:560px;">A plain-English walkthrough of every formula used when you hit Generate.</p>
-        <div style="display:flex;flex-direction:column;gap:1.5rem;">
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap-narrow">
+        <p class="eyebrow" style="margin-bottom:0.75rem;">Formulas</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.75rem;">How it's calculated.</h2>
+        <p class="body-text" style="margin-bottom:2.5rem;">A plain-English walkthrough of every calculation that runs when you hit Generate. Each step feeds into the next.</p>
 
-          <!-- Step 1: BMR -->
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.75rem;">
-            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
-              <div style="background:#312e81;color:#a5b4fc;font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.625rem;border-radius:6px;white-space:nowrap;">Step 1</div>
-              <h4 style="color:white;font-size:1rem;font-weight:700;">How many calories does your body burn at rest?</h4>
-            </div>
-            <p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Most calculators estimate this using total bodyweight — but that ignores body composition. A 180 lb person at 10% body fat burns significantly more calories at rest than a 180 lb person at 25% body fat, because muscle is metabolically active and fat is not. The <strong style="color:#cbd5e1;">Katch-McArdle formula</strong> corrects for this by using lean mass only.</p>
-            <div style="background:#0f172a;border-radius:10px;padding:1.25rem;margin-bottom:0.875rem;">
-              <div style="color:#818cf8;font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.625rem;">The formula</div>
-              <div style="font-family:monospace;font-size:1rem;color:#e2e8f0;line-height:2;">
-                Lean Mass (kg) = bodyweight × (1 − body fat%) × 0.454<br>
-                Resting Calories = 370 + (21.6 × Lean Mass in kg)
-              </div>
-            </div>
-            <div style="background:#1e3a5f;border-radius:8px;padding:0.875rem 1rem;font-size:0.875rem;color:#93c5fd;">
-              <strong>Example:</strong> 180 lbs at 15% body fat → 153 lbs lean mass → ~68 kg → resting burn of <strong>~1,838 calories/day</strong>
-            </div>
-          </div>
-
-          <!-- Step 2: NEAT + Exercise -->
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.75rem;">
-            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
-              <div style="background:#312e81;color:#a5b4fc;font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.625rem;border-radius:6px;white-space:nowrap;">Step 2</div>
-              <h4 style="color:white;font-size:1rem;font-weight:700;">How many calories do you burn moving around?</h4>
-            </div>
-            <p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Your resting burn is just the baseline. On top of that, your body burns calories through everyday movement (walking, fidgeting, standing — this is called <strong style="color:#cbd5e1;">NEAT</strong>) and through actual workouts. We scale these separately so the estimate accounts for both.</p>
-            <div style="background:#0f172a;border-radius:10px;padding:1.25rem;margin-bottom:0.875rem;">
-              <div style="color:#818cf8;font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.625rem;">The formula</div>
-              <div style="font-family:monospace;font-size:0.9375rem;color:#e2e8f0;line-height:2;">
-                Daily movement calories = Resting Calories × activity multiplier<br>
-                Workout calories = (training days per week × 300) ÷ 7
-              </div>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.625rem;margin-bottom:0.875rem;">
-              <div style="background:#0f172a;border-radius:8px;padding:0.75rem;text-align:center;">
-                <div style="color:#64748b;font-size:0.75rem;font-weight:600;margin-bottom:0.25rem;">Sedentary</div>
-                <div style="color:#e2e8f0;font-size:0.9375rem;font-weight:700;">× 1.2</div>
-                <div style="color:#64748b;font-size:0.7rem;margin-top:0.25rem;">Desk job, minimal movement</div>
-              </div>
-              <div style="background:#0f172a;border-radius:8px;padding:0.75rem;text-align:center;">
-                <div style="color:#64748b;font-size:0.75rem;font-weight:600;margin-bottom:0.25rem;">Moderately Active</div>
-                <div style="color:#e2e8f0;font-size:0.9375rem;font-weight:700;">× 1.35</div>
-                <div style="color:#64748b;font-size:0.7rem;margin-top:0.25rem;">Some daily walking or activity</div>
-              </div>
-              <div style="background:#0f172a;border-radius:8px;padding:0.75rem;text-align:center;">
-                <div style="color:#64748b;font-size:0.75rem;font-weight:600;margin-bottom:0.25rem;">Very Active</div>
-                <div style="color:#e2e8f0;font-size:0.9375rem;font-weight:700;">× 1.5</div>
-                <div style="color:#64748b;font-size:0.7rem;margin-top:0.25rem;">Physical job or high daily steps</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 3: TEF -->
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.75rem;">
-            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
-              <div style="background:#312e81;color:#a5b4fc;font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.625rem;border-radius:6px;white-space:nowrap;">Step 3</div>
-              <h4 style="color:white;font-size:1rem;font-weight:700;">How many calories does digestion burn? (most calculators skip this)</h4>
-            </div>
-            <p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Digesting food actually costs calories — your body has to break it down and process it. This is called the <strong style="color:#cbd5e1;">Thermic Effect of Food (TEF)</strong>. Protein is the most expensive to digest, carbs moderate, and fat very cheap. Most TDEE calculators ignore this entirely. Because TEF depends on macros, which depend on total calories, which depend on TEF, this is solved iteratively — running the calculation in a loop until the numbers stabilize.</p>
-            <div style="background:#0f172a;border-radius:10px;padding:1.25rem;margin-bottom:0.875rem;">
-              <div style="color:#818cf8;font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.625rem;">Digestion cost per macronutrient</div>
-              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.625rem;">
-                <div style="text-align:center;padding:0.75rem;background:#1e293b;border-radius:8px;">
-                  <div style="color:#f9a8d4;font-size:0.8rem;font-weight:700;margin-bottom:0.25rem;">Protein</div>
-                  <div style="color:#e2e8f0;font-size:1.125rem;font-weight:800;">25%</div>
-                  <div style="color:#64748b;font-size:0.7rem;">of its calories burned digesting</div>
-                </div>
-                <div style="text-align:center;padding:0.75rem;background:#1e293b;border-radius:8px;">
-                  <div style="color:#fcd34d;font-size:0.8rem;font-weight:700;margin-bottom:0.25rem;">Carbs</div>
-                  <div style="color:#e2e8f0;font-size:1.125rem;font-weight:800;">7.5%</div>
-                  <div style="color:#64748b;font-size:0.7rem;">of its calories burned digesting</div>
-                </div>
-                <div style="text-align:center;padding:0.75rem;background:#1e293b;border-radius:8px;">
-                  <div style="color:#86efac;font-size:0.8rem;font-weight:700;margin-bottom:0.25rem;">Fat</div>
-                  <div style="color:#e2e8f0;font-size:1.125rem;font-weight:800;">1.5%</div>
-                  <div style="color:#64748b;font-size:0.7rem;">of its calories burned digesting</div>
-                </div>
-              </div>
-            </div>
-            <div style="background:#1e3a5f;border-radius:8px;padding:0.875rem 1rem;font-size:0.875rem;color:#93c5fd;">
-              <strong>Total maintenance</strong> = Movement calories + Workout calories + Digestion calories — solved in ~5 iterations until the result stabilizes.
-            </div>
-          </div>
-
-          <!-- Step 4: Calorie Targets -->
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.75rem;">
-            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
-              <div style="background:#312e81;color:#a5b4fc;font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.625rem;border-radius:6px;white-space:nowrap;">Step 4</div>
-              <h4 style="color:white;font-size:1rem;font-weight:700;">What's your daily calorie target?</h4>
-            </div>
-            <p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Once maintenance is known, your target is set based on your goal. Cutting means eating below maintenance to lose fat. Bulking means eating above it to build muscle — but the surplus is kept smaller for advanced lifters because their bodies are less efficient at converting extra calories into muscle. Recomp stays at maintenance.</p>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;">
-              <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
-                <div style="color:#f87171;font-size:0.8rem;font-weight:800;margin-bottom:0.75rem;">CUTTING</div>
-                <div style="color:#e2e8f0;font-size:0.875rem;line-height:2;">
-                  Conservative: −300 cal/day<br>
-                  Moderate: −500 cal/day<br>
-                  Aggressive: −750 cal/day
-                </div>
-              </div>
-              <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
-                <div style="color:#4ade80;font-size:0.8rem;font-weight:800;margin-bottom:0.75rem;">BULKING</div>
-                <div style="color:#e2e8f0;font-size:0.875rem;line-height:2;">
-                  Beginner: +400 cal/day<br>
-                  Intermediate: +300 cal/day<br>
-                  Advanced: +200 cal/day
-                </div>
-              </div>
-              <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
-                <div style="color:#c084fc;font-size:0.8rem;font-weight:800;margin-bottom:0.75rem;">RECOMP</div>
-                <div style="color:#e2e8f0;font-size:0.875rem;line-height:2;">
-                  Eat at maintenance<br>
-                  Let training drive<br>
-                  body recomposition
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 5: Macros -->
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.75rem;">
-            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
-              <div style="background:#312e81;color:#a5b4fc;font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.625rem;border-radius:6px;white-space:nowrap;">Step 5</div>
-              <h4 style="color:white;font-size:1rem;font-weight:700;">How are calories split into protein, fat, and carbs?</h4>
-            </div>
-            <p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Protein is set first based on lean mass (not total bodyweight) — a more accurate basis since only muscle tissue requires protein for maintenance and growth. Fat is set based on total bodyweight to support hormone production. Every remaining calorie goes to carbohydrates to fuel workouts. Protein needs per pound of lean mass are set higher on a cut because the body is more likely to break down muscle when calories are restricted.</p>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
-              <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
-                <div style="color:#818cf8;font-size:0.75rem;font-weight:700;margin-bottom:0.75rem;">CUTTING / RECOMP</div>
-                <div style="color:#e2e8f0;font-size:0.875rem;line-height:2.1;">
-                  Protein: 1.2g per lb of lean mass<br>
-                  Fat: 0.4g per lb of bodyweight<br>
-                  Carbs: whatever's left
-                </div>
-              </div>
-              <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
-                <div style="color:#818cf8;font-size:0.75rem;font-weight:700;margin-bottom:0.75rem;">BULKING</div>
-                <div style="color:#e2e8f0;font-size:0.875rem;line-height:2.1;">
-                  Protein: 1.0g per lb of lean mass<br>
-                  Fat: 0.5g per lb of bodyweight<br>
-                  Carbs: whatever's left
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 6: Body Composition -->
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.75rem;">
-            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
-              <div style="background:#312e81;color:#a5b4fc;font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.625rem;border-radius:6px;white-space:nowrap;">Step 6</div>
-              <h4 style="color:white;font-size:1rem;font-weight:700;">Where will that weight loss (or gain) come from?</h4>
-            </div>
-            <p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Not all weight lost during a cut is fat — some is muscle. Not all weight gained during a bulk is muscle — some is fat. The model accounts for both directions based on experience level and deficit or surplus size.</p>
-            <div style="display:flex;flex-direction:column;gap:0.75rem;">
-              <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
-                <div style="color:#f87171;font-size:0.8rem;font-weight:800;margin-bottom:0.625rem;">CUTTING — How much of your weight loss is muscle vs. fat?</div>
-                <p style="color:#94a3b8;font-size:0.875rem;line-height:1.65;margin-bottom:0.625rem;">We estimate that a small portion of the weight you lose will be muscle (not just fat). That portion depends on how advanced you are and how aggressive your deficit is — larger deficits and more experienced lifters lose a higher proportion of muscle. The rest is fat loss.</p>
-                <div style="color:#e2e8f0;font-size:0.8125rem;line-height:2;">
-                  Beginner: 0–10% of weight lost is muscle &nbsp;|&nbsp; Intermediate: 10–20% &nbsp;|&nbsp; Advanced: 15–30%
-                </div>
-              </div>
-              <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
-                <div style="color:#4ade80;font-size:0.8rem;font-weight:800;margin-bottom:0.625rem;">BULKING — How much of your weight gain is muscle vs. fat?</div>
-                <p style="color:#94a3b8;font-size:0.875rem;line-height:1.65;margin-bottom:0.625rem;">Research suggests roughly 60–80% of weight gained in a clean bulk is lean mass. 70% is used as a realistic middle estimate.</p>
-                <div style="color:#e2e8f0;font-size:0.8125rem;">70% of weight gained → muscle &nbsp;|&nbsp; 30% → fat</div>
-              </div>
-              <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
-                <div style="color:#c084fc;font-size:0.8rem;font-weight:800;margin-bottom:0.625rem;">RECOMP — Gaining muscle and losing fat at the same time</div>
-                <p style="color:#94a3b8;font-size:0.875rem;line-height:1.65;">Recomp is slow but real — especially for beginners. The body reallocates energy, building muscle from protein and training stimulus while slowly oxidizing fat stores. Rate slows significantly with experience.</p>
-              </div>
-              <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
-                <div style="color:#818cf8;font-size:0.8rem;font-weight:800;margin-bottom:0.625rem;">Cutting to a target body fat % (not just a weight)</div>
-                <p style="color:#94a3b8;font-size:0.875rem;line-height:1.65;">When a goal body fat percentage is entered instead of a goal weight, the calculation works backwards to find the correct target weight. Because weight loss includes some lean mass, the target weight must account for this — otherwise the final body fat percentage would be off. The estimate is refined iteratively until accurate to within 0.01%.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 7: Timeline -->
-          <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:1.75rem;">
-            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
-              <div style="background:#312e81;color:#a5b4fc;font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.625rem;border-radius:6px;white-space:nowrap;">Step 7</div>
-              <h4 style="color:white;font-size:1rem;font-weight:700;">How long will it take?</h4>
-            </div>
-            <p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">One pound of body fat contains roughly 3,500 calories. To lose that pound, you need to run a 3,500 calorie deficit over time. Your daily deficit determines how fast that happens. The total calorie gap is divided by the daily deficit to calculate how many weeks the process will take.</p>
-            <div style="background:#0f172a;border-radius:10px;padding:1.25rem;">
-              <div style="color:#818cf8;font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.625rem;">The formula</div>
-              <div style="font-family:monospace;font-size:0.9375rem;color:#e2e8f0;line-height:2;">
-                Weeks to goal = (pounds to lose × 3,500) ÷ (daily deficit × 7)
-              </div>
-            </div>
-            <div style="background:#1e3a5f;border-radius:8px;padding:0.875rem 1rem;font-size:0.875rem;color:#93c5fd;margin-top:0.75rem;">
-              <strong>Example:</strong> Losing 20 lbs at a 500 cal/day deficit → (20 × 3,500) ÷ (500 × 7) = <strong>20 weeks</strong>
-            </div>
-          </div>
-
+        <div class="formula-card">
+          <div class="formula-step">Step 1</div>
+          <h4>How many calories does your body burn at rest?</h4>
+          <p>Most calculators use total bodyweight — but that ignores body composition. The <strong style="color:var(--text-1);">Katch-McArdle formula</strong> uses lean mass only, making it more accurate for people at different body fat levels.</p>
+          <div class="code-block">Lean Mass (kg) = bodyweight × (1 − BF%) × 0.454<br>Resting Calories = 370 + (21.6 × Lean Mass in kg)</div>
+          <div class="example-block">Example: 180 lbs at 15% BF → 153 lbs lean mass → ~68 kg → resting burn of ~1,838 cal/day</div>
         </div>
+
+        <div class="formula-card">
+          <div class="formula-step">Step 2</div>
+          <h4>How many calories do you burn moving around?</h4>
+          <p>Your resting burn is the baseline. On top of that, your body burns calories through everyday movement (NEAT) and actual workouts, scaled separately.</p>
+          <div class="code-block">Daily movement = Resting Calories × activity multiplier<br><span class="code-comment">// Sedentary × 1.2 &nbsp;|&nbsp; Moderately Active × 1.35 &nbsp;|&nbsp; Very Active × 1.5</span><br>Workout calories = (training days/week × 300) ÷ 7</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="formula-step">Step 3</div>
+          <h4>How many calories does digestion burn?</h4>
+          <p>Digesting food costs calories. Protein is the most expensive at 25%, carbs 7.5%, fat 1.5%. Because TEF depends on macros which depend on total calories which include TEF — this is solved iteratively until the result stabilizes.</p>
+          <div class="code-block">TEF = (Protein_kcal × 0.25) + (Carb_kcal × 0.075) + (Fat_kcal × 0.015)<br>Maintenance = NEAT + Exercise + TEF<br><span class="code-comment">// Solved iteratively until convergence</span></div>
+        </div>
+
+        <div class="formula-card">
+          <div class="formula-step">Step 4</div>
+          <h4>What's your daily calorie target?</h4>
+          <p>Once maintenance is known, the target is set based on your goal. Bulk surplus scales smaller with experience — advanced lifters' adaptive ceiling is lower, so excess calories beyond ~200/day mostly become fat.</p>
+          <div class="code-block">Cut:   Maintenance − 300 / 500 / 750 cal<br>Bulk:  Maintenance + 400 / 300 / 200 cal (Beginner / Inter / Adv)<br>Recomp: Maintenance</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="formula-step">Step 5</div>
+          <h4>How are calories split into macros?</h4>
+          <p>Protein and fat are set first as minimums based on lean mass and bodyweight. Every remaining calorie goes to carbohydrates to fuel workouts and maintain anabolic hormone levels.</p>
+          <div class="code-block">Cut / Recomp: &nbsp;Protein = LM × 1.2g &nbsp;|&nbsp; Fat = BW × 0.4g<br>Bulk: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Protein = LM × 1.0g &nbsp;|&nbsp; Fat = BW × 0.5g<br>Carbs = (Target Cals − P×4 − F×9) ÷ 4</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="formula-step">Step 6</div>
+          <h4>Where does the weight change come from?</h4>
+          <p>Not all weight lost on a cut is fat — some is muscle. Not all weight gained on a bulk is muscle — some is fat. The model accounts for both based on experience level and deficit or surplus size.</p>
+          <div class="code-block">Cut:  LBM_lost = totalWeightLost × ratio<br><span class="code-comment">// Beginner 0–10% &nbsp;|&nbsp; Intermediate 10–20% &nbsp;|&nbsp; Advanced 15–30%</span><br><br>Bulk: LBM_gained = totalGain × 0.70 &nbsp;|&nbsp; Fat_gained = totalGain × 0.30</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="formula-step">Step 7</div>
+          <h4>How long will it take?</h4>
+          <p>One pound of body fat contains roughly 3,500 calories. Dividing the total calorie gap by your daily deficit gives the number of weeks to goal.</p>
+          <div class="code-block">Weeks = (pounds to lose × 3,500) ÷ (daily deficit × 7)</div>
+          <div class="example-block">Example: 20 lbs at −500 cal/day → (20 × 3,500) ÷ (500 × 7) = <strong>20 weeks</strong></div>
+        </div>
+
       </div>
+    </section>
 
-    </div>
-  </section>
+    <footer style="border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;background:var(--bg);">
+      <span style="font-size:0.9375rem;font-weight:700;color:var(--text-1);">Physio Plan</span>
+      <span class="small-text">&copy; 2025 Physio Plan. All rights reserved.</span>
+    </footer>
 
-    <section class="cta-section">
-    <h2>Ready to build your plan?</h2>
-    <p>Takes 2 minutes. No account required. Completely free.</p>
-    <button class="btn-cta-white" onclick="openModal()">Create Your Plan Now</button>
-  </section>
-
-  <footer>
-    <div class="footer-logo">Physio Plan</div>
-    <p>&copy; 2025 Physio Plan. All rights reserved.</p>
-  </footer>
   </div><!-- end page-science -->
 
   <!-- PAGE: COMMUNITY -->
-  <div id="page-study">
+  <div id="page-study" style="display:block;">
 
-  <!-- HERO -->
-  <section style="background:#0f172a;padding:5rem 2rem 4rem;">
-    <div style="max-width:760px;margin:0 auto;">
-      <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Community</p>
-      <h1 style="font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#f8fafc;line-height:1.1;letter-spacing:-0.03em;margin-bottom:1.5rem;">Fitness shouldn't require a PhD to figure out.</h1>
-      <div style="display:flex;flex-direction:column;gap:1rem;max-width:620px;">
-        <p style="font-size:1.0625rem;color:#64748b;line-height:1.75;">Getting in shape is straightforward in theory — eat right, train hard, be consistent. But the advice online is either too generic to be useful or so contradictory you don't know where to start. Calculators that multiply your bodyweight by 15. Influencers telling you opposite things about protein. Programs that don't account for your actual experience level or goals. Most people spend more time confused than making progress.</p>
-        <p style="font-size:1.0625rem;color:#64748b;line-height:1.75;">I got frustrated with that. I've been training seriously for years — running cut and bulk cycles, tracking nutrition, and learning what actually moves the needle. Instead of accepting the generic advice, I went to the research: peer-reviewed studies on energy expenditure, protein requirements, training volume, body composition. I took all of it and built PhysioPlan to do the calculations correctly, the way they should be done.</p>
-        <p style="font-size:1.0625rem;color:#64748b;line-height:1.75;">The math side comes naturally — I head my school's math team with regional and state level competition awards, so getting the formulas right isn't something I take lightly. The goal with PhysioPlan is simple: give you a plan that's actually grounded in science, so you can stop guessing and start making real progress.</p>
-        <p style="font-size:1.0625rem;color:#64748b;line-height:1.75;">Fill out the form below and I'll follow up with you throughout your journey.</p>
+    <!-- HERO -->
+    <section style="padding:5rem 0 4rem;background:var(--bg);">
+      <div class="wrap-narrow">
+        <p class="eyebrow" style="margin-bottom:1rem;">Community</p>
+        <h1 class="headline" style="margin-bottom:2rem;">Fitness shouldn't require a PhD to figure out.</h1>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <p class="body-text">Getting in shape is straightforward in theory — eat right, train hard, be consistent. But the advice online is either too generic to be useful or so contradictory you don't know where to start. Calculators that multiply your bodyweight by 15. Influencers telling you opposite things about protein. Programs that don't account for your actual experience level or goals.</p>
+          <p class="body-text">I got frustrated with that. I've been training seriously for years — running cut and bulk cycles, tracking nutrition, and learning what actually moves the needle. Instead of accepting the generic advice, I went to the research: peer-reviewed studies on energy expenditure, protein requirements, training volume, body composition. I took all of it and built PhysioPlan to do the calculations correctly, the way they should be done.</p>
+          <p class="body-text">The math side comes naturally — I head my school's math team with regional and state level competition awards, so getting the formulas right isn't something I take lightly. The goal is simple: give you a plan that's actually grounded in science, so you can stop guessing and start making real progress.</p>
+          <p class="body-text">Fill out the form below and I'll follow up with you throughout your journey.</p>
+        </div>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:2.5rem;">
+          <button class="btn btn-green" onclick="openModal()">Get Your Plan</button>
+          <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank" class="btn btn-ghost">Share your goals</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ENROLL CTA - top of page -->
-  <section style="background:#1e293b;border-top:1px solid #334155;border-bottom:1px solid #334155;padding:1.25rem 2rem;">
-    <div style="max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-      <p style="color:#94a3b8;font-size:0.9rem;">Already planning a cut, bulk, or recomp? Join the community.</p>
-      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-        <button onclick="openModal()"
-          style="background:#16a34a;color:white;padding:0.625rem 1.25rem;border-radius:8px;font-size:0.875rem;font-weight:700;border:none;cursor:pointer;white-space:nowrap;font-family:Inter,sans-serif;">
-          Get Your Plan
-        </button>
-        <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank"
-          style="background:transparent;color:#818cf8;padding:0.625rem 1.25rem;border-radius:8px;font-size:0.875rem;font-weight:700;text-decoration:none;white-space:nowrap;border:1px solid #334155;font-family:Inter,sans-serif;">
-          Share your goals
-        </a>
-      </div>
-    </div>
-  </section>
+    <hr class="divider">
 
-  <!-- HOW IT WORKS -->
-  <section style="background:#0f172a;padding:4rem 2rem;">
-    <div style="max-width:760px;margin:0 auto;">
-      <h2 style="font-size:1.5rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.02em;margin-bottom:0.75rem;">How it works</h2>
-      <p style="color:#475569;font-size:0.9375rem;line-height:1.65;margin-bottom:2.5rem;">Three steps. Takes about 5 minutes total.</p>
-      <div style="display:flex;flex-direction:column;gap:0;">
-
-        <div style="display:flex;gap:2rem;padding-bottom:2rem;position:relative;">
-          <div style="position:absolute;left:15px;top:36px;bottom:0;width:1px;background:linear-gradient(#4f46e5,#1e293b);"></div>
-          <div style="width:32px;height:32px;border-radius:50%;background:#4f46e5;color:white;display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:800;flex-shrink:0;position:relative;z-index:1;">1</div>
-          <div style="padding-top:4px;">
-            <h3 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:0.375rem;">Get your plan</h3>
-            <p style="color:#475569;font-size:0.9375rem;line-height:1.6;">Use the calculator to generate your personalized calorie, macro, and training plan. Takes 2 minutes.</p>
+    <!-- HOW IT WORKS -->
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap-narrow">
+        <p class="eyebrow" style="margin-bottom:1rem;">How it works</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:2.5rem;">Three steps.</h2>
+        <div>
+          <div class="step-row">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h3>Get your plan</h3>
+              <p>Use the calculator to generate your personalized calorie, macro, and training plan. Takes 2 minutes.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h3>Share your goals</h3>
+              <p>Fill out the short form with your starting stats and what you're working toward.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h3>Check in every two weeks</h3>
+              <p>A short check-in every two weeks tracks your progress. Adjust targets based on real results.</p>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div style="display:flex;gap:2rem;padding-bottom:2rem;position:relative;">
-          <div style="position:absolute;left:15px;top:36px;bottom:0;width:1px;background:linear-gradient(#4f46e5,#1e293b);"></div>
-          <div style="width:32px;height:32px;border-radius:50%;background:#4f46e5;color:white;display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:800;flex-shrink:0;position:relative;z-index:1;">2</div>
-          <div style="padding-top:4px;">
-            <h3 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:0.375rem;">Share your goals</h3>
-            <p style="color:#475569;font-size:0.9375rem;line-height:1.6;">Fill out the short form below with your starting stats and what you're working toward. I'll personally review it and follow up.</p>
+    <hr class="divider">
+
+    <!-- WHAT YOU'LL BE ASKED -->
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap">
+        <p class="eyebrow" style="margin-bottom:0.75rem;">What you'll be asked</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.5rem;">Short check-ins every two weeks.</h2>
+        <p class="body-text" style="margin-bottom:2.5rem;">None take more than 5 minutes.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+
+          <div class="checkin-card">
+            <h3>Day 1</h3>
+            <div class="checkin-item">Name &amp; sex</div>
+            <div class="checkin-item">Goal &amp; specific target</div>
+            <div class="checkin-item">Current weight &amp; body fat %</div>
+            <div class="checkin-item">Training experience level</div>
+            <div class="checkin-item">PhysioPlan's calculated calorie target</div>
+            <div class="checkin-item">Current lift &amp; estimated 1RM (if strength goal)</div>
+            <div class="checkin-item">Baseline photo (optional)</div>
+            <div class="checkin-item">Data use consent</div>
           </div>
-        </div>
 
-        <div style="display:flex;gap:2rem;">
-          <div style="width:32px;height:32px;border-radius:50%;background:#4f46e5;color:white;display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:800;flex-shrink:0;">3</div>
-          <div style="padding-top:4px;">
-            <h3 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:0.375rem;">Check in every two weeks</h3>
-            <p style="color:#475569;font-size:0.9375rem;line-height:1.6;">I'll reach out every two weeks to see how you're tracking. Short check-in, under 5 minutes. Adjust your targets if needed based on real progress.</p>
+          <div class="checkin-card">
+            <h3>Every 2 weeks</h3>
+            <div class="checkin-item">Current weight (fasted, morning)</div>
+            <div class="checkin-item">Working weight for each tracked lift</div>
+            <div class="checkin-item">Days out of 14 within 10% of calorie target</div>
+            <div class="checkin-item">Training sessions completed out of planned</div>
+            <div class="checkin-item">Open comments (optional)</div>
           </div>
+
+          <div class="checkin-card">
+            <h3>Final check-in</h3>
+            <div class="checkin-sub">Physical outcomes</div>
+            <div class="checkin-item">Final weight (fasted, morning)</div>
+            <div class="checkin-item">Final working weight for each tracked lift</div>
+            <div class="checkin-sub">Overall adherence</div>
+            <div class="checkin-item">Calorie &amp; macro consistency — full period (1–10)</div>
+            <div class="checkin-item">Training consistency — full period (1–10)</div>
+            <div class="checkin-item">Average days per week PhysioPlan was used</div>
+            <div class="checkin-sub">Satisfaction</div>
+            <div class="checkin-item">Would you continue using PhysioPlan? Why?</div>
+            <div class="checkin-item">Likelihood to recommend (0–10)</div>
+            <div class="checkin-item">Overall satisfaction (1–10)</div>
+            <div class="checkin-sub">Qualitative</div>
+            <div class="checkin-item">Most valuable thing about PhysioPlan</div>
+            <div class="checkin-item">Biggest limitation or thing you'd change</div>
+            <div class="checkin-item">Any other comments (optional)</div>
+          </div>
+
         </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- WHAT YOU SHARE -->
-  <section style="background:#080f1a;padding:4rem 2rem;border-top:1px solid #1e293b;">
-    <div style="max-width:760px;margin:0 auto;">
-      <h2 style="font-size:1.5rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.02em;margin-bottom:0.75rem;">What you'll be asked</h2>
-      <p style="color:#475569;font-size:0.9375rem;line-height:1.65;margin-bottom:2.5rem;">Short check-ins every 2 weeks. None take more than 5 minutes.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;">
+    <hr class="divider">
 
-        <div style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;">
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Day 1</p>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Name &amp; sex</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Goal &amp; specific target</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Current weight &amp; body fat %</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Training experience level</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> PhysioPlan's calculated calorie target</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Current lift &amp; estimated 1RM (if strength goal)</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Baseline photo (optional)</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Data use consent</li>
-          </ul>
+    <!-- MEMBER RESULTS -->
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap">
+        <p class="eyebrow" style="margin-bottom:0.75rem;">Member results</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.75rem;">Real outcomes.</h2>
+        <p class="body-text" style="margin-bottom:2.5rem;">Updated as members complete their journeys.</p>
+        <div style="border:1px solid var(--border);border-radius:12px;padding:2.5rem;text-align:center;">
+          <p style="font-size:0.9375rem;color:var(--text-3);">Results will appear here as members complete their plans.</p>
         </div>
+      </div>
+    </section>
 
-        <div style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;">
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Every 2 weeks</p>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Current weight (fasted, morning)</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Working weight for each tracked lift</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Days out of 14 within 10% of calorie target</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Training sessions completed out of planned</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Open comments (optional)</li>
-          </ul>
+    <hr class="divider">
+
+    <!-- JOIN CTA -->
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap-narrow" style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:2rem;">
+        <div>
+          <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.625rem;">Ready to get started?</h2>
+          <p class="body-text" style="max-width:400px;">Get your plan, share your goals, and I'll follow up. Your progress helps make PhysioPlan better for everyone.</p>
         </div>
-
-        <div style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:1.5rem;">
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4f46e5;margin-bottom:1rem;">Final check-in</p>
-
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#334155;margin-bottom:0.5rem;margin-top:0.25rem;">Physical outcomes</p>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;">
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Final weight (fasted, morning)</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Final working weight for each tracked lift</li>
-          </ul>
-
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#334155;margin-bottom:0.5rem;">Overall adherence</p>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;">
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Calorie &amp; macro consistency across the full period (1–10)</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Training consistency across the full period (1–10)</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Average days per week PhysioPlan was used</li>
-          </ul>
-
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#334155;margin-bottom:0.5rem;">Satisfaction</p>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;">
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Would you continue using PhysioPlan? (Yes / Maybe / No) — and why?</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> How likely to recommend to a friend? (0–10)</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Overall satisfaction (1–10)</li>
-          </ul>
-
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#334155;margin-bottom:0.5rem;">Qualitative</p>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Most valuable thing about using PhysioPlan</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Biggest limitation or thing you'd change</li>
-            <li style="color:#64748b;font-size:0.875rem;display:flex;gap:0.5rem;"><span style="color:#334155;">—</span> Any other comments (optional)</li>
-          </ul>
-        </div>
-
+        <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank" class="btn btn-blue">Share your goals</a>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- RESULTS/STORIES - grows over time -->
-  <section style="background:#0f172a;padding:4rem 2rem;border-top:1px solid #1e293b;">
-    <div style="max-width:760px;margin:0 auto;">
-      <h2 style="font-size:1.5rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.02em;margin-bottom:0.75rem;">Member results</h2>
-      <p style="color:#475569;font-size:0.9375rem;line-height:1.65;margin-bottom:2.5rem;">Real outcomes from people using PhysioPlan. Updated as members complete their journeys.</p>
-      <div style="background:#1e293b;border:1px solid #334155;border-radius:12px;padding:2rem;text-align:center;">
-        <p style="color:#334155;font-size:0.9375rem;">Results will appear here as members complete their plans.</p>
-        <p style="color:#1e293b;font-size:0.875rem;margin-top:0.5rem;">Check back soon.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- JOIN CTA -->
-  <section style="background:#080f1a;padding:4rem 2rem;border-top:1px solid #1e293b;">
-    <div style="max-width:760px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:2rem;">
-      <div>
-        <h2 style="font-size:1.375rem;font-weight:700;color:#f1f5f9;margin-bottom:0.625rem;">Ready to get started?</h2>
-        <p style="color:#475569;font-size:0.9375rem;max-width:440px;line-height:1.65;">Get your plan, share your goals, and I'll follow up personally. Your progress helps make PhysioPlan better for everyone.</p>
-      </div>
-      <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank"
-        style="background:#4f46e5;color:white;padding:0.875rem 1.75rem;border-radius:8px;font-size:0.9375rem;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;font-family:Inter,sans-serif;">
-        Share your goals
-      </a>
-    </div>
-  </section>
-
-  <footer style="background:#020617;padding:2rem;border-top:1px solid #0f172a;">
-    <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
-      <span style="font-size:1rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.01em;">Physio Plan</span>
-      <span style="font-size:0.8125rem;color:#1e293b;">&copy; 2025 Physio Plan. All rights reserved.</span>
-    </div>
-  </footer>
+    <footer style="border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;background:var(--bg);">
+      <span style="font-size:0.9375rem;font-weight:700;color:var(--text-1);">Physio Plan</span>
+      <span class="small-text">&copy; 2025 Physio Plan. All rights reserved.</span>
+    </footer>
 
   </div><!-- end page-study -->
 
@@ -1002,7 +781,7 @@
 <div class="modal-overlay" id="modal">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">Physio Plan — Build Your Plan</span>
+      <span class="modal-title">Build Your Plan</span>
       <button class="modal-close" onclick="closeModal()">&#x2715;</button>
     </div>
     <div class="modal-body">
@@ -1213,25 +992,25 @@
 
     // shared dark-theme inline styles
     const S = {
-      wrap:      { minHeight:'100vh', background:'#0f172a', padding:'clamp(0.75rem, 4vw, 1.5rem)', fontFamily:'Inter,sans-serif', boxSizing:'border-box' },
-      card:      { background:'#1e293b', border:'1px solid #334155', borderRadius:'16px', padding:'clamp(1rem, 4vw, 2rem)', maxWidth:'860px', margin:'0 auto', width:'100%', boxSizing:'border-box' },
-      label:     { display:'block', fontSize:'0.8125rem', fontWeight:'600', color:'#94a3b8', marginBottom:'0.5rem', textTransform:'uppercase', letterSpacing:'0.05em' },
-      input:     { width:'100%', padding:'0.625rem 0.875rem', background:'#0f172a', border:'1px solid #334155', borderRadius:'8px', color:'#f1f5f9', fontSize:'0.9375rem', outline:'none', fontFamily:'inherit' },
-      select:    { width:'100%', padding:'0.625rem 0.875rem', background:'#0f172a', border:'1px solid #334155', borderRadius:'8px', color:'#f1f5f9', fontSize:'0.9375rem', outline:'none', fontFamily:'inherit' },
+      wrap:      { minHeight:'100vh', background:'#0a0a0a', padding:'clamp(0.75rem, 4vw, 1.5rem)', fontFamily:'-apple-system,Inter,sans-serif', boxSizing:'border-box' },
+      card:      { background:'#111111', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'16px', padding:'clamp(1rem, 4vw, 2rem)', maxWidth:'860px', margin:'0 auto', width:'100%', boxSizing:'border-box' },
+      label:     { display:'block', fontSize:'0.8125rem', fontWeight:'600', color:'#5a5a5a', marginBottom:'0.5rem', textTransform:'uppercase', letterSpacing:'0.05em' },
+      input:     { width:'100%', padding:'0.625rem 0.875rem', background:'#1a1a1a', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'8px', color:'#f5f5f5', fontSize:'0.9375rem', outline:'none', fontFamily:'inherit' },
+      select:    { width:'100%', padding:'0.625rem 0.875rem', background:'#1a1a1a', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'8px', color:'#f5f5f5', fontSize:'0.9375rem', outline:'none', fontFamily:'inherit' },
       radioWrap: { display:'flex', gap:'1.5rem', flexWrap:'wrap' },
-      radioLabel:{ display:'flex', alignItems:'center', gap:'0.5rem', cursor:'pointer', color:'#cbd5e1', fontSize:'0.9375rem' },
+      radioLabel:{ display:'flex', alignItems:'center', gap:'0.5rem', cursor:'pointer', color:'#a0a0a0', fontSize:'0.9375rem' },
       divider:   { borderTop:'1px solid #334155', margin:'1.5rem 0' },
-      resultCard:{ background:'#0f172a', border:'1px solid #334155', borderRadius:'12px', padding:'1.25rem' },
-      statBox:   { background:'#1e293b', border:'1px solid #334155', borderRadius:'10px', padding:'1rem', textAlign:'center' },
+      resultCard:{ background:'#111111', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'12px', padding:'1.25rem' },
+      statBox:   { background:'#1a1a1a', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'10px', padding:'1rem', textAlign:'center' },
     };
 
     if (step === 'goal-selection') {
       return (
         <div style={S.wrap}>
           <div style={{...S.card, maxWidth:'560px'}}>
-            <h1 style={{fontSize:'1.75rem', fontWeight:'800', color:'#f1f5f9', marginBottom:'0.375rem', letterSpacing:'-0.02em'}}>Physio Plan</h1>
-            <p style={{color:'#64748b', marginBottom:'2rem', fontSize:'0.9375rem'}}>Science-based fitness planning in 2 minutes.</p>
-            <h2 style={{fontSize:'1.125rem', fontWeight:'700', color:'#cbd5e1', marginBottom:'1.25rem'}}>What's your goal?</h2>
+            <h1 style={{fontSize:'1.75rem', fontWeight:'800', color:'#f5f5f5', marginBottom:'0.375rem', letterSpacing:'-0.02em'}}>Physio Plan</h1>
+            <p style={{color:'#5a5a5a', marginBottom:'2rem', fontSize:'0.9375rem'}}>Science-based fitness planning in 2 minutes.</p>
+            <h2 style={{fontSize:'1.125rem', fontWeight:'700', color:'#f5f5f5', marginBottom:'1.25rem'}}>What's your goal?</h2>
             <div style={{display:'flex', flexDirection:'column', gap:'0.875rem', width:'100%'}}>
               {[
                 { g:'cut',    bg:'linear-gradient(135deg,#dc2626,#db2777)', t:'Lose Fat (Cut)',      d:'Reduce body fat while preserving muscle' },
@@ -1262,10 +1041,10 @@
         <div style={S.card}>
           {/* Header */}
           <div style={{display:'flex', alignItems:'baseline', gap:'0.75rem', marginBottom:'1.75rem'}}>
-            <h1 style={{fontSize:'1.5rem', fontWeight:'800', color:'#f1f5f9', letterSpacing:'-0.02em'}}>Physio Plan</h1>
-            <span style={{background:'#312e81', color:'#a5b4fc', fontSize:'0.75rem', fontWeight:'700', padding:'0.2rem 0.625rem', borderRadius:'6px', letterSpacing:'0.04em'}}>{goalLabel.toUpperCase()}</span>
+            <h1 style={{fontSize:'1.5rem', fontWeight:'800', color:'#f5f5f5', letterSpacing:'-0.02em'}}>Physio Plan</h1>
+            <span style={{background:'rgba(79,142,255,0.12)', color:'#4f8eff', fontSize:'0.75rem', fontWeight:'700', padding:'0.2rem 0.625rem', borderRadius:'6px', letterSpacing:'0.04em'}}>{goalLabel.toUpperCase()}</span>
             <button onClick={() => { setStep('goal-selection'); setResults(null); setErrorMsg(''); }}
-              style={{marginLeft:'auto', color:'#818cf8', fontSize:'0.8125rem', fontWeight:'600', background:'none', border:'none', cursor:'pointer', fontFamily:'inherit'}}>
+              style={{marginLeft:'auto', color:'#4f8eff', fontSize:'0.8125rem', fontWeight:'600', background:'none', border:'none', cursor:'pointer', fontFamily:'inherit'}}>
               ← Change goal
             </button>
           </div>
@@ -1369,19 +1148,19 @@
           </div>
 
           {errorMsg && (
-            <div id="calc-error" style={{marginBottom:'1rem', background:'#1e1010', border:'1px solid #7f1d1d', color:'#fca5a5', borderRadius:'8px', padding:'0.75rem 1rem', fontSize:'0.875rem', fontWeight:'500'}}>
+            <div id="calc-error" style={{marginBottom:'1rem', background:'rgba(220,38,38,0.1)', border:'1px solid rgba(220,38,38,0.3)', color:'#fca5a5', borderRadius:'8px', padding:'0.75rem 1rem', fontSize:'0.875rem', fontWeight:'500'}}>
               {errorMsg}
             </div>
           )}
 
           <button onClick={calculatePlan} style={{
-            width:'100%', background:'#4f46e5', color:'white', padding:'0.875rem',
+            width:'100%', background:'#4f8eff', color:'white', padding:'0.875rem',
             borderRadius:'10px', fontWeight:'700', fontSize:'1rem', border:'none',
             cursor:'pointer', fontFamily:'inherit', transition:'background 0.15s',
             boxShadow:'0 4px 16px rgba(79,70,229,0.4)'
           }}
-          onMouseEnter={e=>e.currentTarget.style.background='#4338ca'}
-          onMouseLeave={e=>e.currentTarget.style.background='#4f46e5'}>
+          onMouseEnter={e=>e.currentTarget.style.background='#3a72e8'}
+          onMouseLeave={e=>e.currentTarget.style.background='#4f8eff'}>
             Generate My Plan
           </button>
 
@@ -1390,23 +1169,23 @@
 
               {/* Nutrition */}
               <div style={S.resultCard}>
-                <h2 style={{fontSize:'1.125rem', fontWeight:'700', color:'#818cf8', marginBottom:'1.25rem', textTransform:'uppercase', letterSpacing:'0.06em', fontSize:'0.8125rem'}}>Nutrition Targets</h2>
+                <h2 style={{fontSize:'1.125rem', fontWeight:'700', color:'#4f8eff', marginBottom:'1.25rem', textTransform:'uppercase', letterSpacing:'0.06em', fontSize:'0.8125rem'}}>Nutrition Targets</h2>
                 <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(160px,100%),1fr))', gap:'0.875rem', marginBottom:'0.875rem'}}>
                   <div style={S.statBox}>
-                    <p style={{fontSize:'0.75rem', color:'#64748b', fontWeight:'600', marginBottom:'0.375rem'}}>Daily Calories</p>
-                    <p style={{fontSize:'2rem', fontWeight:'800', color:'#f1f5f9'}}>{results.cal}</p>
+                    <p style={{fontSize:'0.75rem', color:'#5a5a5a', fontWeight:'600', marginBottom:'0.375rem'}}>Daily Calories</p>
+                    <p style={{fontSize:'2rem', fontWeight:'800', color:'#f5f5f5'}}>{results.cal}</p>
                   </div>
                   <div style={S.statBox}>
-                    <p style={{fontSize:'0.75rem', color:'#64748b', fontWeight:'600', marginBottom:'0.375rem'}}>Weekly Change</p>
-                    <p style={{fontSize:'2rem', fontWeight:'800', color:'#f1f5f9'}}>{formData.goal === 'recomp' ? '~0' : `${results.wr}`}</p>
-                    <p style={{fontSize:'0.75rem', color:'#64748b'}}>{formData.goal === 'recomp' ? 'recomp' : 'lbs/week'}</p>
+                    <p style={{fontSize:'0.75rem', color:'#5a5a5a', fontWeight:'600', marginBottom:'0.375rem'}}>Weekly Change</p>
+                    <p style={{fontSize:'2rem', fontWeight:'800', color:'#f5f5f5'}}>{formData.goal === 'recomp' ? '~0' : `${results.wr}`}</p>
+                    <p style={{fontSize:'0.75rem', color:'#5a5a5a'}}>{formData.goal === 'recomp' ? 'recomp' : 'lbs/week'}</p>
                   </div>
                 </div>
                 <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100px,100%),1fr))', gap:'0.75rem'}}>
                   {[['Protein', results.p, 'g', '#f9a8d4'], ['Fat', results.f, 'g', '#86efac'], ['Carbs', results.c, 'g', '#93c5fd']].map(([n, v, u, clr]) => (
                     <div key={n} style={S.statBox}>
                       <p style={{fontSize:'0.75rem', color:clr, fontWeight:'700', marginBottom:'0.375rem'}}>{n}</p>
-                      <p style={{fontSize:'1.5rem', fontWeight:'800', color:'#f1f5f9'}}>{v}<span style={{fontSize:'0.875rem', color:'#64748b'}}>{u}</span></p>
+                      <p style={{fontSize:'1.5rem', fontWeight:'800', color:'#f5f5f5'}}>{v}<span style={{fontSize:'0.875rem', color:'#5a5a5a'}}>{u}</span></p>
                     </div>
                   ))}
                 </div>
@@ -1414,29 +1193,29 @@
 
               {/* Body Composition */}
               <div style={S.resultCard}>
-                <h2 style={{fontSize:'0.8125rem', fontWeight:'700', color:'#818cf8', marginBottom:'1.25rem', textTransform:'uppercase', letterSpacing:'0.06em'}}>Body Composition</h2>
+                <h2 style={{fontSize:'0.8125rem', fontWeight:'700', color:'#4f8eff', marginBottom:'1.25rem', textTransform:'uppercase', letterSpacing:'0.06em'}}>Body Composition</h2>
                 <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(160px,100%),1fr))', gap:'0.875rem', marginBottom:'0.875rem'}}>
                   <div style={S.statBox}>
-                    <p style={{fontSize:'0.75rem', color:'#64748b', fontWeight:'600', marginBottom:'0.5rem'}}>Current</p>
-                    <p style={{fontSize:'1.125rem', fontWeight:'800', color:'#f1f5f9'}}>{results.cw} lbs</p>
-                    <p style={{fontSize:'0.875rem', color:'#818cf8', fontWeight:'600'}}>{results.cbf}% body fat</p>
-                    <p style={{fontSize:'0.75rem', color:'#475569', marginTop:'0.5rem'}}>Lean: {results.clm} lbs · Fat: {results.cfm} lbs</p>
+                    <p style={{fontSize:'0.75rem', color:'#5a5a5a', fontWeight:'600', marginBottom:'0.5rem'}}>Current</p>
+                    <p style={{fontSize:'1.125rem', fontWeight:'800', color:'#f5f5f5'}}>{results.cw} lbs</p>
+                    <p style={{fontSize:'0.875rem', color:'#0a84ff', fontWeight:'600'}}>{results.cbf}% body fat</p>
+                    <p style={{fontSize:'0.75rem', color:'#a0a0a0', marginTop:'0.5rem'}}>Lean: {results.clm} lbs · Fat: {results.cfm} lbs</p>
                   </div>
                   <div style={S.statBox}>
-                    <p style={{fontSize:'0.75rem', color:'#64748b', fontWeight:'600', marginBottom:'0.5rem'}}>Projected</p>
-                    <p style={{fontSize:'1.125rem', fontWeight:'800', color:'#f1f5f9'}}>{results.ew} lbs</p>
-                    <p style={{fontSize:'0.875rem', color:'#818cf8', fontWeight:'600'}}>{results.ebf}% body fat</p>
-                    <p style={{fontSize:'0.75rem', color:'#475569', marginTop:'0.5rem'}}>Lean: {results.elm} lbs · Fat: {results.efm} lbs</p>
+                    <p style={{fontSize:'0.75rem', color:'#5a5a5a', fontWeight:'600', marginBottom:'0.5rem'}}>Projected</p>
+                    <p style={{fontSize:'1.125rem', fontWeight:'800', color:'#f5f5f5'}}>{results.ew} lbs</p>
+                    <p style={{fontSize:'0.875rem', color:'#0a84ff', fontWeight:'600'}}>{results.ebf}% body fat</p>
+                    <p style={{fontSize:'0.75rem', color:'#a0a0a0', marginTop:'0.5rem'}}>Lean: {results.elm} lbs · Fat: {results.efm} lbs</p>
                   </div>
                 </div>
-                <p style={{fontSize:'0.75rem', color:'#475569', padding:'0.75rem', background:'#1e293b', borderRadius:'8px', border:'1px solid #334155'}}>
+                <p style={{fontSize:'0.75rem', color:'#a0a0a0', padding:'0.75rem', background:'#1a1a1a', borderRadius:'8px', border:'1px solid rgba(255,255,255,0.08)'}}>
                   These projections assume linear energy balance and fixed partitioning ratios; real-world outcomes may deviate over time.
                 </p>
               </div>
 
               {/* Training */}
               <div style={S.resultCard}>
-                <h2 style={{fontSize:'0.8125rem', fontWeight:'700', color:'#818cf8', marginBottom:'1.25rem', textTransform:'uppercase', letterSpacing:'0.06em'}}>Training Plan</h2>
+                <h2 style={{fontSize:'0.8125rem', fontWeight:'700', color:'#4f8eff', marginBottom:'1.25rem', textTransform:'uppercase', letterSpacing:'0.06em'}}>Training Plan</h2>
                 <div style={{display:'flex', flexDirection:'column', gap:'0'}}>
                   {[
                     ['Sets / Muscle Group', results.tp.s],
@@ -1444,26 +1223,26 @@
                     ['Intensity', results.tp.i],
                     ['Progression', results.tp.pr]
                   ].map(([k, v], i, arr) => (
-                    <div key={k} style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'0.75rem 0', borderBottom: i < arr.length - 1 ? '1px solid #1e293b' : 'none'}}>
-                      <span style={{fontSize:'0.9rem', color:'#94a3b8', fontWeight:'500'}}>{k}</span>
-                      <span style={{fontSize:'0.9rem', color:'#f1f5f9', fontWeight:'700', textAlign:'right'}}>{v}</span>
+                    <div key={k} style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'0.75rem 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none'}}>
+                      <span style={{fontSize:'0.9rem', color:'#a0a0a0', fontWeight:'500'}}>{k}</span>
+                      <span style={{fontSize:'0.9rem', color:'#f5f5f5', fontWeight:'700', textAlign:'right'}}>{v}</span>
                     </div>
                   ))}
                 </div>
-                <div style={{marginTop:'1rem', paddingTop:'1rem', borderTop:'1px solid #1e293b'}}>
-                  <p style={{fontSize:'0.75rem', color:'#64748b', fontWeight:'600', marginBottom:'0.625rem', textTransform:'uppercase', letterSpacing:'0.05em'}}>Recommended Splits</p>
+                <div style={{marginTop:'1rem', paddingTop:'1rem', borderTop:'1px solid rgba(255,255,255,0.06)'}}>
+                  <p style={{fontSize:'0.75rem', color:'#5a5a5a', fontWeight:'600', marginBottom:'0.625rem', textTransform:'uppercase', letterSpacing:'0.05em'}}>Recommended Splits</p>
                   <div style={{display:'flex', flexWrap:'wrap', gap:'0.5rem'}}>
                     {results.rs.map(s => (
-                      <span key={s} style={{background:'#312e81', color:'#a5b4fc', padding:'0.375rem 0.875rem', borderRadius:'100px', fontSize:'0.875rem', fontWeight:'600'}}>{s}</span>
+                      <span key={s} style={{background:'rgba(10,132,255,0.08)', color:'#0a84ff', padding:'0.375rem 0.875rem', borderRadius:'100px', fontSize:'0.875rem', fontWeight:'600'}}>{s}</span>
                     ))}
                   </div>
                 </div>
               </div>
 
               {/* Timeline */}
-              <div style={{...S.resultCard, borderLeft:'3px solid #4f46e5'}}>
+              <div style={{...S.resultCard, borderLeft:'3px solid #4f8eff'}}>
                 <p style={{fontSize:'0.875rem', color:'#cbd5e1'}}>
-                  <strong style={{color:'#f1f5f9'}}>Timeline: </strong>
+                  <strong style={{color:'#f5f5f5'}}>Timeline: </strong>
                   {formData.goal === 'bulk' || formData.goal === 'recomp'
                     ? `${Math.round(results.tw)} weeks at ${results.wr} lbs/week`
                     : `${Math.round(results.tw)} weeks (${(results.tw / 4.33).toFixed(1)} months) to reach ${results.ew} lbs`}
@@ -1471,7 +1250,7 @@
               </div>
 
               {/* Important */}
-              <div style={{...S.resultCard, borderLeft:'3px solid #d97706'}}>
+              <div style={{...S.resultCard, borderLeft:'3px solid #f59e0b'}}>
                 <p style={{fontSize:'0.875rem', color:'#cbd5e1'}}>
                   <strong style={{color:'#fbbf24'}}>Important: </strong>
                   After 2–3 weeks, if weight is not tracking as expected, adjust ±200 calories accordingly.
@@ -1480,25 +1259,25 @@
               </div>
 
               {/* Disclaimer */}
-              <div style={{...S.resultCard, borderLeft:'3px solid #334155'}}>
-                <p style={{fontSize:'0.8125rem', color:'#64748b'}}>
-                  <strong style={{color:'#94a3b8'}}>Disclaimer: </strong>
+              <div style={{...S.resultCard, borderLeft:'3px solid rgba(255,255,255,0.08)'}}>
+                <p style={{fontSize:'0.8125rem', color:'#5a5a5a'}}>
+                  <strong style={{color:'#a0a0a0'}}>Disclaimer: </strong>
                   All calculations are estimates based on current scientific literature and coaching consensus. Consult a healthcare professional before making significant changes to your diet or training.
                 </p>
               </div>
 
               <button onClick={closeModalFromCalc} style={{
-                width:'100%', background:'transparent', color:'#64748b',
+                width:'100%', background:'transparent', color:'#5a5a5a',
                 padding:'0.875rem', borderRadius:'10px', fontWeight:'600',
-                fontSize:'0.9rem', border:'1px solid #334155',
+                fontSize:'0.9rem', border:'1px solid rgba(255,255,255,0.08)',
                 cursor:'pointer', fontFamily:'inherit', marginBottom:'-0.25rem'
               }}>
                 Close
               </button>
 
-              <div style={{background:'#1e293b', border:'1px solid #334155', borderRadius:'12px', padding:'1.25rem'}}>
-                <p style={{fontSize:'0.8125rem', fontWeight:'700', color:'#818cf8', textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:'0.5rem'}}>Help Improve Physio Plan</p>
-                <p style={{fontSize:'0.875rem', color:'#94a3b8', marginBottom:'1rem', lineHeight:'1.6'}}>
+              <div style={{background:'#1a1a1a', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'12px', padding:'1.25rem'}}>
+                <p style={{fontSize:'0.8125rem', fontWeight:'700', color:'#0a84ff', textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:'0.5rem'}}>Help Improve Physio Plan</p>
+                <p style={{fontSize:'0.875rem', color:'#a0a0a0', marginBottom:'1rem', lineHeight:'1.6'}}>
                   After 4–6 weeks, report how your actual results compared to these predictions. Your data helps validate and improve the model for everyone.
                 </p>
                 <a href="https://forms.gle/ggXYCu4zeAvW1Qhs8" target="_blank" style={{
@@ -1522,19 +1301,16 @@
 
 <script>
   function showPage(name) {
-    var pages = ['home','science','study'];
-    pages.forEach(function(p) {
-      var el = document.getElementById('page-' + p);
-      if (el) el.style.display = (p === name) ? 'block' : 'none';
+    var pages = ['home','study','science'];
+    for (var i = 0; i < pages.length; i++) {
+      var p   = pages[i];
+      var el  = document.getElementById('page-' + p);
       var btn = document.getElementById('nav-' + p);
-      if (btn) {
-        btn.style.background = (p === name) ? '#4f46e5' : 'transparent';
-        btn.style.color      = (p === name) ? 'white'   : '#94a3b8';
-      }
-    });
+      if (el)  el.style.display = (p === name) ? 'block' : 'none';
+      if (btn) btn.className = 'nav-tab' + (p === name ? ' active' : '');
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
   function openModal() {
     document.getElementById('modal').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1543,6 +1319,9 @@
     document.getElementById('modal').classList.remove('open');
     document.body.style.overflow = '';
   }
+  window.showPage  = showPage;
+  window.openModal = openModal;
+  window.closeModal = closeModal;
   document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
