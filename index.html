@@ -1265,28 +1265,29 @@
                 </p>
               </div>
 
-              <button onClick={closeModalFromCalc} style={{
-                width:'100%', background:'transparent', color:'#5a5a5a',
-                padding:'0.875rem', borderRadius:'10px', fontWeight:'600',
-                fontSize:'0.9rem', border:'1px solid rgba(255,255,255,0.08)',
-                cursor:'pointer', fontFamily:'inherit', marginBottom:'-0.25rem'
-              }}>
-                Close
-              </button>
-
-              <div style={{background:'#1a1a1a', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'12px', padding:'1.25rem'}}>
-                <p style={{fontSize:'0.8125rem', fontWeight:'700', color:'#0a84ff', textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:'0.5rem'}}>Help Improve Physio Plan</p>
-                <p style={{fontSize:'0.875rem', color:'#a0a0a0', marginBottom:'1rem', lineHeight:'1.6'}}>
-                  After 4–6 weeks, report how your actual results compared to these predictions. Your data helps validate and improve the model for everyone.
+              <div style={{...S.resultCard, textAlign:'center', padding:'1.75rem'}}>
+                <p style={{fontSize:'0.875rem', color:'#a0a0a0', marginBottom:'1.25rem', lineHeight:'1.6'}}>
+                  Want to track your progress and join the community?
                 </p>
-                <a href="https://forms.gle/ggXYCu4zeAvW1Qhs8" target="_blank" style={{
-                  display:'inline-block', background:'#4f46e5', color:'white',
-                  padding:'0.625rem 1.25rem', borderRadius:'8px',
-                  fontSize:'0.875rem', fontWeight:'600', textDecoration:'none'
+                <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank" style={{
+                  display:'inline-block', background:'#4f8eff', color:'white',
+                  padding:'0.75rem 1.75rem', borderRadius:'980px',
+                  fontSize:'0.9375rem', fontWeight:'600', textDecoration:'none', fontFamily:'inherit'
                 }}>
-                  Submit Your Results
+                  Share your goals
                 </a>
               </div>
+
+              <button onClick={closeModalFromCalc} style={{
+                width:'100%', background:'rgba(255,255,255,0.05)', color:'#a0a0a0',
+                padding:'0.875rem', borderRadius:'10px', fontWeight:'600',
+                fontSize:'0.9375rem', border:'1px solid rgba(255,255,255,0.12)',
+                cursor:'pointer', fontFamily:'inherit'
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background='rgba(255,255,255,0.09)'; e.currentTarget.style.color='#f5f5f5'; }}
+              onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.05)'; e.currentTarget.style.color='#a0a0a0'; }}>
+                Close
+              </button>
 
             </div>
           )}
@@ -1321,6 +1322,13 @@
   window.showPage  = showPage;
   window.openModal = openModal;
   window.closeModal = closeModal;
+
+  // Prevent scroll/trackpad from changing number input values
+  document.addEventListener('wheel', function(e) {
+    if (document.activeElement && document.activeElement.type === 'number') {
+      document.activeElement.blur();
+    }
+  }, { passive: false });
   document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
