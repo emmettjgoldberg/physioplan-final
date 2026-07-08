@@ -244,6 +244,8 @@
       .display { font-size: 2.5rem; }
       .stat-item { min-width: 110px; padding: 1.25rem 1rem; }
       .feature-cell { padding: 1.25rem; }
+      .sample-output-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+      .sample-card { padding: 1.25rem; }
     }
 
     input[type=number]::-webkit-inner-spin-button,
@@ -323,7 +325,7 @@
     <!-- SAMPLE OUTPUT -->
     <section style="padding:5rem 0;background:var(--bg);">
       <div class="wrap">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;">
+        <div class="sample-output-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;">
           <div>
             <p class="eyebrow" style="margin-bottom:1rem;">Example output</p>
             <h2 class="headline" style="margin-bottom:1rem;">Everything in one place.</h2>
