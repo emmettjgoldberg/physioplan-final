@@ -272,19 +272,38 @@
 </head>
 <body>
 
+<script>
+  /* ══════════════════════════════════════════════════════════════
+     COMMUNITY STATS
+     ─ FALLBACK_STATS: shown immediately, and used if the live fetch
+       below fails or hasn't been set up yet. Update these by hand
+       any time you want a quick manual change.
+     ─ COMMUNITY_STATS_URL: paste your Apps Script /exec URL here
+       once deployed. Leave as '' to just use FALLBACK_STATS.
+     ══════════════════════════════════════════════════════════════ */
+  const FALLBACK_STATS = {
+    members:   18,
+    cutting:    5,
+    bulking:    7,
+    recomping:  6
+  };
+  const COMMUNITY_STATS_URL = 'https://script.google.com/macros/s/AKfycbyQwazHl1uINZacJiSLNvl8KDGQ6GLs-VJzKncaxQQ5lr2-x2kYf2shBs46tvW_HelaNQ/exec';
+  /* ══════════════════════════════════════════════════════════════ */
+</script>
+
 <!-- LANDING PAGE -->
   <nav>
   <div class="nav-logo">Physio Plan</div>
   <div class="nav-tabs">
-    <button class="nav-tab" id="nav-home" onclick="showPage('home')">Home</button>
+    <button class="nav-tab active" id="nav-home" onclick="showPage('home')">Home</button>
     <button class="nav-tab" id="nav-science" onclick="showPage('science')">The Science</button>
-    <button class="nav-tab active" id="nav-study" onclick="showPage('study')">Community</button>
+    <button class="nav-tab" id="nav-study" onclick="showPage('study')">Community</button>
   </div>
   <button class="nav-cta" onclick="openModal()">Get Your Plan</button>
 </nav>
 
   <!-- PAGE: HOME -->
-  <div id="page-home" style="display:none;">
+  <div id="page-home" style="display:block;">
 
     <!-- HERO -->
     <section style="padding:7rem 0 5rem;text-align:center;background:var(--bg);">
@@ -355,8 +374,8 @@
         <h2 class="headline" style="margin-bottom:3rem;max-width:520px;">Most calculators leave these out.</h2>
         <div class="feature-grid">
           <div class="feature-cell">
-            <h3>Lean mass BMR</h3>
-            <p>Uses the Katch-McArdle formula — based on lean mass, not total bodyweight. Two people at the same weight with different body fat percentages have different metabolisms.</p>
+            <h3>Body-calibrated BMR</h3>
+            <p>Selects the metabolic formula best suited to your body — an athlete-validated equation for lean individuals, the clinical standard for everyone else. Two people at the same weight but different body fat have different metabolisms.</p>
           </div>
           <div class="feature-cell">
             <h3>Thermic effect of food</h3>
@@ -474,55 +493,152 @@
 
     <section style="padding:4rem 0;background:var(--bg);">
       <div class="wrap">
-        <p class="eyebrow" style="margin-bottom:0.75rem;">Nutrition</p>
-        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:2.5rem;">Macronutrient targets</h2>
+        <p class="eyebrow" style="margin-bottom:0.75rem;">Metabolic rate</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.75rem;">BMR: the right formula for the right body.</h2>
+        <p class="body-text" style="margin-bottom:2.5rem;max-width:680px;">Standard formulas estimate resting metabolism from total bodyweight, height, age, and sex. That works for the general population — but breaks down for lean, muscular individuals whose body composition differs most from the average. PhysioPlan selects the formula best calibrated to your body.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
 
           <div class="cite-card">
-            <div class="cite-tag">Protein — Cut: 1.2g/lb LM &nbsp;|&nbsp; Bulk: 1.0g/lb LM</div>
-            <h3>Elevated protein during restriction</h3>
-            <p>During a caloric deficit, protein needs rise to prevent lean mass loss. Research shows intakes of 1.8–2.7 g/kg during restriction preserve significantly more muscle. Protein is set from lean mass — not total bodyweight — because only muscle tissue requires it.</p>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/24092765/" target="_blank" class="cite-link">↗ Helms et al. (2014) — Int J Sport Nutr Exerc Metab</a>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/26817506/" target="_blank" class="cite-link">↗ Longland et al. (2016) — Am J Clin Nutr</a>
+            <div class="cite-tag">Formula accuracy in athletes</div>
+            <h3>Standard formulas fail on trained bodies</h3>
+            <p>The Mifflin-St Jeor equation is the clinical standard and predicts BMR within 10% for roughly 70–82% of the general population. But a meta-analysis of 29 studies and 1,430 athletic participants found most formulas only managed 40.7–63.7% accuracy in trained individuals — substantially worse.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/2305711/" target="_blank" class="cite-link">↗ Mifflin et al. (1990) — Am J Clin Nutr</a>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/36781263/" target="_blank" class="cite-link">↗ O'Neill, Corish &amp; Horner (2023)</a>
           </div>
 
           <div class="cite-card">
-            <div class="cite-tag">Fat — 0.4–0.5g/lb bodyweight</div>
-            <h3>Dietary fat &amp; hormone support</h3>
-            <p>Low-fat diets significantly reduce testosterone. A meta-analysis of 6 intervention studies found meaningful decreases in androgens on low-fat vs high-fat diets. Cholesterol — supplied by dietary fat — is the direct precursor for steroid hormone synthesis.</p>
+            <div class="cite-tag">Muscle 13 kcal/kg &nbsp;|&nbsp; Fat 4.5 kcal/kg</div>
+            <h3>Why lean mass matters</h3>
+            <p>Muscle tissue burns roughly 13 kcal/kg/day; fat tissue only 4.5. Two people at the same weight but different body fat percentages carry very different amounts of metabolically active tissue — and therefore have meaningfully different resting metabolisms that a bodyweight-only formula can't capture.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/20200207/" target="_blank" class="cite-link">↗ Wang et al. (2010) — Am J Clin Nutr</a>
+          </div>
+
+          <div class="cite-card">
+            <div class="cite-tag">Ten Haaf — 80.2% accuracy in athletes</div>
+            <h3>An athlete-calibrated formula</h3>
+            <p>For leaner, more athletic individuals, PhysioPlan uses the Ten Haaf equation — built and validated specifically on recreational athletes, where it reached 80.2% accuracy. Above the athletic body-fat range, it falls back to Mifflin-St Jeor, the best-validated general-population standard.</p>
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4183531/" target="_blank" class="cite-link">↗ Ten Haaf &amp; Weijs (2014) — PLoS ONE</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap">
+        <p class="eyebrow" style="margin-bottom:0.75rem;">Calories by phase</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.75rem;">Surplus and deficit, scaled to you.</h2>
+        <p class="body-text" style="margin-bottom:2.5rem;max-width:680px;">Generic calculators add or subtract a fixed number of calories. But how much of the weight you gain or lose is muscle versus fat depends on the size of the surplus or deficit — and on your training experience.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+
+          <div class="cite-card">
+            <div class="cite-tag">Surplus — 200–400 cal by experience</div>
+            <h3>Larger isn't always better</h3>
+            <p>Faster weight gain from a larger surplus tends to add more fat without proportionally more muscle. Since beginners can gain 15–25 lb of muscle a year, intermediates 6–12, and advanced lifters just 2–4, the ideal surplus shrinks with experience.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/37285331/" target="_blank" class="cite-link">↗ Helms et al. (2023) — Int J Sport Nutr Exerc Metab</a>
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6413124/" target="_blank" class="cite-link">↗ Smith et al. (2021) — Sports</a>
+          </div>
+
+          <div class="cite-card">
+            <div class="cite-tag">Deficit — up to 500 cal protects LBM</div>
+            <h3>The deficit threshold</h3>
+            <p>A meta-analysis found that up to roughly 500 kcal/day, lean mass loss is largely prevented. Below that, fat loss isn't optimized; above it, you risk losing muscle. This threshold is a population average — the ideal deficit still varies with experience level.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/34565328/" target="_blank" class="cite-link">↗ Murphy &amp; Koehler (2022) — Eur J Sport Sci</a>
+          </div>
+
+          <div class="cite-card">
+            <div class="cite-tag">Metabolic adaptation</div>
+            <h3>Metabolism shifts over time</h3>
+            <p>A 12-month study at a 25% deficit saw RMR fall ~101 kcal/day, 40% of it beyond what body-composition change predicts. Shorter 6-week deficits showed no drop, while steeper or longer ones did — evidence that both size and duration drive adaptation, and why plans need periodic recalibration.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/35809290/" target="_blank" class="cite-link">↗ Martin et al. (2022)</a>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/26813524/" target="_blank" class="cite-link">↗ Fothergill et al. (2016) — Biggest Loser</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap">
+        <p class="eyebrow" style="margin-bottom:0.75rem;">Macronutrients</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.75rem;">Protein, fat, and carbohydrate targets.</h2>
+        <p class="body-text" style="margin-bottom:2.5rem;max-width:680px;">Calories set the direction; macros optimize the outcome — protecting muscle in a deficit and improving the muscle-to-fat ratio in a surplus. PhysioPlan sets protein and fat as evidence-based floors, then fills the rest with carbohydrate.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+
+          <div class="cite-card">
+            <div class="cite-tag">Cut — 2.3–3.1 g/kg lean mass</div>
+            <h3>Protein during a deficit</h3>
+            <p>Cutting raises protein needs to protect muscle. A systematic review found optimal intakes scale to 2.3–3.1 g/kg of lean mass — rising with both the size of the deficit and how lean you already are. PhysioPlan sets protein from lean mass, since only muscle tissue drives the requirement.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/24092765/" target="_blank" class="cite-link">↗ Helms et al. (2014) — Int J Sport Nutr Exerc Metab</a>
+          </div>
+
+          <div class="cite-card">
+            <div class="cite-tag">Bulk — 1.62 g/kg bodyweight ceiling</div>
+            <h3>Protein during a surplus</h3>
+            <p>In a surplus, extra protein stops helping past a ceiling. A meta-analysis found gains in lean mass capped at roughly 1.62 g/kg of bodyweight — beyond that, more protein produced no further muscle. PhysioPlan uses this as the bulk target.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/28698222/" target="_blank" class="cite-link">↗ Morton et al. (2018) — Br J Sports Med</a>
+          </div>
+
+          <div class="cite-card">
+            <div class="cite-tag">Fat — minimum 20% of calories</div>
+            <h3>Dietary fat &amp; hormones</h3>
+            <p>A meta-analysis of 6 intervention studies found low-fat diets — at or below 20% of calories — reduced testosterone in men by 10–15% versus higher-fat diets. Cholesterol from dietary fat is the direct precursor for steroid hormone synthesis, so PhysioPlan keeps fat at a 20% floor.</p>
             <a href="https://pubmed.ncbi.nlm.nih.gov/33741447/" target="_blank" class="cite-link">↗ Whittaker &amp; Wu (2021) — J Steroid Biochem Mol Biol</a>
           </div>
 
           <div class="cite-card">
-            <div class="cite-tag">TEF — 25% / 7.5% / 1.5%</div>
-            <h3>Thermic effect of food</h3>
-            <p>Digesting food burns calories — protein at 20–30% of its caloric content, carbs 5–10%, fat 0–3%. Most TDEE calculators skip this. The TEF is solved iteratively alongside macros since each depends on the other.</p>
-            <a href="https://link.springer.com/article/10.1186/1743-7075-1-5" target="_blank" class="cite-link">↗ Westerterp (2004) — Nutrition &amp; Metabolism</a>
-          </div>
-
-          <div class="cite-card">
-            <div class="cite-tag">Surplus — 200–400 cal by experience</div>
-            <h3>Experience-scaled calorie surplus</h3>
-            <p>A surplus maximizes muscle gain, but larger surpluses increase fat without proportionally more muscle. The 200/300/400 values are derived from these principles combined with documented diminishing returns in muscle gain with training age.</p>
-            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6942464/" target="_blank" class="cite-link">↗ Ribeiro et al. (2019) — PMC</a>
-            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10620361/" target="_blank" class="cite-link">↗ Barakat et al. (2023) — PMC</a>
-          </div>
-
-          <div class="cite-card">
-            <div class="cite-tag">Bulk partitioning — 70% lean / 30% fat</div>
-            <h3>Lean mass gain ratio</h3>
-            <p>During a caloric surplus with resistance training, weight gained splits between lean mass and fat. A pilot study found surplus produced more lean mass than maintenance, but also more fat — lean mass comprising roughly 30% of total mass gained.</p>
-            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6942464/" target="_blank" class="cite-link">↗ Ribeiro et al. (2019) — PMC</a>
-          </div>
-
-          <div class="cite-card">
-            <div class="cite-tag">Deficit — 300 / 500 / 750 cal</div>
-            <h3>Deficit size &amp; LBM retention</h3>
-            <p>A meta-analysis found a ~500 kcal/day deficit fully blunts lean mass gains during resistance training. Larger deficits proportionally increase lean mass losses — the basis for scaling expected muscle loss by deficit size and experience level.</p>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/34623696/" target="_blank" class="cite-link">↗ Murphy et al. (2021) — PubMed</a>
+            <div class="cite-tag">Carbs — the remainder</div>
+            <h3>Carbohydrate fuels training</h3>
+            <p>In hypertrophy training, roughly 80% of ATP comes from glycolysis — the breakdown of carbohydrate. Its importance caps out, though: one study found no output difference between very low and very high carb intake across 15 sets, while higher-volume protocols benefit more. PhysioPlan assigns all remaining calories to carbs.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/12831698/" target="_blank" class="cite-link">↗ Lambert &amp; Flynn (2002) — Sports Med</a>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/36112843/" target="_blank" class="cite-link">↗ Henselmans et al. (2022) — Nutrients</a>
           </div>
 
         </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap">
+        <p class="eyebrow" style="margin-bottom:0.75rem;">Digestion</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.75rem;">The thermic effect of food.</h2>
+        <p class="body-text" style="margin-bottom:2.5rem;max-width:680px;">Digesting food itself burns calories — and the amount depends on what you eat. Most calculators assign a flat ~10%, ignoring macronutrient breakdown entirely. That penalizes exactly the people most likely to use them: athletes eating high-protein diets.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+
+          <div class="cite-card">
+            <div class="cite-tag">Protein 20–30% &nbsp;|&nbsp; Carbs 5–10% &nbsp;|&nbsp; Fat 0–3%</div>
+            <h3>TEF varies by macronutrient</h3>
+            <p>Each macronutrient burns a different share of its own calories through digestion. Protein is by far the most expensive. Replacing 20% of a meal's calories with protein raised total TEF from 7.1% to 8.3% in one study and 10.5% to 14.6% in another. PhysioPlan uses the midpoints: 25% / 7.5% / 1.5%.</p>
+            <a href="https://link.springer.com/article/10.1186/1743-7075-1-5" target="_blank" class="cite-link">↗ Westerterp (2004) — Nutr Metab</a>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/19640952/" target="_blank" class="cite-link">↗ Westerterp-Plantenga et al. (2009)</a>
+          </div>
+
+          <div class="cite-card">
+            <div class="cite-tag">Iterative solving</div>
+            <h3>A circular relationship</h3>
+            <p>TEF depends on total calories and macros — but the right calorie target depends on TEF. That circularity means it can't be solved in one pass. PhysioPlan recalculates TEF from the prescribed macros, adjusts intake, and repeats until the numbers converge.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/9155494/" target="_blank" class="cite-link">↗ de Jonge &amp; Bray (1997) — Obes Res</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap-narrow">
+        <p class="eyebrow" style="margin-bottom:0.75rem;">The bigger picture</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.75rem;">Why an adaptive approach matters.</h2>
+        <p class="body-text" style="margin-bottom:1rem;">Even a methodology that accounts for lean mass, training phase, experience, macros, and TEF is still imperfect. In one six-week study of 28 trained men on identical programs, measured factors like protein intake, surplus size, and training volume explained only 18–40% of the variation in who gained muscle versus fat. Most of the difference was unexplained.</p>
+        <p class="body-text" style="margin-bottom:1rem;">That's the case for adapting. If someone in a surplus that should be ideal starts gaining fat too quickly, they lower calories. If a new lifter gains almost no fat after months, they can push the surplus higher. And because metabolism drifts downward over a long deficit, targets need to move with it. The best plan isn't just calculated once — it recalibrates against real-world results.</p>
+        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6413124/" target="_blank" class="cite-link">↗ Smith et al. (2021) — Sports</a>
       </div>
     </section>
 
@@ -577,9 +693,9 @@
         <div class="formula-card">
           <div class="formula-step">Step 1</div>
           <h4>How many calories does your body burn at rest?</h4>
-          <p>Most calculators use total bodyweight — but that ignores body composition. The <strong style="color:var(--text-1);">Katch-McArdle formula</strong> uses lean mass only, making it more accurate for people at different body fat levels.</p>
-          <div class="code-block">Lean Mass (kg) = bodyweight × (1 − BF%) × 0.454<br>Resting Calories = 370 + (21.6 × Lean Mass in kg)</div>
-          <div class="example-block">Example: 180 lbs at 15% BF → 153 lbs lean mass → ~68 kg → resting burn of ~1,838 cal/day</div>
+          <p>Instead of one formula for everyone, PhysioPlan picks the one best calibrated to your body. Leaner, athletic individuals get the <strong style="color:var(--text-1);">Ten Haaf equation</strong> (built on athletes, using lean mass); everyone else gets <strong style="color:var(--text-1);">Mifflin-St Jeor</strong>, the general-population clinical standard.</p>
+          <div class="code-block"><span class="code-comment">// Athletic (men &lt;20% BF, women &lt;28% BF):</span><br>Resting Cal = (95.272 × LeanMass_kg + 2026.161) ÷ 4.184<br><br><span class="code-comment">// General population:</span><br>Resting Cal = (10 × wt_kg) + (6.25 × ht_cm) − (5 × age) + s<br><span class="code-comment">// s = +5 for men, −161 for women</span></div>
+          <div class="example-block">A lean 180 lb athlete at 12% BF → ~72 kg lean mass → Ten Haaf estimates ~<strong>1,825 cal/day</strong> at rest.</div>
         </div>
 
         <div class="formula-card">
@@ -606,8 +722,8 @@
         <div class="formula-card">
           <div class="formula-step">Step 5</div>
           <h4>How are calories split into macros?</h4>
-          <p>Protein and fat are set first as minimums based on lean mass and bodyweight. Every remaining calorie goes to carbohydrates to fuel workouts and maintain anabolic hormone levels.</p>
-          <div class="code-block">Cut / Recomp: &nbsp;Protein = LM × 1.2g &nbsp;|&nbsp; Fat = BW × 0.4g<br>Bulk: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Protein = LM × 1.0g &nbsp;|&nbsp; Fat = BW × 0.5g<br>Carbs = (Target Cals − P×4 − F×9) ÷ 4</div>
+          <p>Protein is set from the research: lean mass on a cut, a bodyweight ceiling on a bulk. Fat is held at a 20% floor to protect hormones. Every remaining calorie goes to carbohydrate to fuel training.</p>
+          <div class="code-block"><span class="code-comment">// Protein</span><br>Cut / Recomp: &nbsp;2.7g × LeanMass_kg &nbsp;<span class="code-comment">(2.3–3.1 range)</span><br>Bulk: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.62g × Bodyweight_kg &nbsp;<span class="code-comment">(ceiling)</span><br><br><span class="code-comment">// Fat &amp; carbs</span><br>Fat = (0.20 × Target Cals) ÷ 9<br>Carbs = (Target Cals − P×4 − F×9) ÷ 4</div>
         </div>
 
         <div class="formula-card">
@@ -636,7 +752,7 @@
   </div><!-- end page-science -->
 
   <!-- PAGE: COMMUNITY -->
-  <div id="page-study" style="display:block;">
+  <div id="page-study" style="display:none;">
 
     <!-- HERO -->
     <section style="padding:5rem 0 4rem;background:var(--bg);">
@@ -655,6 +771,35 @@
         </div>
       </div>
     </section>
+
+    <hr class="divider">
+
+    <!-- TRACKING COUNTER -->
+    <section style="padding:3rem 0;background:var(--bg-1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+      <div class="wrap-narrow">
+        <p class="eyebrow" style="margin-bottom:1.5rem;">Currently active</p>
+        <div style="display:flex;flex-wrap:wrap;gap:3rem;align-items:baseline;">
+          <div>
+            <div id="stat-members" style="font-size:3rem;font-weight:800;letter-spacing:-0.04em;line-height:1;color:var(--blue);">—</div>
+            <div style="font-size:0.875rem;color:var(--text-2);margin-top:0.5rem;">Members</div>
+          </div>
+          <div>
+            <div id="stat-cutting" style="font-size:3rem;font-weight:800;letter-spacing:-0.04em;line-height:1;color:var(--text-1);">—</div>
+            <div style="font-size:0.875rem;color:var(--text-2);margin-top:0.5rem;">Cutting</div>
+          </div>
+          <div>
+            <div id="stat-bulking" style="font-size:3rem;font-weight:800;letter-spacing:-0.04em;line-height:1;color:var(--text-1);">—</div>
+            <div style="font-size:0.875rem;color:var(--text-2);margin-top:0.5rem;">Bulking</div>
+          </div>
+          <div>
+            <div id="stat-recomping" style="font-size:3rem;font-weight:800;letter-spacing:-0.04em;line-height:1;color:var(--text-1);">—</div>
+            <div style="font-size:0.875rem;color:var(--text-2);margin-top:0.5rem;">Recomping</div>
+          </div>
+        </div>
+        <p class="small-text" style="margin-top:1.5rem;">Growing — new members join every day.</p>
+      </div>
+    </section>
+
 
     <hr class="divider">
 
@@ -802,7 +947,8 @@
       weight: '', goalWeight: '', goalBodyFat: '', goalType: 'weight',
       bodyFat: '', timeframe: '', maintenanceCals: '',
       maintenanceType: 'manual', activityLevel: 'moderate',
-      experience: 'beginner', goal: '', deficitComfort: 'moderate', trainingDays: ''
+      experience: 'beginner', goal: '', deficitComfort: 'moderate', trainingDays: '',
+      age: '', sex: 'male', heightFt: '', heightIn: ''
     });
     const [results, setResults] = useState(null);
     const [errorMsg, setErrorMsg] = useState('');
@@ -828,9 +974,26 @@
           const bf = name === 'bodyFat' ? parseFloat(value)/100 : parseFloat(prev.bodyFat)/100;
           const al = name === 'activityLevel' ? value : prev.activityLevel;
           const td = name === 'trainingDays' ? parseFloat(value) : parseFloat(prev.trainingDays);
-          if (w && !isNaN(bf) && bf > 0 && al && td) {
-            const lm = (w - w*bf) * 0.453592;
-            const bmr = 370 + 21.6 * lm;
+          const age = name === 'age' ? parseFloat(value) : parseFloat(prev.age);
+          const sex = name === 'sex' ? value : prev.sex;
+          const hFt = name === 'heightFt' ? parseFloat(value) : parseFloat(prev.heightFt);
+          const hIn = name === 'heightIn' ? parseFloat(value) : parseFloat(prev.heightIn);
+          if (w && !isNaN(bf) && bf > 0 && al && td && age && !isNaN(hFt)) {
+            const wKg = w * 0.453592;
+            const ffmKg = (w - w*bf) * 0.453592;
+            const htCm = ((hFt * 12) + (hIn || 0)) * 2.54;
+            // Formula selection by body fat %: athletic -> Ten Haaf (FFM), general -> Mifflin-St Jeor
+            const athleticThreshold = sex === 'male' ? 0.20 : 0.28;
+            let bmr;
+            if (bf < athleticThreshold) {
+              // Ten Haaf FFM-based: REE(kJ/d) = 95.272 * FFM(kg) + 2026.161; convert kJ -> kcal
+              bmr = (95.272 * ffmKg + 2026.161) / 4.184;
+            } else {
+              // Mifflin-St Jeor
+              bmr = sex === 'male'
+                ? (10 * wKg) + (6.25 * htCm) - (5 * age) + 5
+                : (10 * wKg) + (6.25 * htCm) - (5 * age) - 161;
+            }
             const mult = {sedentary:1.2, moderate:1.35, active:1.5};
             const neat = bmr * mult[al];
             const ex = (td * 300) / 7;
@@ -883,6 +1046,12 @@
       if (['bulk','recomp'].includes(formData.goal)) {
         const tf = parseFloat(formData.timeframe);
         if (!tf || tf <= 0) return showError('Please enter a valid timeframe in weeks.');
+      }
+      if (formData.maintenanceType === 'estimate') {
+        const age = parseFloat(formData.age);
+        const hFt = parseFloat(formData.heightFt);
+        if (!age || age <= 0 || age > 120) return showError('Please enter a valid age to estimate your maintenance.');
+        if (isNaN(hFt) || hFt <= 0) return showError('Please enter your height to estimate your maintenance.');
       }
       if (!mc || mc <= 0) return showError('Please enter your maintenance calories, or use the estimate option.');
       if (!td || td < 1 || td > 7) return showError('Training days must be a number between 1 and 7.');
@@ -955,11 +1124,19 @@
       ew = elm + efm;
       const ebf = ew > 0 ? (efm / ew) * 100 : 0;
       let p, f, c;
+      const clmKg = clm * 0.453592;
+      const wKg = w * 0.453592;
       if (['cut','recomp'].includes(formData.goal)) {
-        p = clm * 1.2; f = w * 0.4; c = Math.max(0, (ct - p*4 - f*9) / 4);
+        // Cut/recomp: 2.7 g/kg lean mass (midpoint of 2.3-3.1 range, Helms 2014)
+        p = clmKg * 2.7;
       } else {
-        p = clm * 1.0; f = w * 0.5; c = Math.max(0, (ct - p*4 - f*9) / 4);
+        // Bulk: 1.62 g/kg bodyweight ceiling (Morton 2018)
+        p = wKg * 1.62;
       }
+      // Fat: 20% of total calories (Whittaker & Wu 2021 floor)
+      f = (0.20 * ct) / 9;
+      // Carbs: all remaining calories
+      c = Math.max(0, (ct - p*4 - f*9) / 4);
 
       const tv = {
         beginner: {
@@ -1061,6 +1238,24 @@
               <label style={S.label}>Body Fat %</label>
               <input type="number" name="bodyFat" value={formData.bodyFat} onChange={handleInputChange} style={S.input} placeholder="15"/>
             </div>
+            <div>
+              <label style={S.label}>Age</label>
+              <input type="number" name="age" value={formData.age} onChange={handleInputChange} style={S.input} placeholder="25"/>
+            </div>
+            <div>
+              <label style={S.label}>Sex</label>
+              <select name="sex" value={formData.sex} onChange={handleInputChange} style={S.select}>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+            <div>
+              <label style={S.label}>Height</label>
+              <div style={{display:'flex', gap:'0.5rem'}}>
+                <input type="number" name="heightFt" value={formData.heightFt} onChange={handleInputChange} style={S.input} placeholder="ft"/>
+                <input type="number" name="heightIn" value={formData.heightIn} onChange={handleInputChange} style={S.input} placeholder="in"/>
+              </div>
+            </div>
 
             {formData.goal === 'cut' && (<>
               <div style={{gridColumn:'1/-1'}}>
@@ -1108,7 +1303,7 @@
                       <option value="active">Very Active (physical job or high activity)</option>
                     </select>
                     <p style={{marginTop:'0.5rem', fontSize:'0.875rem', color: formData.maintenanceCals ? '#818cf8' : '#475569', fontWeight: formData.maintenanceCals ? '600' : '400'}}>
-                      {formData.maintenanceCals ? `Estimated maintenance: ${formData.maintenanceCals} cal/day` : 'Enter weight, body fat %, and training days to estimate.'}
+                      {formData.maintenanceCals ? `Estimated maintenance: ${formData.maintenanceCals} cal/day` : 'Enter weight, body fat %, age, sex, height, and training days to estimate.'}
                     </p>
                   </div>
                 )}
@@ -1324,6 +1519,28 @@
   window.showPage  = showPage;
   window.openModal = openModal;
   window.closeModal = closeModal;
+
+  // Populate community stats: try live fetch first, fall back to hardcoded numbers
+  var elMembers   = document.getElementById('stat-members');
+  var elCutting   = document.getElementById('stat-cutting');
+  var elBulking   = document.getElementById('stat-bulking');
+  var elRecomping = document.getElementById('stat-recomping');
+
+  function renderStats(s) {
+    if (elMembers)   elMembers.textContent   = s.members;
+    if (elCutting)   elCutting.textContent   = s.cutting;
+    if (elBulking)   elBulking.textContent   = s.bulking;
+    if (elRecomping) elRecomping.textContent = s.recomping;
+  }
+
+  renderStats(FALLBACK_STATS); // show immediately, no flash of empty state
+
+  if (COMMUNITY_STATS_URL) {
+    fetch(COMMUNITY_STATS_URL, { cache: 'no-store' })
+      .then(function(r) { return r.json(); })
+      .then(function(live) { renderStats(live); })
+      .catch(function() { /* keep fallback numbers already shown */ });
+  }
 
   // Prevent scroll/trackpad from changing number input values
   document.addEventListener('wheel', function(e) {
