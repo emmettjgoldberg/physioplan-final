@@ -282,6 +282,12 @@
        any time you want a quick manual change.
      ─ COMMUNITY_STATS_URL: paste your Apps Script /exec URL here
        once deployed. Leave as '' to just use FALLBACK_STATS.
+     ─ MANUAL_ADJUSTMENTS: added on top of whatever number is shown
+       (fallback OR live). Use this for people you're tracking who
+       never filled out the form — the sheet has no row for them,
+       so the live count alone will always miss them.
+       ⚠ If someone in here later fills out the form themselves,
+       remove them from here first or they'll be counted twice.
      ══════════════════════════════════════════════════════════════ */
   const FALLBACK_STATS = {
     members:   18,
@@ -290,6 +296,12 @@
     recomping:  6
   };
   const COMMUNITY_STATS_URL = 'https://script.google.com/macros/s/AKfycbyQwazHl1uINZacJiSLNvl8KDGQ6GLs-VJzKncaxQQ5lr2-x2kYf2shBs46tvW_HelaNQ/exec';
+  const MANUAL_ADJUSTMENTS = {
+    members:   1,   // close friend, tracking but never used the form/site
+    cutting:   0,
+    bulking:   1,   // ↑ same person — he's bulking
+    recomping: 0
+  };
   /* ══════════════════════════════════════════════════════════════ */
 </script>
 
@@ -1529,10 +1541,10 @@
   var elRecomping = document.getElementById('stat-recomping');
 
   function renderStats(s) {
-    if (elMembers)   elMembers.textContent   = s.members;
-    if (elCutting)   elCutting.textContent   = s.cutting;
-    if (elBulking)   elBulking.textContent   = s.bulking;
-    if (elRecomping) elRecomping.textContent = s.recomping;
+    if (elMembers)   elMembers.textContent   = (s.members   || 0) + MANUAL_ADJUSTMENTS.members;
+    if (elCutting)   elCutting.textContent   = (s.cutting   || 0) + MANUAL_ADJUSTMENTS.cutting;
+    if (elBulking)   elBulking.textContent   = (s.bulking   || 0) + MANUAL_ADJUSTMENTS.bulking;
+    if (elRecomping) elRecomping.textContent = (s.recomping || 0) + MANUAL_ADJUSTMENTS.recomping;
   }
 
   renderStats(FALLBACK_STATS); // show immediately, no flash of empty state
