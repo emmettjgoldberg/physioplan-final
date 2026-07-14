@@ -985,28 +985,32 @@
         const updated = { ...prev, [name]: value };
         if ((name === 'maintenanceType' ? value : prev.maintenanceType) === 'estimate') {
           const w = name === 'weight' ? parseFloat(value) : parseFloat(prev.weight);
-          const bf = name === 'bodyFat' ? parseFloat(value)/100 : parseFloat(prev.bodyFat)/100;
+          const bfRaw = name === 'bodyFat' ? value : prev.bodyFat;
+          const bf = parseFloat(bfRaw) / 100;
+          const hasBF = bfRaw !== '' && !isNaN(bf) && bf > 0;
           const al = name === 'activityLevel' ? value : prev.activityLevel;
           const td = name === 'trainingDays' ? parseFloat(value) : parseFloat(prev.trainingDays);
           const age = name === 'age' ? parseFloat(value) : parseFloat(prev.age);
           const sex = name === 'sex' ? value : prev.sex;
           const hFt = name === 'heightFt' ? parseFloat(value) : parseFloat(prev.heightFt);
           const hIn = name === 'heightIn' ? parseFloat(value) : parseFloat(prev.heightIn);
-          if (w && !isNaN(bf) && bf > 0 && al && td && age && !isNaN(hFt)) {
+          if (w && al && td && age && !isNaN(hFt)) {
             const wKg = w * 0.453592;
-            const ffmKg = (w - w*bf) * 0.453592;
             const htCm = ((hFt * 12) + (hIn || 0)) * 2.54;
-            // Formula selection by body fat %: athletic -> Ten Haaf (FFM), general -> Mifflin-St Jeor
-            const athleticThreshold = sex === 'male' ? 0.20 : 0.28;
+            const mifflin = sex === 'male'
+              ? (10 * wKg) + (6.25 * htCm) - (5 * age) + 5
+              : (10 * wKg) + (6.25 * htCm) - (5 * age) - 161;
             let bmr;
-            if (bf < athleticThreshold) {
-              // Ten Haaf FFM-based: REE(kJ/d) = 95.272 * FFM(kg) + 2026.161; convert kJ -> kcal
-              bmr = (95.272 * ffmKg + 2026.161) / 4.184;
+            if (hasBF) {
+              // Formula selection by body fat %: athletic -> Ten Haaf (FFM), general -> Mifflin-St Jeor
+              const ffmKg = (w - w*bf) * 0.453592;
+              const athleticThreshold = sex === 'male' ? 0.20 : 0.28;
+              bmr = bf < athleticThreshold
+                ? (95.272 * ffmKg + 2026.161) / 4.184  // Ten Haaf FFM-based (kJ->kcal)
+                : mifflin;
             } else {
-              // Mifflin-St Jeor
-              bmr = sex === 'male'
-                ? (10 * wKg) + (6.25 * htCm) - (5 * age) + 5
-                : (10 * wKg) + (6.25 * htCm) - (5 * age) - 161;
+              // No body fat provided — Mifflin-St Jeor needs no body composition data
+              bmr = mifflin;
             }
             const mult = {sedentary:1.2, moderate:1.35, active:1.5};
             const neat = bmr * mult[al];
@@ -1043,13 +1047,14 @@
       setErrorMsg('');
       const w = parseFloat(formData.weight);
       const bf = parseFloat(formData.bodyFat);
+      const hasBF = formData.bodyFat !== '' && !isNaN(bf) && bf > 0;
       const mc = parseFloat(formData.maintenanceCals);
       const td = parseFloat(formData.trainingDays);
 
       if (!w || w <= 0) return showError('Please enter a valid current weight.');
-      if (!bf || bf <= 0 || bf >= 100) return showError('Please enter a valid body fat % between 1 and 99.');
+      if (formData.bodyFat !== '' && (isNaN(bf) || bf <= 0 || bf >= 100)) return showError('Body fat % must be between 1 and 99 — or leave it blank to skip it.');
       if (formData.goal === 'cut') {
-        if (formData.goalType === 'weight') {
+        if (formData.goalType === 'weight' || !hasBF) {
           const gw = parseFloat(formData.goalWeight);
           if (!gw || gw <= 0 || gw >= w) return showError('Goal weight must be a valid number less than your current weight.');
         } else {
@@ -1070,13 +1075,14 @@
       if (!mc || mc <= 0) return showError('Please enter your maintenance calories, or use the estimate option.');
       if (!td || td < 1 || td > 7) return showError('Training days must be a number between 1 and 7.');
 
-      const bfd = bf / 100;
-      const cfm = w * bfd, clm = w - cfm;
+      const bfd = hasBF ? bf / 100 : 0;
+      const cfm = hasBF ? w * bfd : 0;
+      const clm = hasBF ? w - cfm : 0;
       let ct, wr, ew, efm, elm, tw;
 
       if (formData.goal === 'cut') {
         let gw;
-        if (formData.goalType === 'weight') {
+        if (formData.goalType === 'weight' || !hasBF) {
           gw = parseFloat(formData.goalWeight);
         } else {
           const tbf = parseFloat(formData.goalBodyFat) / 100;
@@ -1100,16 +1106,20 @@
         ct = mc - d;
         tw = (twl * 3500) / (d * 7);
         wr = twl / tw;
-        const lmr = {
-          beginner:     { o: 0,    c: { conservative: 0,    moderate: 0.05,  aggressive: 0.10 } },
-          intermediate: { o: 0.10, c: { conservative: 0.10, moderate: 0.15,  aggressive: 0.20 } },
-          advanced:     { o: 0.15, c: { conservative: 0.15, moderate: 0.225, aggressive: 0.30 } }
-        };
-        const avg = (lmr[formData.experience].c[formData.deficitComfort] + lmr[formData.experience].o) / 2;
-        const ll = twl * avg;
         ew = gw;
-        elm = clm - ll;
-        efm = cfm - (twl - ll);
+        if (hasBF) {
+          const lmr = {
+            beginner:     { o: 0,    c: { conservative: 0,    moderate: 0.05,  aggressive: 0.10 } },
+            intermediate: { o: 0.10, c: { conservative: 0.10, moderate: 0.15,  aggressive: 0.20 } },
+            advanced:     { o: 0.15, c: { conservative: 0.15, moderate: 0.225, aggressive: 0.30 } }
+          };
+          const avg = (lmr[formData.experience].c[formData.deficitComfort] + lmr[formData.experience].o) / 2;
+          const ll = twl * avg;
+          elm = clm - ll;
+          efm = cfm - (twl - ll);
+        } else {
+          elm = null; efm = null;
+        }
       } else if (formData.goal === 'bulk') {
         tw = parseFloat(formData.timeframe);
         const sm = { beginner: 400, intermediate: 300, advanced: 200 };
@@ -1119,32 +1129,48 @@
         const tg = wg * tw;
         wr = wg;
         ew = w + tg;
-        elm = clm + tg * 0.70;
-        efm = cfm + tg * 0.30;
+        if (hasBF) {
+          elm = clm + tg * 0.70;
+          efm = cfm + tg * 0.30;
+        } else {
+          elm = null; efm = null;
+        }
       } else {
         tw = parseFloat(formData.timeframe);
         const tm = tw / 4.33;
         ct = mc;
         wr = 0;
-        const rr = { beginner: { mg: 1.0, fl: 1.0 }, intermediate: { mg: 0.15, fl: 0.15 }, advanced: { mg: 0.05, fl: 0.05 } };
-        const r = rr[formData.experience];
-        elm = clm + r.mg * tm;
-        efm = Math.max(0, cfm - r.fl * tm);
-        ew = elm + efm;
+        ew = w; // recomp: scale weight roughly unchanged by definition
+        if (hasBF) {
+          const rr = { beginner: { mg: 1.0, fl: 1.0 }, intermediate: { mg: 0.15, fl: 0.15 }, advanced: { mg: 0.05, fl: 0.05 } };
+          const r = rr[formData.experience];
+          elm = clm + r.mg * tm;
+          efm = Math.max(0, cfm - r.fl * tm);
+          ew = elm + efm;
+        } else {
+          elm = null; efm = null;
+        }
       }
 
-      efm = Math.max(0, efm);
-      elm = Math.max(0, elm);
-      ew = elm + efm;
-      const ebf = ew > 0 ? (efm / ew) * 100 : 0;
+      if (hasBF) {
+        efm = Math.max(0, efm);
+        elm = Math.max(0, elm);
+        ew = elm + efm;
+      }
+      const ebf = (hasBF && ew > 0) ? (efm / ew) * 100 : null;
       let p, f, c;
-      const clmKg = clm * 0.453592;
       const wKg = w * 0.453592;
       if (['cut','recomp'].includes(formData.goal)) {
-        // Cut/recomp: 2.7 g/kg lean mass (midpoint of 2.3-3.1 range, Helms 2014)
-        p = clmKg * 2.7;
+        if (hasBF) {
+          // Cut/recomp: 2.7 g/kg lean mass (midpoint of 2.3-3.1 range, Helms 2014)
+          const clmKg = clm * 0.453592;
+          p = clmKg * 2.7;
+        } else {
+          // No body fat provided — generic bodyweight-based fallback (1g/lb)
+          p = w * 1.0;
+        }
       } else {
-        // Bulk: 1.62 g/kg bodyweight ceiling (Morton 2018)
+        // Bulk: 1.62 g/kg bodyweight ceiling (Morton 2018) — unaffected by body fat
         p = wKg * 1.62;
       }
       // Fat: 20% of total calories (Whittaker & Wu 2021 floor)
@@ -1176,9 +1202,13 @@
       setResults({
         cal: Math.round(ct), p: Math.round(p), f: Math.round(f), c: Math.round(c),
         wr: wr.toFixed(2), tw, tp, cw: w, ew: ew.toFixed(1),
-        cbf: (bfd * 100).toFixed(1), ebf: ebf.toFixed(1),
-        clm: clm.toFixed(1), cfm: cfm.toFixed(1),
-        elm: elm.toFixed(1), efm: efm.toFixed(1), rs
+        hasBF: hasBF,
+        cbf: hasBF ? (bfd * 100).toFixed(1) : null,
+        ebf: hasBF ? ebf.toFixed(1) : null,
+        clm: hasBF ? clm.toFixed(1) : null,
+        cfm: hasBF ? cfm.toFixed(1) : null,
+        elm: hasBF ? elm.toFixed(1) : null,
+        efm: hasBF ? efm.toFixed(1) : null, rs
       });
     };
 
@@ -1249,8 +1279,9 @@
               <input type="number" name="weight" value={formData.weight} onChange={handleInputChange} style={S.input} placeholder="180"/>
             </div>
             <div>
-              <label style={S.label}>Body Fat %</label>
+              <label style={S.label}>Body Fat % <span style={{textTransform:'none', fontWeight:'400', color:'#5a5a5a'}}>(optional)</span></label>
               <input type="number" name="bodyFat" value={formData.bodyFat} onChange={handleInputChange} style={S.input} placeholder="15"/>
+              <p style={{fontSize:'0.75rem', color:'#5a5a5a', marginTop:'0.375rem', lineHeight:'1.5'}}>Don't know it? Leave it blank — you'll still get calories, macros, and training. Adding it unlocks body composition projections and a more precise metabolic formula.</p>
             </div>
             <div>
               <label style={S.label}>Age</label>
@@ -1275,15 +1306,19 @@
               <div style={{gridColumn:'1/-1'}}>
                 <label style={S.label}>Cut Goal Type</label>
                 <div style={S.radioWrap}>
-                  {[['weight','Target Weight (lbs)'],['bodyfat','Target Body Fat %']].map(([v, l]) => (
-                    <label key={v} style={S.radioLabel}>
-                      <input type="radio" name="goalType" value={v} checked={formData.goalType === v} onChange={handleInputChange}/>
-                      {l}
+                  <label style={S.radioLabel}>
+                    <input type="radio" name="goalType" value="weight" checked={formData.goalType === 'weight'} onChange={handleInputChange}/>
+                    Target Weight (lbs)
+                  </label>
+                  {formData.bodyFat !== '' && (
+                    <label style={S.radioLabel}>
+                      <input type="radio" name="goalType" value="bodyfat" checked={formData.goalType === 'bodyfat'} onChange={handleInputChange}/>
+                      Target Body Fat %
                     </label>
-                  ))}
+                  )}
                 </div>
               </div>
-              {formData.goalType === 'weight' ? (
+              {(formData.goalType === 'weight' || formData.bodyFat === '') ? (
                 <div>
                   <label style={S.label}>Goal Weight (lbs)</label>
                   <input type="number" name="goalWeight" value={formData.goalWeight} onChange={handleInputChange} style={S.input} placeholder="165"/>
@@ -1317,7 +1352,7 @@
                       <option value="active">Very Active (physical job or high activity)</option>
                     </select>
                     <p style={{marginTop:'0.5rem', fontSize:'0.875rem', color: formData.maintenanceCals ? '#818cf8' : '#475569', fontWeight: formData.maintenanceCals ? '600' : '400'}}>
-                      {formData.maintenanceCals ? `Estimated maintenance: ${formData.maintenanceCals} cal/day` : 'Enter weight, body fat %, age, sex, height, and training days to estimate.'}
+                      {formData.maintenanceCals ? `Estimated maintenance: ${formData.maintenanceCals} cal/day` : 'Enter weight, age, sex, height, and training days to estimate. Body fat % is optional but improves accuracy.'}
                     </p>
                   </div>
                 )}
@@ -1402,26 +1437,32 @@
               </div>
 
               {/* Body Composition */}
-              <div style={S.resultCard}>
-                <h2 style={{fontSize:'0.8125rem', fontWeight:'700', color:'#4f8eff', marginBottom:'1.25rem', textTransform:'uppercase', letterSpacing:'0.06em'}}>Body Composition</h2>
-                <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(160px,100%),1fr))', gap:'0.875rem', marginBottom:'0.875rem'}}>
-                  <div style={S.statBox}>
-                    <p style={{fontSize:'0.75rem', color:'#5a5a5a', fontWeight:'600', marginBottom:'0.5rem'}}>Current</p>
-                    <p style={{fontSize:'1.125rem', fontWeight:'800', color:'#f5f5f5'}}>{results.cw} lbs</p>
-                    <p style={{fontSize:'0.875rem', color:'#0a84ff', fontWeight:'600'}}>{results.cbf}% body fat</p>
-                    <p style={{fontSize:'0.75rem', color:'#a0a0a0', marginTop:'0.5rem'}}>Lean: {results.clm} lbs · Fat: {results.cfm} lbs</p>
+              {results.hasBF ? (
+                <div style={S.resultCard}>
+                  <h2 style={{fontSize:'0.8125rem', fontWeight:'700', color:'#4f8eff', marginBottom:'1.25rem', textTransform:'uppercase', letterSpacing:'0.06em'}}>Body Composition</h2>
+                  <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(160px,100%),1fr))', gap:'0.875rem', marginBottom:'0.875rem'}}>
+                    <div style={S.statBox}>
+                      <p style={{fontSize:'0.75rem', color:'#5a5a5a', fontWeight:'600', marginBottom:'0.5rem'}}>Current</p>
+                      <p style={{fontSize:'1.125rem', fontWeight:'800', color:'#f5f5f5'}}>{results.cw} lbs</p>
+                      <p style={{fontSize:'0.875rem', color:'#0a84ff', fontWeight:'600'}}>{results.cbf}% body fat</p>
+                      <p style={{fontSize:'0.75rem', color:'#a0a0a0', marginTop:'0.5rem'}}>Lean: {results.clm} lbs · Fat: {results.cfm} lbs</p>
+                    </div>
+                    <div style={S.statBox}>
+                      <p style={{fontSize:'0.75rem', color:'#5a5a5a', fontWeight:'600', marginBottom:'0.5rem'}}>Projected</p>
+                      <p style={{fontSize:'1.125rem', fontWeight:'800', color:'#f5f5f5'}}>{results.ew} lbs</p>
+                      <p style={{fontSize:'0.875rem', color:'#0a84ff', fontWeight:'600'}}>{results.ebf}% body fat</p>
+                      <p style={{fontSize:'0.75rem', color:'#a0a0a0', marginTop:'0.5rem'}}>Lean: {results.elm} lbs · Fat: {results.efm} lbs</p>
+                    </div>
                   </div>
-                  <div style={S.statBox}>
-                    <p style={{fontSize:'0.75rem', color:'#5a5a5a', fontWeight:'600', marginBottom:'0.5rem'}}>Projected</p>
-                    <p style={{fontSize:'1.125rem', fontWeight:'800', color:'#f5f5f5'}}>{results.ew} lbs</p>
-                    <p style={{fontSize:'0.875rem', color:'#0a84ff', fontWeight:'600'}}>{results.ebf}% body fat</p>
-                    <p style={{fontSize:'0.75rem', color:'#a0a0a0', marginTop:'0.5rem'}}>Lean: {results.elm} lbs · Fat: {results.efm} lbs</p>
-                  </div>
+                  <p style={{fontSize:'0.75rem', color:'#a0a0a0', padding:'0.75rem', background:'#1a1a1a', borderRadius:'8px', border:'1px solid rgba(255,255,255,0.08)'}}>
+                    These projections assume linear energy balance and fixed partitioning ratios; real-world outcomes may deviate over time.
+                  </p>
                 </div>
-                <p style={{fontSize:'0.75rem', color:'#a0a0a0', padding:'0.75rem', background:'#1a1a1a', borderRadius:'8px', border:'1px solid rgba(255,255,255,0.08)'}}>
-                  These projections assume linear energy balance and fixed partitioning ratios; real-world outcomes may deviate over time.
-                </p>
-              </div>
+              ) : (
+                <div style={{...S.resultCard, textAlign:'center'}}>
+                  <p style={{fontSize:'0.8125rem', color:'#a0a0a0', lineHeight:'1.6'}}>Add your body fat % next time to unlock body composition projections — how much of your progress is expected to be muscle vs. fat — plus a more precise metabolic formula.</p>
+                </div>
+              )}
 
               {/* Training */}
               <div style={S.resultCard}>
