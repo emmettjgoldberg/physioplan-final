@@ -56,13 +56,13 @@
     .nav-tab.active { background: var(--bg-3); color: var(--text-1); }
     .nav-tab:hover:not(.active) { color: var(--text-2); }
     .nav-cta {
-      background: var(--green); color: #000;
+      background: var(--blue); color: var(--text-1);
       padding: 0.4375rem 1.125rem; border-radius: 980px;
       font-size: 0.875rem; font-weight: 600; font-family: inherit;
       border: none; cursor: pointer; transition: background 0.15s;
       letter-spacing: -0.01em;
     }
-    .nav-cta:hover { background: var(--green-dk); }
+    .nav-cta:hover { background: var(--blue-dk); }
 
     /* LAYOUT */
     .wrap        { max-width: 960px;  margin: 0 auto; padding: 0 1.5rem; }
@@ -96,6 +96,7 @@
     .btn:hover { opacity: 0.82; }
     .btn-blue  { background: var(--blue);  color: var(--text-1); }
     .btn-green { background: var(--green); color: #000; }
+    .btn-indigo{ background: var(--indigo); color: var(--text-1); }
     .btn-ghost { background: var(--bg-2);  color: var(--text-1); border: 1px solid var(--border-2); }
     .btn-outline { background: transparent; color: var(--blue); border: 1px solid rgba(79,142,255,0.3); }
 
@@ -310,8 +311,9 @@
   <div class="nav-logo">Physio Plan</div>
   <div class="nav-tabs">
     <button class="nav-tab active" id="nav-home" onclick="showPage('home')">Home</button>
-    <button class="nav-tab" id="nav-science" onclick="showPage('science')">The Science</button>
+    <button class="nav-tab" id="nav-tracker" onclick="showPage('tracker')">Tracker</button>
     <button class="nav-tab" id="nav-study" onclick="showPage('study')">Community</button>
+    <button class="nav-tab" id="nav-science" onclick="showPage('science')">The Science</button>
   </div>
   <button class="nav-cta" onclick="openModal()">Get Your Plan</button>
 </nav>
@@ -326,7 +328,7 @@
         <h1 class="display" style="margin-bottom:1.5rem;">The plan your body<br>actually needs.</h1>
         <p class="body-text" style="max-width:460px;margin:0 auto 2.5rem;">Conflicting advice online makes finding the right plan harder than it should be. PhysioPlan cuts through the noise — personalized calorie, macro, and training recommendations built on peer-reviewed research.</p>
         <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;align-items:center;">
-          <button class="btn btn-blue" onclick="openModal()">Build my plan</button>
+          <button class="btn btn-blue" onclick="openModal()">Get Your Plan</button>
           <span class="small-text">Takes 2 minutes</span>
         </div>
       </div>
@@ -342,7 +344,7 @@
             <p class="eyebrow" style="margin-bottom:1rem;">Example output</p>
             <h2 class="headline" style="margin-bottom:1rem;">Everything in one place.</h2>
             <p class="body-text" style="margin-bottom:2rem;">Calories, macros, training volume, intensity, split, body composition projections, and timeline — from one short form.</p>
-            <button class="btn btn-blue" onclick="openModal()">Try it now</button>
+            <button class="btn btn-blue" onclick="openModal()">Get Your Plan</button>
           </div>
           <div class="sample-card">
             <div class="sample-label">180 lbs &nbsp;&middot;&nbsp; 18% BF &nbsp;&middot;&nbsp; Cutting to 165 lbs</div>
@@ -481,7 +483,7 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-blue" style="margin-top:2rem;" onclick="openModal()">Build my plan</button>
+        <button class="btn btn-blue" style="margin-top:2rem;" onclick="openModal()">Get Your Plan</button>
       </div>
     </section>
 
@@ -500,6 +502,15 @@
         <p class="eyebrow" style="margin-bottom:1rem;">Research &amp; Methodology</p>
         <h1 class="headline" style="margin-bottom:1rem;">The science behind every output.</h1>
         <p class="body-text">Every formula and recommendation is grounded in peer-reviewed research. This page walks through the methodology — from nutrition targets to training volume to the exact calculations behind each output.</p>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             PUBLISHED PAPER LINK
+             When your paper is published, replace PAPER_URL below with the
+             real URL/DOI and delete the style="display:none" so it shows.
+             ══════════════════════════════════════════════════════════════ -->
+        <a id="paper-link" href="PAPER_URL" target="_blank" style="display:none;margin-top:1.5rem;align-items:center;gap:0.5rem;font-size:0.9375rem;font-weight:600;color:var(--blue);text-decoration:none;">
+          ↗ Read the full peer-reviewed paper
+        </a>
       </div>
     </section>
 
@@ -659,6 +670,42 @@
     <hr class="divider">
 
     <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap-narrow">
+        <p class="eyebrow" style="margin-bottom:0.75rem;">The method</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.75rem;">How the adjustment is calculated.</h2>
+        <p class="body-text" style="margin-bottom:2rem;">The Adaptive Tracker turns that principle into a concrete rule. Rather than guessing when to change calories, it measures your actual rate of weight change, compares it to your target, and corrects the difference using the energy content of body tissue. Four ideas keep it honest.</p>
+
+        <div class="formula-card">
+          <div class="formula-step">1 — Trend, not noise</div>
+          <h4>Compare smoothed averages, not single weigh-ins</h4>
+          <p>Body weight swings two to three pounds day to day on water, sodium, and carbohydrate alone — none of it fat. Comparing any two single mornings can therefore be badly misleading. Instead, the tracker averages the weigh-ins clustered near the start of the window against those near the end, and measures the change between those two averages. A single salty dinner gets absorbed into the trend rather than driving a false correction.</p>
+        </div>
+
+        <div class="formula-card">
+          <div class="formula-step">2 — Wait for signal</div>
+          <h4>A minimum two-week window</h4>
+          <p>Meaningful trends need time to separate from daily noise. The tracker collects at least two weeks of data before it will suggest anything — matching the check-in cadence used across the community and long enough for a real rate of change to emerge.</p>
+        </div>
+
+        <div class="formula-card">
+          <div class="formula-step">3 — Proportional correction</div>
+          <h4>Scale the change to the gap</h4>
+          <p>Roughly 3,500 calories separates you from a pound of body mass. If your measured rate misses your target by a given amount per week, the daily calorie change needed to close that gap follows directly from that relationship — a larger miss earns a larger correction, a small one only a nudge.</p>
+          <div class="code-block">weekly gap = actual rate − target rate &nbsp;<span class="code-comment">(lbs/week)</span><br>daily change = −(weekly gap × 3,500) ÷ 7 &nbsp;<span class="code-comment">(calories)</span></div>
+          <div class="example-block">Target −0.5 lb/week, but the smoothed trend shows +0.5 lb/week → a gap of 1.0 lb/week → about a <strong>−500 cal/day</strong> correction.</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="formula-step">4 — You decide</div>
+          <h4>The tool recommends; it never overrides</h4>
+          <p>Every adjustment is presented as a suggestion you can apply or dismiss. The methodology is a guide, not an authority — the number is only ever a starting point for your own judgment, and if a recommendation ever looks implausibly low, that's usually a sign to re-check the inputs rather than follow it blindly.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section style="padding:4rem 0;background:var(--bg);">
       <div class="wrap">
         <p class="eyebrow" style="margin-bottom:0.75rem;">Training</p>
         <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:2.5rem;">Training recommendations</h2>
@@ -709,7 +756,7 @@
           <h4>How many calories does your body burn at rest?</h4>
           <p>Instead of one formula for everyone, PhysioPlan picks the one best calibrated to your body. Leaner, athletic individuals get the <strong style="color:var(--text-1);">Ten Haaf equation</strong> (built on athletes, using lean mass); everyone else gets <strong style="color:var(--text-1);">Mifflin-St Jeor</strong>, the general-population clinical standard.</p>
           <div class="code-block"><span class="code-comment">// Athletic (men &lt;20% BF, women &lt;28% BF):</span><br>Resting Cal = (95.272 × LeanMass_kg + 2026.161) ÷ 4.184<br><br><span class="code-comment">// General population:</span><br>Resting Cal = (10 × wt_kg) + (6.25 × ht_cm) − (5 × age) + s<br><span class="code-comment">// s = +5 for men, −161 for women</span></div>
-          <div class="example-block">A lean 180 lb athlete at 12% BF → ~72 kg lean mass → Ten Haaf estimates ~<strong>1,825 cal/day</strong> at rest.</div>
+          <div class="example-block">A lean 180 lb athlete at 12% BF → ~72 kg lean mass → Ten Haaf estimates ~<strong>2,120 cal/day</strong> at rest.</div>
         </div>
 
         <div class="formula-card">
@@ -755,6 +802,14 @@
           <div class="example-block">Example: 20 lbs at −500 cal/day → (20 × 3,500) ÷ (500 × 7) = <strong>20 weeks</strong></div>
         </div>
 
+        <div class="formula-card">
+          <div class="formula-step">Step 8</div>
+          <h4>How the plan recalibrates over time</h4>
+          <p>Every number above is an estimate — your body is the real data. Every two weeks, the tracker compares your smoothed weight trend against your target rate and corrects the difference using the same ~3,500-calorie-per-pound relationship. Weight is averaged across nearby weigh-ins first, so day-to-day water and food swings don't trigger a false change.</p>
+          <div class="code-block">weekly gap = actual rate − target rate &nbsp;<span class="code-comment">(lbs/week)</span><br>daily change = −(weekly gap × 3,500) ÷ 7 &nbsp;<span class="code-comment">(calories)</span><br>new target = current calories + daily change</div>
+          <div class="example-block">Example: target −0.5 lb/week, smoothed trend shows +0.5 → gap of 1.0 lb/week → about a <strong>−500 cal/day</strong> correction. You choose whether to apply it.</div>
+        </div>
+
       </div>
     </section>
 
@@ -768,31 +823,14 @@
   <!-- PAGE: COMMUNITY -->
   <div id="page-study" style="display:none;">
 
-    <!-- HERO -->
-    <section style="padding:5rem 0 4rem;background:var(--bg);">
+    <!-- HERO + COUNTER -->
+    <section style="padding:5rem 0 3rem;background:var(--bg);">
       <div class="wrap-narrow">
         <p class="eyebrow" style="margin-bottom:1rem;">Community</p>
-        <h1 class="headline" style="margin-bottom:1.75rem;">The fitness tool I wish I had when I started.</h1>
-        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:2.5rem;">
-          <button class="btn btn-green" onclick="openModal()">Get Your Plan</button>
-          <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank" class="btn btn-blue">Share your goals</a>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:1rem;">
-          <p class="body-text">Getting in shape is straightforward in theory — eat right, train hard, be consistent. But the advice online is either too generic to be useful or so contradictory you don't know where to start. Calculators that multiply your bodyweight by 15. Influencers telling you opposite things about protein. Programs that don't account for your actual experience level or goals.</p>
-          <p class="body-text">I got frustrated with that. I've been training seriously for 3 years — running cut and bulk cycles, tracking nutrition, and learning what actually moves the needle. When I dug into the research, I found things that explained a lot. Most TDEE calculators, for example, completely ignore the thermic effect of food — the fact that your body burns up to 25% of protein calories just through digestion. That single oversight means millions of people are eating "correctly" by generic standards and still not hitting their goals. Another: two people at the same bodyweight but different body fat percentages have meaningfully different metabolisms, yet almost every calculator treats them identically.</p>
-          <p class="body-text">I have a love for math, so when I found gaps like these I built PhysioPlan to fix them — using the actual formulas from peer-reviewed research rather than the shortcuts everyone else settles for. The goal is simple: give you a plan that's genuinely accurate, so you can stop guessing and start making real progress.</p>
-          <p class="body-text">Fill out the form below and I'll follow up with you throughout your journey.</p>
-        </div>
-      </div>
-    </section>
+        <h1 class="headline" style="margin-bottom:1rem;">Join the community.</h1>
+        <p class="body-text" style="margin-bottom:2.5rem;max-width:520px;">Get your plan, share your goals, and track real progress alongside others working toward theirs. Here's who's in it right now.</p>
 
-    <hr class="divider">
-
-    <!-- TRACKING COUNTER -->
-    <section style="padding:3rem 0;background:var(--bg-1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-      <div class="wrap-narrow">
-        <p class="eyebrow" style="margin-bottom:1.5rem;">Currently active</p>
-        <div style="display:flex;flex-wrap:wrap;gap:3rem;align-items:baseline;">
+        <div style="display:flex;flex-wrap:wrap;gap:3rem;align-items:baseline;padding:2rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
           <div>
             <div id="stat-members" style="font-size:3rem;font-weight:800;letter-spacing:-0.04em;line-height:1;color:var(--blue);">—</div>
             <div style="font-size:0.875rem;color:var(--text-2);margin-top:0.5rem;">Members</div>
@@ -811,6 +849,11 @@
           </div>
         </div>
         <p class="small-text" style="margin-top:1.5rem;">Growing — new members join every day.</p>
+
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:2rem;">
+          <button class="btn btn-blue" onclick="openModal()">Get Your Plan</button>
+          <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank" class="btn btn-green">Join the community</a>
+        </div>
       </div>
     </section>
 
@@ -845,6 +888,33 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ADAPTIVE TRACKER EXPLAINER -->
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap-narrow">
+        <p class="eyebrow" style="margin-bottom:1rem;">New — Adaptive Tracker</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:1rem;">A plan that adjusts to your real results.</h2>
+        <p class="body-text" style="margin-bottom:1rem;">Any calculator — including this one — can only estimate your starting point. Your body is the real data. That's the core argument of the research behind PhysioPlan: the best plan isn't calculated once, it recalibrates as you go.</p>
+        <p class="body-text" style="margin-bottom:2rem;">The Tracker puts that into practice. Log your weight over time, and every two weeks it compares your actual trend against your target. If you're drifting — gaining when you meant to hold, losing slower than planned — it recommends a calorie adjustment. You decide whether to take it.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:1rem;margin-bottom:2rem;">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;">
+            <h3 style="font-size:0.9375rem;font-weight:600;color:var(--text-1);margin-bottom:0.5rem;">Trend, not noise</h3>
+            <p style="font-size:0.875rem;color:var(--text-2);line-height:1.65;">Daily weight swings a few pounds on water, sodium, and carbs alone. The Tracker averages nearby weigh-ins and waits a full two weeks before suggesting anything, so a single salty dinner never triggers a change.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;">
+            <h3 style="font-size:0.9375rem;font-weight:600;color:var(--text-1);margin-bottom:0.5rem;">Proportional adjustments</h3>
+            <p style="font-size:0.875rem;color:var(--text-2);line-height:1.65;">The further you are from your target rate, the larger the correction — scaled directly to the gap using the ~3,500 calories-per-pound relationship, not arbitrary fixed steps.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;">
+            <h3 style="font-size:0.9375rem;font-weight:600;color:var(--text-1);margin-bottom:0.5rem;">You stay in control</h3>
+            <p style="font-size:0.875rem;color:var(--text-2);line-height:1.65;">It only ever suggests. Apply the new number or keep your current one — the choice is always yours, and your data never leaves your device.</p>
+          </div>
+        </div>
+        <button class="btn btn-indigo" onclick="showPage('tracker')">Open the Tracker</button>
       </div>
     </section>
 
@@ -904,14 +974,15 @@
 
     <hr class="divider">
 
-    <!-- MEMBER RESULTS -->
+    <!-- ABOUT -->
     <section style="padding:4rem 0;background:var(--bg);">
-      <div class="wrap">
-        <p class="eyebrow" style="margin-bottom:0.75rem;">Member results</p>
-        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.75rem;">Real outcomes.</h2>
-        <p class="body-text" style="margin-bottom:2.5rem;">Updated as members complete their journeys.</p>
-        <div style="border:1px solid var(--border);border-radius:12px;padding:2.5rem;text-align:center;">
-          <p style="font-size:0.9375rem;color:var(--text-3);">Results will appear here as members complete their plans.</p>
+      <div class="wrap-narrow">
+        <p class="eyebrow" style="margin-bottom:1rem;">The idea behind PhysioPlan</p>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <p class="body-text">Getting in shape is straightforward in theory — eat right, train hard, be consistent. But the advice online is either too generic to be useful or so contradictory you don't know where to start. Calculators that multiply your bodyweight by 15. Influencers telling you opposite things about protein. Programs that don't account for your actual experience level or goals.</p>
+          <p class="body-text">I got frustrated with that. I've been training seriously for 3 years — running cut and bulk cycles, tracking nutrition, and learning what actually moves the needle. When I dug into the research, I found things that explained a lot. Most TDEE calculators, for example, completely ignore the thermic effect of food — the fact that your body burns up to 25% of protein calories just through digestion. That single oversight means millions of people are eating "correctly" by generic standards and still not hitting their goals. Another: two people at the same bodyweight but different body fat percentages have meaningfully different metabolisms, yet almost every calculator treats them identically.</p>
+          <p class="body-text">I have a love for math, so when I found gaps like these I built PhysioPlan to fix them — using the actual formulas from peer-reviewed research rather than the shortcuts everyone else settles for. The goal is simple: give you a plan that's genuinely accurate, so you can stop guessing and start making real progress.</p>
+          <p class="body-text">Share your goals using the form and I'll follow up with you throughout your journey.</p>
         </div>
       </div>
     </section>
@@ -925,7 +996,7 @@
           <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.625rem;">Ready to get started?</h2>
           <p class="body-text" style="max-width:400px;">Get your plan, share your goals, and I'll follow up. Your progress helps make PhysioPlan better for everyone.</p>
         </div>
-        <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank" class="btn btn-blue">Share your goals</a>
+        <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank" class="btn btn-green">Join the community</a>
       </div>
     </section>
 
@@ -935,6 +1006,11 @@
     </footer>
 
   </div><!-- end page-study -->
+
+  <!-- PAGE: TRACKER -->
+  <div id="page-tracker" style="display:none;">
+    <div id="tracker-root"></div>
+  </div><!-- end page-tracker -->
 
 
 <!-- MODAL -->
@@ -1522,11 +1598,11 @@
                   Want to track your progress and join the community?
                 </p>
                 <a href="https://docs.google.com/forms/d/1uGVEZ9WqqPS5qKasdjkUkIQ-FMQr83kiM-szSe9e8Bo/viewform" target="_blank" style={{
-                  display:'inline-block', background:'#4f8eff', color:'white',
+                  display:'inline-block', background:'#34c759', color:'#000',
                   padding:'0.75rem 1.75rem', borderRadius:'980px',
                   fontSize:'0.9375rem', fontWeight:'600', textDecoration:'none', fontFamily:'inherit'
                 }}>
-                  Share your goals
+                  Join the community
                 </a>
               </div>
 
@@ -1551,9 +1627,366 @@
   ReactDOM.render(<PhysioPlan />, document.getElementById('calculator-root'));
 </script>
 
+<!-- REACT TRACKER (adaptive weight-logging) -->
+<script type="text/babel">
+  const { useState, useEffect } = React;
+
+  const TK = {
+    wrap:    { minHeight:'100vh', background:'#0a0a0a', padding:'clamp(1rem, 5vw, 3rem) clamp(0.75rem, 4vw, 1.5rem)', fontFamily:'-apple-system,Inter,sans-serif', boxSizing:'border-box' },
+    inner:   { maxWidth:'720px', margin:'0 auto', width:'100%' },
+    card:    { background:'#111111', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'16px', padding:'clamp(1.25rem, 4vw, 2rem)', marginBottom:'1.25rem' },
+    label:   { display:'block', fontSize:'0.8125rem', fontWeight:'600', color:'#5a5a5a', marginBottom:'0.5rem', textTransform:'uppercase', letterSpacing:'0.05em' },
+    input:   { width:'100%', padding:'0.625rem 0.875rem', background:'#1a1a1a', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'8px', color:'#f5f5f5', fontSize:'0.9375rem', outline:'none', fontFamily:'inherit', boxSizing:'border-box' },
+    select:  { width:'100%', padding:'0.625rem 0.875rem', background:'#1a1a1a', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'8px', color:'#f5f5f5', fontSize:'0.9375rem', outline:'none', fontFamily:'inherit', boxSizing:'border-box' },
+    btnBlue: { background:'#4f8eff', color:'#fff', padding:'0.625rem 1.25rem', borderRadius:'980px', fontSize:'0.9375rem', fontWeight:'600', border:'none', cursor:'pointer', fontFamily:'inherit' },
+    btnGhost:{ background:'#1a1a1a', color:'#f5f5f5', padding:'0.625rem 1.25rem', borderRadius:'980px', fontSize:'0.9375rem', fontWeight:'600', border:'1px solid rgba(255,255,255,0.12)', cursor:'pointer', fontFamily:'inherit' },
+    eyebrow: { fontSize:'0.75rem', fontWeight:'600', letterSpacing:'0.05em', textTransform:'uppercase', color:'#5a5a5a', marginBottom:'0.75rem' },
+    h1:      { fontSize:'clamp(1.75rem, 4vw, 2.25rem)', fontWeight:'700', letterSpacing:'-0.03em', color:'#f5f5f5', marginBottom:'0.75rem', lineHeight:'1.1' },
+    body:    { fontSize:'1rem', lineHeight:'1.7', color:'#a0a0a0' }
+  };
+
+  const STORAGE_KEY = 'physioplan_tracker_v1';
+  const KCAL_PER_LB = 3500;
+
+  // Soft safety threshold — no hard caps on the adjustment itself.
+  // If the math points below this, we still show it but urge the user to
+  // reassess their inputs or consult a professional rather than silently
+  // printing a dangerously low number.
+  const LOW_CAL_WARNING = 1200;
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+  function saveState(s) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch (e) {}
+  }
+
+  function todayStr() {
+    const d = new Date();
+    return d.toISOString().slice(0, 10);
+  }
+  function daysBetween(a, b) {
+    return Math.round((new Date(b) - new Date(a)) / 86400000);
+  }
+
+  function PhysioTracker() {
+    const [profile, setProfile] = useState(null);   // { goal, targetRate, calories, startWeight, startDate }
+    const [logs, setLogs] = useState([]);            // [{date, weight}]
+    const [setupData, setSetupData] = useState({ goal:'cut', calories:'', startWeight:'', targetRate:'0.5' });
+    const [newEntry, setNewEntry] = useState({ date: todayStr(), weight:'' });
+    const [msg, setMsg] = useState('');
+
+    useEffect(() => {
+      const s = loadState();
+      if (s) { setProfile(s.profile); setLogs(s.logs || []); }
+    }, []);
+
+    useEffect(() => {
+      if (profile) saveState({ profile, logs });
+    }, [profile, logs]);
+
+    const startTracking = () => {
+      const cal = parseFloat(setupData.calories);
+      const sw = parseFloat(setupData.startWeight);
+      const tr = parseFloat(setupData.targetRate);
+      if (!cal || cal <= 0) { setMsg('Enter your current daily calorie target.'); return; }
+      if (!sw || sw <= 0) { setMsg('Enter your current weight.'); return; }
+      if (isNaN(tr)) { setMsg('Enter your target weekly rate.'); return; }
+      // target rate is stored as signed lbs/week: negative = losing, positive = gaining
+      const signedRate = setupData.goal === 'cut' ? -Math.abs(tr)
+                       : setupData.goal === 'bulk' ? Math.abs(tr)
+                       : 0; // recomp: aim to hold weight
+      const p = {
+        goal: setupData.goal,
+        calories: Math.round(cal),
+        startWeight: sw,
+        startDate: todayStr(),
+        targetRate: signedRate
+      };
+      setProfile(p);
+      setLogs([{ date: todayStr(), weight: sw }]);
+      setMsg('');
+    };
+
+    const addEntry = () => {
+      const wt = parseFloat(newEntry.weight);
+      if (!wt || wt <= 0) { setMsg('Enter a valid weight.'); return; }
+      if (!newEntry.date) { setMsg('Pick a date.'); return; }
+      const filtered = logs.filter(l => l.date !== newEntry.date); // one entry per day, latest wins
+      const next = [...filtered, { date: newEntry.date, weight: wt }].sort((a,b) => a.date < b.date ? -1 : 1);
+      setLogs(next);
+      setNewEntry({ date: todayStr(), weight: '' });
+      setMsg('');
+    };
+
+    const removeEntry = (date) => {
+      setLogs(logs.filter(l => l.date !== date));
+    };
+
+    const resetAll = () => {
+      if (!window.confirm('Clear your tracker and start over? This erases your logged history on this device.')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      setProfile(null); setLogs([]); setMsg('');
+      setSetupData({ goal:'cut', calories:'', startWeight:'', targetRate:'0.5' });
+    };
+
+    const exportData = () => {
+      const rows = [['date','weight']].concat(logs.map(l => [l.date, l.weight]));
+      const csv = rows.map(r => r.join(',')).join('\n');
+      const blob = new Blob([csv], { type:'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'physioplan-weight-log.csv'; a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    const applyRecommendation = (newCal) => {
+      setProfile({ ...profile, calories: newCal });
+      setMsg('Target updated to ' + newCal + ' cal/day. Keep logging — the next check-in is in ~2 weeks.');
+    };
+
+    // ---- Adaptive analysis: compare SMOOTHED trend vs target over a ~2-week span ----
+    // To cancel day-to-day noise (water, carbs, sodium, time of day) we don't compare
+    // single endpoints. We average a cluster of weigh-ins near the start of the window
+    // against a cluster near the end, then measure the rate between those two averages.
+    function analyze() {
+      if (!profile || logs.length < 2) return { ready:false, reason:'need-data' };
+
+      const sorted = [...logs].sort((a,b) => a.date < b.date ? -1 : 1);
+      const latest = sorted[sorted.length - 1];
+
+      // Need at least a 14-day span between first and last weigh-in.
+      const fullSpan = daysBetween(sorted[0].date, latest.date);
+      if (fullSpan < 14) return { ready:false, reason:'too-soon', daysLogged: fullSpan };
+
+      // Anchor point: the entry closest to (but at least) 14 days before latest.
+      let anchor = sorted[0];
+      for (let i = 0; i < sorted.length; i++) {
+        if (daysBetween(sorted[i].date, latest.date) >= 14) anchor = sorted[i];
+        else break;
+      }
+      const span = daysBetween(anchor.date, latest.date);
+
+      // Smoothing windows: average all weigh-ins within 4 days of each endpoint.
+      function windowAvg(centerDate) {
+        const near = sorted.filter(l => Math.abs(daysBetween(l.date, centerDate)) <= 4);
+        const use = near.length ? near : [sorted.find(l => l.date === centerDate)];
+        return use.reduce((s, l) => s + l.weight, 0) / use.length;
+      }
+      const startAvg = windowAvg(anchor.date);
+      const endAvg   = windowAvg(latest.date);
+
+      const actualPerWeek = (endAvg - startAvg) / (span / 7);
+      const targetPerWeek = profile.targetRate;
+      const gap = actualPerWeek - targetPerWeek; // + means gaining faster / losing slower than intended
+
+      // Proportional adjustment: full gap, no step cap. ~3500 kcal per lb, spread per day.
+      let change = Math.round((-(gap * KCAL_PER_LB) / 7) / 10) * 10;
+      let newCal = Math.round(profile.calories + change);
+      const finalChange = newCal - profile.calories;
+
+      const flags = [];
+      if (newCal < LOW_CAL_WARNING) flags.push('very-low');
+
+      const onTrack = Math.abs(gap) < 0.15; // within ~0.15 lb/week of target = fine
+
+      return {
+        ready: true, onTrack, actualPerWeek, targetPerWeek, gap,
+        change: finalChange, newCal, span, flags,
+        anchorDate: anchor.date, latestDate: latest.date,
+        startAvg, endAvg,
+        smoothed: (sorted.filter(l => Math.abs(daysBetween(l.date, anchor.date)) <= 4).length > 1
+                || sorted.filter(l => Math.abs(daysBetween(l.date, latest.date)) <= 4).length > 1)
+      };
+    }
+
+    const a = profile ? analyze() : null;
+
+    // ---------- SETUP SCREEN ----------
+    if (!profile) {
+      return (
+        <div style={TK.wrap}>
+          <div style={TK.inner}>
+            <p style={TK.eyebrow}>Adaptive Tracker</p>
+            <h1 style={TK.h1}>Log your weight. Let the plan adapt.</h1>
+            <p style={{...TK.body, marginBottom:'2rem', maxWidth:'560px'}}>
+              A plan is only a starting estimate — your body is the real data. Log your weight over time and every two weeks the tracker compares your actual rate of change against your target, then recommends a calorie adjustment if you're off. You stay in control; it only suggests.
+            </p>
+
+            <div style={TK.card}>
+              <p style={{...TK.eyebrow, color:'#4f8eff'}}>Set up your tracker</p>
+              <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(200px,100%),1fr))', gap:'1rem', marginTop:'1rem'}}>
+                <div>
+                  <label style={TK.label}>Goal</label>
+                  <select style={TK.select} value={setupData.goal} onChange={e => setSetupData({...setupData, goal:e.target.value, targetRate: e.target.value==='recomp'?'0':setupData.targetRate})}>
+                    <option value="cut">Cutting (lose fat)</option>
+                    <option value="bulk">Bulking (gain muscle)</option>
+                    <option value="recomp">Recomp (hold weight)</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={TK.label}>Current daily calories</label>
+                  <input type="number" style={TK.input} value={setupData.calories} onChange={e => setSetupData({...setupData, calories:e.target.value})} placeholder="2200"/>
+                </div>
+                <div>
+                  <label style={TK.label}>Current weight (lbs)</label>
+                  <input type="number" style={TK.input} value={setupData.startWeight} onChange={e => setSetupData({...setupData, startWeight:e.target.value})} placeholder="180"/>
+                </div>
+                {setupData.goal !== 'recomp' && (
+                  <div>
+                    <label style={TK.label}>Target rate (lbs/week)</label>
+                    <input type="number" step="0.1" style={TK.input} value={setupData.targetRate} onChange={e => setSetupData({...setupData, targetRate:e.target.value})} placeholder="0.5"/>
+                  </div>
+                )}
+              </div>
+              {msg && <p style={{color:'#fca5a5', fontSize:'0.875rem', marginTop:'1rem'}}>{msg}</p>}
+              <button style={{...TK.btnBlue, marginTop:'1.5rem'}} onClick={startTracking}>Start tracking</button>
+              <p style={{fontSize:'0.75rem', color:'#5a5a5a', marginTop:'1rem', lineHeight:'1.6'}}>
+                Your data is saved only in this browser on this device — nothing is uploaded. You can export it any time.
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ---------- MAIN TRACKER ----------
+    const goalLabel = profile.goal === 'cut' ? 'Cutting' : profile.goal === 'bulk' ? 'Bulking' : 'Recomp';
+    const sorted = [...logs].sort((a,b) => a.date < b.date ? -1 : 1);
+    const latestW = sorted.length ? sorted[sorted.length-1].weight : profile.startWeight;
+    const totalChange = (latestW - profile.startWeight).toFixed(1);
+
+    return (
+      <div style={TK.wrap}>
+        <div style={TK.inner}>
+          <p style={TK.eyebrow}>Adaptive Tracker</p>
+          <h1 style={TK.h1}>Your progress</h1>
+
+          {/* Summary */}
+          <div style={TK.card}>
+            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(140px,100%),1fr))', gap:'0.875rem'}}>
+              <div style={{background:'#1a1a1a', borderRadius:'10px', padding:'1rem', textAlign:'center'}}>
+                <p style={{fontSize:'0.6875rem', color:'#5a5a5a', fontWeight:'600', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:'0.375rem'}}>Goal</p>
+                <p style={{fontSize:'1.125rem', fontWeight:'700', color:'#f5f5f5'}}>{goalLabel}</p>
+              </div>
+              <div style={{background:'#1a1a1a', borderRadius:'10px', padding:'1rem', textAlign:'center'}}>
+                <p style={{fontSize:'0.6875rem', color:'#5a5a5a', fontWeight:'600', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:'0.375rem'}}>Daily target</p>
+                <p style={{fontSize:'1.125rem', fontWeight:'700', color:'#4f8eff'}}>{profile.calories} cal</p>
+              </div>
+              <div style={{background:'#1a1a1a', borderRadius:'10px', padding:'1rem', textAlign:'center'}}>
+                <p style={{fontSize:'0.6875rem', color:'#5a5a5a', fontWeight:'600', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:'0.375rem'}}>Current weight</p>
+                <p style={{fontSize:'1.125rem', fontWeight:'700', color:'#f5f5f5'}}>{latestW} lbs</p>
+              </div>
+              <div style={{background:'#1a1a1a', borderRadius:'10px', padding:'1rem', textAlign:'center'}}>
+                <p style={{fontSize:'0.6875rem', color:'#5a5a5a', fontWeight:'600', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:'0.375rem'}}>Total change</p>
+                <p style={{fontSize:'1.125rem', fontWeight:'700', color:'#f5f5f5'}}>{totalChange > 0 ? '+' : ''}{totalChange} lbs</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Recommendation / status */}
+          <div style={TK.card}>
+            <p style={{...TK.eyebrow, color:'#4f8eff', marginBottom:'1rem'}}>Adaptive check-in</p>
+            {!a.ready && a.reason === 'need-data' && (
+              <p style={TK.body}>Log at least two weigh-ins to get started. Weigh yourself in the morning, before eating, for the most consistent readings.</p>
+            )}
+            {!a.ready && a.reason === 'too-soon' && (
+              <p style={TK.body}>
+                You're {a.daysLogged} {a.daysLogged === 1 ? 'day' : 'days'} in. The tracker waits for a full two weeks of data before suggesting any change — daily weight swings 2–3 lbs on water alone, so a longer window keeps the signal honest. Keep logging.
+              </p>
+            )}
+            {a.ready && a.onTrack && (
+              <div>
+                <p style={{...TK.body, color:'#86efac', fontWeight:'600', marginBottom:'0.5rem'}}>✓ You're on track.</p>
+                <p style={TK.body}>
+                  Over the last {a.span} days your {a.smoothed ? 'smoothed trend' : 'weight'} moved {a.actualPerWeek >= 0 ? '+' : ''}{a.actualPerWeek.toFixed(2)} lbs/week, right in line with your target of {a.targetPerWeek >= 0 ? '+' : ''}{a.targetPerWeek.toFixed(2)}. No change needed — keep going.
+                </p>
+              </div>
+            )}
+            {a.ready && !a.onTrack && (
+              <div>
+                <p style={{...TK.body, marginBottom:'1rem'}}>
+                  Over the last {a.span} days your {a.smoothed ? 'smoothed trend' : 'weight'} moved <strong style={{color:'#f5f5f5'}}>{a.actualPerWeek >= 0 ? '+' : ''}{a.actualPerWeek.toFixed(2)} lbs/week</strong>, versus your target of <strong style={{color:'#f5f5f5'}}>{a.targetPerWeek >= 0 ? '+' : ''}{a.targetPerWeek.toFixed(2)} lbs/week</strong>.{a.smoothed ? ' (Averaged across nearby weigh-ins to filter out daily water and food swings.)' : ''}
+                </p>
+                {a.change !== 0 ? (
+                  <div style={{background:'rgba(79,142,255,0.08)', border:'1px solid rgba(79,142,255,0.2)', borderRadius:'12px', padding:'1.25rem'}}>
+                    <p style={{fontSize:'0.9375rem', color:'#f5f5f5', marginBottom:'0.75rem', lineHeight:'1.6'}}>
+                      Suggested adjustment: <strong style={{color: a.change < 0 ? '#fca5a5' : '#86efac'}}>{a.change > 0 ? '+' : ''}{a.change} cal/day</strong> → new target <strong style={{color:'#4f8eff'}}>{a.newCal} cal/day</strong>
+                    </p>
+                    {a.flags.includes('very-low') && <p style={{fontSize:'0.8125rem', color:'#fbbf24', marginBottom:'0.5rem', lineHeight:'1.6'}}>⚠ This target is quite low. If you're smaller or shorter it may still be appropriate — but double-check your inputs, and consider talking to a professional before dropping this far.</p>}
+                    <div style={{display:'flex', gap:'0.75rem', flexWrap:'wrap', marginTop:'0.75rem'}}>
+                      <button style={TK.btnBlue} onClick={() => applyRecommendation(a.newCal)}>Apply {a.newCal} cal</button>
+                      <button style={TK.btnGhost} onClick={() => setMsg('Kept your current target of ' + profile.calories + ' cal/day.')}>Keep current</button>
+                    </div>
+                    <p style={{fontSize:'0.75rem', color:'#5a5a5a', marginTop:'1rem', lineHeight:'1.6'}}>
+                      This is a suggestion, not medical advice. If a number ever feels wrong for your situation, trust your judgment or check with a professional.
+                    </p>
+                  </div>
+                ) : (
+                  <p style={TK.body}>You're close enough that no calorie change is warranted yet. Keep logging and reassess next cycle.</p>
+                )}
+              </div>
+            )}
+            {msg && <p style={{fontSize:'0.875rem', color:'#86efac', marginTop:'1rem'}}>{msg}</p>}
+          </div>
+
+          {/* Add entry */}
+          <div style={TK.card}>
+            <p style={{...TK.eyebrow, color:'#4f8eff', marginBottom:'1rem'}}>Log a weigh-in</p>
+            <div style={{display:'flex', gap:'0.75rem', flexWrap:'wrap', alignItems:'flex-end'}}>
+              <div style={{flex:'1', minWidth:'130px'}}>
+                <label style={TK.label}>Date</label>
+                <input type="date" style={TK.input} value={newEntry.date} onChange={e => setNewEntry({...newEntry, date:e.target.value})} max={todayStr()}/>
+              </div>
+              <div style={{flex:'1', minWidth:'130px'}}>
+                <label style={TK.label}>Weight (lbs)</label>
+                <input type="number" step="0.1" style={TK.input} value={newEntry.weight} onChange={e => setNewEntry({...newEntry, weight:e.target.value})} placeholder="179.5"/>
+              </div>
+              <button style={TK.btnBlue} onClick={addEntry}>Add</button>
+            </div>
+          </div>
+
+          {/* History */}
+          {sorted.length > 0 && (
+            <div style={TK.card}>
+              <p style={{...TK.eyebrow, color:'#4f8eff', marginBottom:'1rem'}}>History</p>
+              <div style={{display:'flex', flexDirection:'column', gap:'0'}}>
+                {[...sorted].reverse().map((l, i) => (
+                  <div key={l.date} style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'0.625rem 0', borderBottom: i < sorted.length-1 ? '1px solid rgba(255,255,255,0.06)' : 'none'}}>
+                    <span style={{fontSize:'0.875rem', color:'#a0a0a0'}}>{l.date}</span>
+                    <span style={{display:'flex', alignItems:'center', gap:'1rem'}}>
+                      <span style={{fontSize:'0.9375rem', fontWeight:'600', color:'#f5f5f5'}}>{l.weight} lbs</span>
+                      <button onClick={() => removeEntry(l.date)} style={{background:'none', border:'none', color:'#5a5a5a', cursor:'pointer', fontSize:'0.875rem'}}>✕</button>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Controls */}
+          <div style={{display:'flex', gap:'0.75rem', flexWrap:'wrap', marginTop:'0.5rem'}}>
+            <button style={TK.btnGhost} onClick={exportData}>Export data (CSV)</button>
+            <button style={{...TK.btnGhost, color:'#fca5a5'}} onClick={resetAll}>Reset tracker</button>
+          </div>
+          <p style={{fontSize:'0.75rem', color:'#5a5a5a', marginTop:'1rem', lineHeight:'1.6'}}>
+            Saved only in this browser on this device. Clearing your browser data or switching devices will lose this log — export regularly if you want a backup.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  ReactDOM.render(<PhysioTracker />, document.getElementById('tracker-root'));
+</script>
+
+
 <script>
   function showPage(name) {
-    var pages = ['home','study','science'];
+    var pages = ['home','tracker','study','science'];
     for (var i = 0; i < pages.length; i++) {
       var p   = pages[i];
       var el  = document.getElementById('page-' + p);
