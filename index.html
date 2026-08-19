@@ -310,6 +310,17 @@
     bulking:   1,   // ↑ same person — he's bulking
     recomping: 0
   };
+
+  /* ══════════════════════════════════════════════════════════════
+     PLAN-GENERATION LOG (private)
+     Fires a silent ping to your Apps Script every time a plan is
+     generated, so the Sheet logs a timestamped row you can review.
+     Nothing is shown on the site. Leave as '' to disable.
+     To enable: add a doPost handler to your Apps Script that appends
+     a row, deploy, and paste that /exec URL here (can be the same
+     deployment as the stats URL if its doPost logs generations).
+     ══════════════════════════════════════════════════════════════ */
+  const PLAN_LOG_URL = '';
   /* ══════════════════════════════════════════════════════════════ */
 </script>
 
@@ -328,29 +339,92 @@
   <!-- PAGE: HOME -->
   <div id="page-home" style="display:block;">
 
-    <!-- HERO -->
-    <section style="padding:7rem 0 5rem;text-align:center;background:var(--bg);">
+    <!-- HOW IT WORKS (lead) -->
+    <section style="padding:5rem 0 4rem;background:var(--bg);">
       <div class="wrap-narrow">
         <p class="eyebrow" style="margin-bottom:1.25rem;">Free &nbsp;&middot;&nbsp; No account required</p>
-        <h1 class="display" style="margin-bottom:1.5rem;">The plan your body<br>actually needs.</h1>
-        <p class="body-text" style="max-width:460px;margin:0 auto 2.5rem;">Conflicting advice online makes finding the right plan harder than it should be. PhysioPlan cuts through the noise — personalized calorie, macro, and training recommendations built on peer-reviewed research.</p>
-        <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;align-items:center;">
-          <button class="btn btn-blue" onclick="openModal()">Get Your Plan</button>
-          <span class="small-text">Takes 2 minutes</span>
+        <h1 class="headline" style="margin-bottom:1rem;">How PhysioPlan works.</h1>
+        <p class="body-text" style="margin-bottom:3rem;max-width:520px;">A complete, research-backed training and nutrition plan from one short form. Here's how to use it — takes about two minutes.</p>
+        <div>
+          <div class="step-row">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h3>Click "Get Your Plan"</h3>
+              <p>Opens the calculator. No sign-up, no email — you're straight into it.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h3>Pick your goal</h3>
+              <p>Cutting, bulking, or recomp. Everything downstream — calories, macros, expected results — adjusts to what you choose.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h3>Enter your stats</h3>
+              <p>Weight, body fat % (optional), experience level, and training days. If you don't know your maintenance calories, the calculator estimates them for you.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h3>Generate your plan</h3>
+              <p>One click, and you get your complete plan instantly on the same screen.</p>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-blue" style="margin-top:2.5rem;" onclick="openModal()">Get Your Plan</button>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- WHAT YOU GET -->
+    <section style="padding:5rem 0;background:var(--bg);">
+      <div class="wrap">
+        <p class="eyebrow" style="margin-bottom:1rem;">What you get</p>
+        <h2 class="headline" style="margin-bottom:3rem;max-width:520px;">Everything from one form.</h2>
+        <div class="feature-grid">
+          <div class="feature-cell">
+            <h3>Daily calorie target</h3>
+            <p>Built from lean mass — not just bodyweight — accounting for BMR, NEAT, exercise, and the thermic effect of food, solved iteratively.</p>
+          </div>
+          <div class="feature-cell">
+            <h3>Macros in grams</h3>
+            <p>Exact daily protein, fat, and carb targets, set from your lean mass and adjusted for whether you're cutting, bulking, or recomping.</p>
+          </div>
+          <div class="feature-cell">
+            <h3>Training volume</h3>
+            <p>Sets per muscle group per week and intensity targets, scaled to your experience level so you're neither under- nor over-training.</p>
+          </div>
+          <div class="feature-cell">
+            <h3>Recommended split</h3>
+            <p>Full Body, Upper/Lower, or Push-Pull-Legs — automatically matched to how many days a week you can train.</p>
+          </div>
+          <div class="feature-cell">
+            <h3>Body composition projections</h3>
+            <p>Projected lean mass, fat mass, and body fat % at your goal, with realistic muscle-retention estimates. (Add body fat % to unlock.)</p>
+          </div>
+          <div class="feature-cell">
+            <h3>Timeline to goal</h3>
+            <p>How many weeks to reach your target, calculated from your deficit or surplus — with the math shown, not hidden.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <hr class="divider">
 
-    <!-- SAMPLE OUTPUT -->
+    <!-- SAMPLE OUTPUT (demonstration) -->
     <section style="padding:5rem 0;background:var(--bg);">
       <div class="wrap">
         <div class="sample-output-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;">
           <div>
             <p class="eyebrow" style="margin-bottom:1rem;">Example output</p>
-            <h2 class="headline" style="margin-bottom:1rem;">Everything in one place.</h2>
-            <p class="body-text" style="margin-bottom:2rem;">Calories, macros, training volume, intensity, split, body composition projections, and timeline — from one short form.</p>
+            <h2 class="headline" style="margin-bottom:1rem;">See it in action.</h2>
+            <p class="body-text" style="margin-bottom:2rem;">Here's what a real plan looks like — calories, macros, training volume, and timeline, all on one screen.</p>
             <button class="btn btn-blue" onclick="openModal()">Get Your Plan</button>
           </div>
           <div class="sample-card">
@@ -390,107 +464,72 @@
 
     <hr class="divider">
 
-    <!-- WHAT MAKES IT DIFFERENT — grid -->
+    <!-- TESTIMONIALS -->
     <section style="padding:5rem 0;background:var(--bg);">
       <div class="wrap">
-        <p class="eyebrow" style="margin-bottom:1rem;">What makes it different</p>
-        <h2 class="headline" style="margin-bottom:3rem;max-width:520px;">Most calculators leave these out.</h2>
-        <div class="feature-grid">
-          <div class="feature-cell">
-            <h3>Body-calibrated BMR</h3>
-            <p>Selects the metabolic formula best suited to your body — an athlete-validated equation for lean individuals, the clinical standard for everyone else. Two people at the same weight but different body fat have different metabolisms.</p>
-          </div>
-          <div class="feature-cell">
-            <h3>Thermic effect of food</h3>
-            <p>Protein burns 25% of its calories just to digest. Carbs 7.5%, fat 1.5%. This is solved iteratively alongside your macros. Most TDEE calculators skip it entirely.</p>
-          </div>
-          <div class="feature-cell">
-            <h3>Goal body fat %, not weight</h3>
-            <p>Set a target body fat percentage instead of a scale number. The calculator accounts for lean mass loss during the cut and reverse-engineers the correct goal weight.</p>
-          </div>
-          <div class="feature-cell">
-            <h3>Experience-scaled surplus</h3>
-            <p>Beginners bulk at +400 cal, intermediates +300, advanced +200. Matched to realistic muscle gain rates so extra calories don't just become fat.</p>
-          </div>
-          <div class="feature-cell">
-            <h3>Deficit-adjusted LBM model</h3>
-            <p>On a cut, expected muscle loss scales with both your experience level and how aggressive your deficit is — not a fixed assumption across all users.</p>
-          </div>
-          <div class="feature-cell">
-            <h3>Training + nutrition unified</h3>
-            <p>Volume, intensity, progression strategy, recommended split, and macros all in one place. No switching between separate calculators.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+        <p class="eyebrow" style="margin-bottom:1rem;">Real results</p>
+        <h2 class="headline" style="margin-bottom:0.75rem;max-width:520px;">What members are seeing.</h2>
+        <p class="body-text" style="margin-bottom:3rem;max-width:520px;">Early results from people following their PhysioPlan. Specific lift numbers available on request.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
 
-    <hr class="divider">
-
-    <!-- WHAT YOU GET -->
-    <section style="padding:5rem 0;background:var(--bg);">
-      <div class="wrap">
-        <p class="eyebrow" style="margin-bottom:1rem;">What you get</p>
-        <h2 class="headline" style="margin-bottom:3rem;max-width:520px;">Everything in one place.</h2>
-        <div class="feature-grid">
-          <div class="feature-cell">
-            <h3>Smart calorie targets</h3>
-            <p>Uses lean mass — not total bodyweight — to calculate your true maintenance. Accounts for BMR, NEAT, exercise expenditure, and thermic effect of food.</p>
-          </div>
-          <div class="feature-cell">
-            <h3>Macros in grams</h3>
-            <p>Exact daily targets for protein, fat, and carbs — set based on lean mass and adjusted for your goal phase.</p>
-          </div>
-          <div class="feature-cell">
-            <h3>Training volume</h3>
-            <p>Sets per muscle group per week, RPE targets, and progression — scaled to beginner, intermediate, or advanced.</p>
-          </div>
-          <div class="feature-cell">
-            <h3>Split recommendations</h3>
-            <p>Full Body, Upper/Lower, or PPL — automatically matched to how many days per week you can train.</p>
-          </div>
-          <div class="feature-cell">
-            <h3>Body composition projections</h3>
-            <p>Projected lean mass, fat mass, and body fat % at your goal — with realistic muscle retention estimates.</p>
-          </div>
-          <div class="feature-cell">
-            <h3>Timeline to goal</h3>
-            <p>Calculated from your deficit size and weight to lose — with the math shown, not hidden.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <hr class="divider">
-
-    <!-- HOW IT WORKS -->
-    <section style="padding:5rem 0;background:var(--bg);">
-      <div class="wrap-narrow">
-        <p class="eyebrow" style="margin-bottom:1rem;">How it works</p>
-        <h2 class="headline" style="margin-bottom:3rem;">Three steps.</h2>
-        <div>
-          <div class="step-row">
-            <div class="step-num">1</div>
-            <div class="step-content">
-              <h3>Pick your goal</h3>
-              <p>Cut, bulk, or recomp. Everything downstream adjusts based on this.</p>
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--green);margin-bottom:0.875rem;">+5 lbs muscle &middot; 8 weeks</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Gained 5 lbs of muscle over 8 weeks and added 20 lbs to his bench press.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">E</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Ethan B.</span>
             </div>
           </div>
-          <div class="step-row">
-            <div class="step-num">2</div>
-            <div class="step-content">
-              <h3>Enter your stats</h3>
-              <p>Weight, body fat %, experience level, training days. About 90 seconds.</p>
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--indigo);margin-bottom:0.875rem;">Recomp &middot; 8 weeks</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Added 5 lbs to his bench press over 8 weeks while losing 3 lbs and building muscle.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">D</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Daniel B.</span>
             </div>
           </div>
-          <div class="step-row">
-            <div class="step-num">3</div>
-            <div class="step-content">
-              <h3>Get your complete plan</h3>
-              <p>Calories, macros, volume, split, body composition projections, and timeline — all from one form.</p>
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--green);margin-bottom:0.875rem;">+3 lbs muscle &middot; 6 weeks</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Gained 3 lbs of muscle over 6 weeks while staying lean.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">?</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Anonymous</span>
             </div>
           </div>
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.875rem;">&minus;5 lbs &middot; strength held</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Lost 5 lbs while maintaining strength on all lifts over 6 weeks.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">D</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Daniel Z.</span>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--green);margin-bottom:0.875rem;">+5 lbs muscle &middot; PRs</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Gained 5 lbs of muscle while increasing strength every session.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">F</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Foster V.</span>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--indigo);margin-bottom:0.875rem;">Visible change &middot; 4 weeks</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Started getting compliments on his physique after just 4 weeks on PhysioPlan.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">J</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Jake S.</span>
+            </div>
+          </div>
+
         </div>
-        <button class="btn btn-blue" style="margin-top:2rem;" onclick="openModal()">Get Your Plan</button>
+        <div style="margin-top:2.5rem;">
+          <button class="btn btn-blue" onclick="openModal()">Get Your Plan</button>
+        </div>
       </div>
     </section>
 
@@ -868,6 +907,82 @@
 
     <hr class="divider">
 
+    <!-- MEMBER RESULTS -->
+    <section style="padding:4rem 0;background:var(--bg);">
+      <div class="wrap">
+        <p class="eyebrow" style="margin-bottom:1rem;">Member results</p>
+        <h2 style="font-size:1.375rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.75rem;">Real outcomes from real members.</h2>
+        <p class="body-text" style="margin-bottom:2.5rem;max-width:520px;">Early results from the community. Specific lift numbers available on request.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--indigo);margin-bottom:0.875rem;">Founder &middot; recomp</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Lost 9 lbs of fat while increasing every lift over 8 weeks.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">E</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Emmett G.</span>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--green);margin-bottom:0.875rem;">+5 lbs muscle &middot; 8 weeks</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Gained 5 lbs of muscle over 8 weeks and added 20 lbs to his bench press.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">E</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Ethan B.</span>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--indigo);margin-bottom:0.875rem;">Recomp &middot; 8 weeks</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Added 5 lbs to his bench press over 8 weeks while losing 3 lbs and building muscle.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">D</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Daniel B.</span>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--green);margin-bottom:0.875rem;">+3 lbs muscle &middot; 6 weeks</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Gained 3 lbs of muscle over 6 weeks while staying lean.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">?</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Anonymous</span>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--blue);margin-bottom:0.875rem;">&minus;5 lbs &middot; strength held</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Lost 5 lbs while maintaining strength on all lifts over 6 weeks.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">D</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Daniel Z.</span>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--green);margin-bottom:0.875rem;">+5 lbs muscle &middot; PRs</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Gained 5 lbs of muscle while increasing strength every session.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">F</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Foster V.</span>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(160deg,var(--bg-1),var(--bg));border:1px solid var(--border);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--indigo);margin-bottom:0.875rem;">Visible change &middot; 4 weeks</div>
+            <p style="font-size:1rem;line-height:1.6;color:var(--text-1);margin-bottom:1.5rem;flex:1;">Started getting compliments on his physique after just 4 weeks on PhysioPlan.</p>
+            <div style="display:flex;align-items:center;gap:0.625rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:0.8125rem;font-weight:700;color:var(--text-2);">J</div>
+              <span style="font-size:0.875rem;font-weight:600;color:var(--text-2);">Jake S.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <hr class="divider">
+
     <!-- HOW IT WORKS -->
     <section style="padding:4rem 0;background:var(--bg);">
       <div class="wrap-narrow">
@@ -979,6 +1094,7 @@
         </div>
       </div>
     </section>
+
 
     <hr class="divider">
 
@@ -1135,30 +1251,49 @@
 
     const calculatePlan = () => {
       setErrorMsg('');
-      const w = parseFloat(formData.weight);
-      const bf = parseFloat(formData.bodyFat);
-      const hasBF = formData.bodyFat !== '' && !isNaN(bf) && bf > 0;
-      const mc = parseFloat(formData.maintenanceCals);
-      const td = parseFloat(formData.trainingDays);
+
+      // iOS Safari can lag committing a focused number field to React state,
+      // so a value the user clearly typed reads as empty at validation time.
+      // Blur the active field to force its onChange, then read every value from
+      // the live DOM as a fallback — the DOM always holds what's on screen.
+      if (document.activeElement && typeof document.activeElement.blur === 'function') {
+        document.activeElement.blur();
+      }
+      const domVal = (n) => {
+        const el = document.querySelector('#calculator-root [name="' + n + '"]');
+        return el && el.value !== undefined ? el.value : '';
+      };
+      const fieldVal = (n) => {
+        const fromState = formData[n];
+        if (fromState !== '' && fromState !== undefined && fromState !== null) return fromState;
+        return domVal(n); // fall back to what's actually shown in the input
+      };
+
+      const w = parseFloat(fieldVal('weight'));
+      const bfStr = fieldVal('bodyFat');
+      const bf = parseFloat(bfStr);
+      const hasBF = bfStr !== '' && !isNaN(bf) && bf > 0;
+      const mc = parseFloat(fieldVal('maintenanceCals'));
+      const td = parseFloat(fieldVal('trainingDays'));
 
       if (!w || w <= 0) return showError('Please enter a valid current weight.');
-      if (formData.bodyFat !== '' && (isNaN(bf) || bf <= 0 || bf >= 100)) return showError('Body fat % must be between 1 and 99 — or leave it blank to skip it.');
+      if (bfStr !== '' && (isNaN(bf) || bf <= 0 || bf >= 100)) return showError('Body fat % must be between 1 and 99 — or leave it blank to skip it.');
       if (formData.goal === 'cut') {
         if (formData.goalType === 'weight' || !hasBF) {
-          const gw = parseFloat(formData.goalWeight);
+          const gw = parseFloat(fieldVal('goalWeight'));
           if (!gw || gw <= 0 || gw >= w) return showError('Goal weight must be a valid number less than your current weight.');
         } else {
-          const gbf = parseFloat(formData.goalBodyFat);
+          const gbf = parseFloat(fieldVal('goalBodyFat'));
           if (!gbf || gbf <= 0 || gbf >= bf) return showError('Goal body fat % must be less than your current body fat %.');
         }
       }
       if (['bulk','recomp'].includes(formData.goal)) {
-        const tf = parseFloat(formData.timeframe);
+        const tf = parseFloat(fieldVal('timeframe'));
         if (!tf || tf <= 0) return showError('Please enter a valid timeframe in weeks.');
       }
       if (formData.maintenanceType === 'estimate') {
-        const age = parseFloat(formData.age);
-        const hFt = parseFloat(formData.heightFt);
+        const age = parseFloat(fieldVal('age'));
+        const hFt = parseFloat(fieldVal('heightFt'));
         if (!age || age <= 0 || age > 120) return showError('Please enter a valid age to estimate your maintenance.');
         if (isNaN(hFt) || hFt <= 0) return showError('Please enter your height to estimate your maintenance.');
       }
@@ -1208,9 +1343,9 @@
       if (formData.goal === 'cut') {
         let gw;
         if (formData.goalType === 'weight' || !hasBF) {
-          gw = parseFloat(formData.goalWeight);
+          gw = parseFloat(fieldVal('goalWeight'));
         } else {
-          const tbf = parseFloat(formData.goalBodyFat) / 100;
+          const tbf = parseFloat(fieldVal('goalBodyFat')) / 100;
           const lmr = {
             beginner:     { o: 0,    c: { conservative: 0,    moderate: 0.05,  aggressive: 0.10 } },
             intermediate: { o: 0.10, c: { conservative: 0.10, moderate: 0.15,  aggressive: 0.20 } },
@@ -1246,7 +1381,7 @@
           elm = null; efm = null;
         }
       } else if (formData.goal === 'bulk') {
-        tw = parseFloat(formData.timeframe);
+        tw = parseFloat(fieldVal('timeframe'));
         const sm = { beginner: 400, intermediate: 300, advanced: 200 };
         const s = sm[formData.experience];
         ct = solveTarget(preTefBase, +s);
@@ -1261,7 +1396,7 @@
           elm = null; efm = null;
         }
       } else {
-        tw = parseFloat(formData.timeframe);
+        tw = parseFloat(fieldVal('timeframe'));
         const tm = tw / 4.33;
         ct = solveTarget(preTefBase, 0);
         wr = 0;
@@ -1320,6 +1455,18 @@
         elm: hasBF ? elm.toFixed(1) : null,
         efm: hasBF ? efm.toFixed(1) : null, rs
       });
+
+      // Private plan-generation log: silent fire-and-forget ping (no UI, no blocking).
+      if (typeof PLAN_LOG_URL !== 'undefined' && PLAN_LOG_URL) {
+        try {
+          fetch(PLAN_LOG_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({ event: 'plan_generated', goal: formData.goal, ts: new Date().toISOString() })
+          }).catch(function(){});
+        } catch (e) {}
+      }
     };
 
     // shared dark-theme inline styles
